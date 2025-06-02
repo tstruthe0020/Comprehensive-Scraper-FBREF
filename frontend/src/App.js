@@ -35,6 +35,7 @@ function App() {
       setLoading(false);
     }
   };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!url.trim()) {
       setError('Please enter a valid FBREF URL');
