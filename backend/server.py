@@ -99,6 +99,7 @@ class ScrapingStatus(BaseModel):
     total_matches: int = 0
     current_match: str = ""
     errors: List[str] = []
+    suggestions: List[str] = []
     started_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: Optional[datetime] = None
 
