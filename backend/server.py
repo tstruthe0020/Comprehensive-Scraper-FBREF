@@ -9,6 +9,9 @@ import io
 import os
 from typing import List, Dict
 from fastapi.responses import StreamingResponse
+from playwright.async_api import async_playwright
+import asyncio
+from urllib.parse import urlparse
 
 app = FastAPI()
 
