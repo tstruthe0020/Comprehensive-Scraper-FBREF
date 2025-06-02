@@ -451,19 +451,26 @@ class FBrefScraper:
         stats = {}
         
         try:
+            logger.info(f"Extracting stats for team: {team_name}")
+            
             # Look for team stats in various possible table structures
             tables = await self.page.query_selector_all("table")
             
             for table in tables:
                 table_text = await table.text_content()
+                table_id = await table.get_attribute("id") or ""
                 
-                if team_name.lower() in table_text.lower():
+                # Check if this table contains stats for the team
+                if team_name.lower() in table_text.lower() or "stats" in table_id.lower():
+                    logger.info(f"Found potential stats table: {table_id}")
+                    
                     # Extract possession
                     poss_cell = await table.query_selector("td[data-stat='possession']")
                     if poss_cell:
                         poss_text = (await poss_cell.text_content()).strip().replace("%", "")
                         try:
                             stats["possession"] = float(poss_text)
+                            logger.info(f"Found possession: {stats['possession']}%")
                         except ValueError:
                             stats["possession"] = 0.0
                     
@@ -473,6 +480,7 @@ class FBrefScraper:
                         try:
                             shots_text = (await shots_cell.text_content()).strip()
                             stats["shots"] = int(shots_text) if shots_text.isdigit() else 0
+                            logger.info(f"Found shots: {stats['shots']}")
                         except ValueError:
                             pass
                     
@@ -482,6 +490,7 @@ class FBrefScraper:
                         try:
                             sot_text = (await sot_cell.text_content()).strip()
                             stats["shots_on_target"] = int(sot_text) if sot_text.isdigit() else 0
+                            logger.info(f"Found shots on target: {stats['shots_on_target']}")
                         except ValueError:
                             pass
                     
@@ -491,6 +500,7 @@ class FBrefScraper:
                         try:
                             xg_text = (await xg_cell.text_content()).strip()
                             stats["expected_goals"] = float(xg_text) if xg_text else 0.0
+                            logger.info(f"Found expected goals: {stats['expected_goals']}")
                         except ValueError:
                             pass
                     
@@ -500,6 +510,7 @@ class FBrefScraper:
                         try:
                             fouls_text = (await fouls_cell.text_content()).strip()
                             stats["fouls_committed"] = int(fouls_text) if fouls_text.isdigit() else 0
+                            logger.info(f"Found fouls committed: {stats['fouls_committed']}")
                         except ValueError:
                             pass
                     
@@ -509,6 +520,7 @@ class FBrefScraper:
                         try:
                             yellow_text = (await yellow_cell.text_content()).strip()
                             stats["yellow_cards"] = int(yellow_text) if yellow_text.isdigit() else 0
+                            logger.info(f"Found yellow cards: {stats['yellow_cards']}")
                         except ValueError:
                             pass
                     
@@ -517,8 +529,94 @@ class FBrefScraper:
                         try:
                             red_text = (await red_cell.text_content()).strip()
                             stats["red_cards"] = int(red_text) if red_text.isdigit() else 0
+                            logger.info(f"Found red cards: {stats['red_cards']}")
                         except ValueError:
                             pass
+                    
+                    # If we found at least some stats, we can break
+                    if len(stats) > 0:
+                        break
+            
+            # If we didn't find any stats, try a more general approach
+            if not stats:
+                logger.info("Trying alternative approach for stats extraction")
+                
+                # Look for any tables with stats in the ID or class
+                stats_tables = await self.page.query_selector_all("table[id*='stats'], table[class*='stats']")
+                
+                for table in stats_tables:
+                    table_id = await table.get_attribute("id") or ""
+                    logger.info(f"Checking stats table: {table_id}")
+                    
+                    # Look for rows that might contain team stats
+                    rows = await table.query_selector_all("tr")
+                    
+                    for row in rows:
+                        row_text = await row.text_content()
+                        
+                        # Check if this row contains the team name
+                        if team_name.lower() in row_text.lower():
+                            logger.info(f"Found row with team name: {team_name}")
+                            
+                            # Extract cells
+                            cells = await row.query_selector_all("td")
+                            
+                            # Try to identify stats based on position or data attributes
+                            for i, cell in enumerate(cells):
+                                cell_text = (await cell.text_content()).strip()
+                                data_stat = await cell.get_attribute("data-stat") or ""
+                                
+                                # Use data-stat attribute if available
+                                if data_stat:
+                                    if "possession" in data_stat and cell_text:
+                                        try:
+                                            stats["possession"] = float(cell_text.replace("%", ""))
+                                        except ValueError:
+                                            pass
+                                    elif "shots" in data_stat and "target" not in data_stat and cell_text:
+                                        try:
+                                            stats["shots"] = int(cell_text) if cell_text.isdigit() else 0
+                                        except ValueError:
+                                            pass
+                                    elif "target" in data_stat and cell_text:
+                                        try:
+                                            stats["shots_on_target"] = int(cell_text) if cell_text.isdigit() else 0
+                                        except ValueError:
+                                            pass
+                                    elif "xg" in data_stat and cell_text:
+                                        try:
+                                            stats["expected_goals"] = float(cell_text) if cell_text else 0.0
+                                        except ValueError:
+                                            pass
+                                    elif "foul" in data_stat and cell_text:
+                                        try:
+                                            stats["fouls_committed"] = int(cell_text) if cell_text.isdigit() else 0
+                                        except ValueError:
+                                            pass
+                                    elif "yellow" in data_stat and cell_text:
+                                        try:
+                                            stats["yellow_cards"] = int(cell_text) if cell_text.isdigit() else 0
+                                        except ValueError:
+                                            pass
+                                    elif "red" in data_stat and cell_text:
+                                        try:
+                                            stats["red_cards"] = int(cell_text) if cell_text.isdigit() else 0
+                                        except ValueError:
+                                            pass
+                            
+                            # If we found at least some stats, we can break
+                            if len(stats) > 0:
+                                break
+                    
+                    # If we found at least some stats, we can break
+                    if len(stats) > 0:
+                        break
+            
+            # Log the stats we found
+            if stats:
+                logger.info(f"Stats found for {team_name}: {stats}")
+            else:
+                logger.warning(f"No stats found for {team_name}")
             
         except Exception as e:
             logger.error(f"Error extracting stats for {team_name}: {e}")
