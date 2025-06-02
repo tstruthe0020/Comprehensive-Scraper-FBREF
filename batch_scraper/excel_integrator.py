@@ -24,16 +24,16 @@ class ExcelIntegrator:
         self.scraper = FBrefBatchScraper(config)
         self.data_processor = DataProcessor()
         
-        # Excel cell mapping based on your structure
+        # Excel cell mapping based on your structure (updated to match our structure)
         self.match_metadata_mapping = {
-            'season': (1, 2),
-            'match_number': (2, 2),
-            'match_url': (3, 2),
-            'home_team': (4, 2),
-            'away_team': (5, 2),
-            'date': (6, 2),
-            'competition': (7, 2),
-            'source_url': (8, 2)
+            'season': (2, 2),        # Row 2 in our structure
+            'match_number': (3, 2),  # Row 3 in our structure  
+            'match_url': (4, 2),     # Row 4 in our structure ← FIXED
+            'home_team': (5, 2),     # Row 5 in our structure
+            'away_team': (6, 2),     # Row 6 in our structure
+            'date': (7, 2),          # Row 7 in our structure
+            'competition': (8, 2),   # Row 8 in our structure
+            'source_url': (9, 2)     # Row 9 in our structure
         }
         
         self.match_stats_mapping = {
