@@ -124,7 +124,7 @@ class ExcelIntegrator:
                     logger.info(f"Scraping: {match_url}")
                     
                     # Extract comprehensive data
-                    season = ws.cell(row=1, column=2).value or "2024-25"
+                    season = ws.cell(row=2, column=2).value or "2024-25"  # Fixed: season is in row 2
                     comprehensive_data = await self.scraper.extract_all_match_data(match_url, season)
                     
                     if not comprehensive_data:
