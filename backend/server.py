@@ -332,8 +332,8 @@ async def enhance_excel_with_comprehensive_data(request: dict):
                     'enhancement_results': validation
                 }
             
-            # Enhance the Excel file
-            results = await enhance_excel_with_fbref_data(tmp_file_path)
+            # Enhance the Excel file (remove await - this function is not async)
+            results = enhance_excel_with_fbref_data(tmp_file_path)
             
             # Read the enhanced file
             with open(tmp_file_path, 'rb') as f:
