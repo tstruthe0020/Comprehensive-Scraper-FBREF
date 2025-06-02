@@ -143,13 +143,13 @@ class FBrefIntegration:
             # Check first match sheet structure
             ws = wb[match_sheets[0]]
             
-            # Verify URL location (row 3, column 2)
-            url = ws.cell(row=3, column=2).value
+            # Verify URL location (row 4, column 2)
+            url = ws.cell(row=4, column=2).value
             if not url:
-                return {'valid': False, 'error': 'No URL found in row 3, column 2'}
+                return {'valid': False, 'error': 'No URL found in row 4, column 2'}
             
             if not isinstance(url, str) or not url.startswith("https://fbref.com"):
-                return {'valid': False, 'error': f'Invalid FBref URL in row 3, column 2: {url}'}
+                return {'valid': False, 'error': f'Invalid FBref URL in row 4, column 2: {url}'}
             
             # Check for required cell structure
             required_cells = [
