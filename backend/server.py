@@ -44,84 +44,90 @@ class ScrapingResponse(BaseModel):
 async def health_check():
     return {"status": "healthy"}
 
-@app.post("/api/scrape-fbref")
-async def scrape_fbref_fixtures(request: ScrapingRequest):
+async def scrape_fbref_with_playwright(url: str) -> SeasonResult:
+    """Scrape a single FBREF fixtures page using Playwright"""
     try:
-        # Validate URL
-        if not request.url or not request.url.startswith("https://fbref.com"):
-            raise HTTPException(status_code=400, detail="Please provide a valid FBREF URL")
+        # Extract season name from URL for better organization
+        season_name = "Unknown Season"
+        if "/schedule/" in url:
+            parts = url.split("/")
+            for i, part in enumerate(parts):
+                if "schedule" in part and i > 0:
+                    season_name = parts[i-1] if parts[i-1] != "schedule" else "Current Season"
+                    break
         
-        # Try direct scraping first, then fallback to alternative method
-        try:
-            # Fetch the webpage with enhanced headers to avoid blocking
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'DNT': '1',
-                'Connection': 'keep-alive',
-                'Upgrade-Insecure-Requests': '1',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'none',
-                'Sec-Fetch-User': '?1',
-                'Cache-Control': 'max-age=0',
-                'Referer': 'https://www.google.com/',
-            }
+        async with async_playwright() as p:
+            # Launch Firefox browser with stealth settings
+            browser = await p.firefox.launch(
+                headless=True,
+                args=[
+                    '--no-sandbox',
+                    '--disable-blink-features=AutomationControlled',
+                ]
+            )
             
-            # Use session for better connection handling
-            session = requests.Session()
-            session.headers.update(headers)
+            # Create a new context with realistic browser settings
+            context = await browser.new_context(
+                viewport={'width': 1920, 'height': 1080},
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            )
             
-            response = session.get(request.url, timeout=30)
-            response.raise_for_status()
-            html_content = response.content
+            page = await context.new_page()
             
-        except requests.RequestException as e:
-            if "403" in str(e) or "Forbidden" in str(e):
-                return ScrapingResponse(
-                    success=False,
-                    message="FBREF is blocking scraping requests. This is common for web scraping. You may need to use alternative methods like:\n\n1. Use a VPN or proxy service\n2. Try accessing the page manually first in a browser\n3. Check if FBREF offers an official API\n4. Use browser automation tools like Selenium\n\nThe scraping algorithm is working correctly - the issue is FBREF's anti-bot protection.",
-                    links=[],
-                    csv_data=""
-                )
-            else:
-                raise e
+            # Navigate to the page with realistic timing
+            await page.goto(url, wait_until='networkidle', timeout=30000)
+            
+            # Wait a bit to let any dynamic content load
+            await page.wait_for_timeout(2000)
+            
+            # Get page content
+            content = await page.content()
+            
+            await browser.close()
         
-        # Parse HTML
-        soup = BeautifulSoup(html_content, 'html.parser')
+        # Parse HTML with BeautifulSoup
+        soup = BeautifulSoup(content, 'html.parser')
         
-        # Find the Score column header
+        # Find the Score column header with multiple fallback strategies
+        score_header = None
+        
+        # Strategy 1: Exact match for the specified attributes
         score_header = soup.find('th', {
             'aria-label': 'Score',
             'data-stat': 'score',
             'scope': 'col'
         })
         
+        # Strategy 2: Find by data-stat only
         if not score_header:
-            # Try alternative selectors for the Score column
+            score_header = soup.find('th', {'data-stat': 'score'})
+        
+        # Strategy 3: Find by text content
+        if not score_header:
             score_header = soup.find('th', string=re.compile(r'Score', re.IGNORECASE))
-            if not score_header:
-                # Look for any th with data-stat="score"
-                score_header = soup.find('th', {'data-stat': 'score'})
+            
+        # Strategy 4: Find by aria-label only
+        if not score_header:
+            score_header = soup.find('th', {'aria-label': re.compile(r'Score', re.IGNORECASE)})
         
         if not score_header:
-            return ScrapingResponse(
+            return SeasonResult(
+                url=url,
+                season_name=season_name,
                 success=False,
-                message="Could not find the Score column in the table. The page structure might be different than expected. Please verify this is a FBREF fixture/schedule page.",
-                links=[],
-                csv_data=""
+                message="Could not find the Score column in the table. Page structure may be different.",
+                links=[]
             )
         
         # Find the table containing the score header
         table = score_header.find_parent('table')
         if not table:
-            return ScrapingResponse(
+            return SeasonResult(
+                url=url,
+                season_name=season_name,
                 success=False,
                 message="Could not find the table containing the Score column.",
-                links=[],
-                csv_data=""
+                links=[]
             )
         
         # Get column index of Score column
@@ -130,16 +136,19 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
         score_column_index = None
         
         for i, header in enumerate(headers):
-            if header.get('data-stat') == 'score' or (header.get('aria-label') and 'score' in header.get('aria-label').lower()):
+            if (header.get('data-stat') == 'score' or 
+                (header.get('aria-label') and 'score' in header.get('aria-label').lower()) or
+                (header.get_text(strip=True).lower() == 'score')):
                 score_column_index = i
                 break
         
         if score_column_index is None:
-            return ScrapingResponse(
+            return SeasonResult(
+                url=url,
+                season_name=season_name,
                 success=False,
                 message="Could not determine the position of the Score column.",
-                links=[],
-                csv_data=""
+                links=[]
             )
         
         # Extract match report links from Score column
@@ -162,8 +171,8 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
                             if full_url not in match_links:
                                 match_links.append(full_url)
         
+        # If no links in score column, try alternative approach
         if not match_links:
-            # Try alternative approach - look for any match links in the table
             all_links = table.find_all('a', href=True)
             for link in all_links:
                 href = link['href']
@@ -173,32 +182,83 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
                         match_links.append(full_url)
         
         if not match_links:
-            return ScrapingResponse(
+            return SeasonResult(
+                url=url,
+                season_name=season_name,
                 success=False,
-                message="No match report links found. This could mean:\n1. The page contains only future fixtures (no completed matches)\n2. The page structure is different than expected\n3. The fixtures haven't been played yet\n\nTry using a URL for a previous season or wait for matches to be completed.",
-                links=[],
-                csv_data=""
+                message="No match report links found. This could mean no completed matches for this season.",
+                links=[]
             )
         
-        # Generate CSV content
+        return SeasonResult(
+            url=url,
+            season_name=season_name,
+            success=True,
+            message=f"Successfully extracted {len(match_links)} match report links",
+            links=match_links
+        )
+        
+    except Exception as e:
+        return SeasonResult(
+            url=url,
+            season_name=season_name,
+            success=False,
+            message=f"Error scraping {url}: {str(e)}",
+            links=[]
+        )
+
+@app.post("/api/scrape-fbref")
+async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
+    """Scrape multiple FBREF fixture pages sequentially"""
+    try:
+        if not request.urls or len(request.urls) == 0:
+            raise HTTPException(status_code=400, detail="Please provide at least one FBREF URL")
+        
+        # Validate all URLs
+        for url in request.urls:
+            if not url or not url.strip().startswith("https://fbref.com"):
+                raise HTTPException(status_code=400, detail=f"Invalid FBREF URL: {url}")
+        
+        season_results = []
+        all_links = []
+        
+        # Process each URL sequentially
+        for url in request.urls:
+            url = url.strip()
+            print(f"Processing: {url}")
+            result = await scrape_fbref_with_playwright(url)
+            season_results.append(result)
+            
+            if result.success:
+                all_links.extend(result.links)
+            
+            # Small delay between requests to be respectful
+            await asyncio.sleep(1)
+        
+        # Generate CSV content with all compiled data
         csv_buffer = io.StringIO()
         csv_writer = csv.writer(csv_buffer)
         
         # Write headers for match data
         csv_writer.writerow([
-            'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
-            'Home_Goals', 'Away_Goals', 'Competition', 'Venue'
+            'Season', 'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
+            'Home_Goals', 'Away_Goals', 'Competition', 'Venue', 'Source_URL'
         ])
         
-        # Write match links (we'll fill in the stats later)
-        for link in match_links:
-            csv_writer.writerow([link, '', '', '', '', '', '', '', ''])
+        # Write all match links organized by season
+        for season_result in season_results:
+            if season_result.success:
+                for link in season_result.links:
+                    csv_writer.writerow([
+                        season_result.season_name, link, '', '', '', '', 
+                        '', '', '', '', season_result.url
+                    ])
         
         # Add separator and player data headers
         csv_writer.writerow([])  # Empty row separator
         csv_writer.writerow(['=== PLAYER DATA ==='])
         csv_writer.writerow([
-            'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
+            'Season', 'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
             'Goals', 'Assists', 'Shots', 'Shots_on_Target', 'Passes_Completed',
             'Pass_Accuracy', 'Tackles', 'Interceptions', 'Fouls', 'Cards'
         ])
@@ -206,25 +266,40 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
         csv_content = csv_buffer.getvalue()
         csv_buffer.close()
         
+        # Prepare response
+        successful_seasons = [s for s in season_results if s.success]
+        failed_seasons = [s for s in season_results if not s.success]
+        
+        if len(successful_seasons) == 0:
+            return ScrapingResponse(
+                success=False,
+                message="Failed to scrape any seasons. All URLs encountered errors.",
+                seasons=season_results,
+                total_links=0,
+                csv_data=""
+            )
+        
+        message_parts = []
+        message_parts.append(f"Successfully processed {len(successful_seasons)}/{len(request.urls)} seasons")
+        message_parts.append(f"Total match links extracted: {len(all_links)}")
+        
+        if failed_seasons:
+            message_parts.append(f"{len(failed_seasons)} seasons failed")
+        
         return ScrapingResponse(
             success=True,
-            message=f"Successfully extracted {len(match_links)} match report links from FBREF fixtures page.",
-            links=match_links,
+            message=" | ".join(message_parts),
+            seasons=season_results,
+            total_links=len(all_links),
             csv_data=csv_content
         )
         
-    except requests.RequestException as e:
-        return ScrapingResponse(
-            success=False,
-            message=f"Error fetching the webpage: {str(e)}",
-            links=[],
-            csv_data=""
-        )
     except Exception as e:
         return ScrapingResponse(
             success=False,
-            message=f"An error occurred while processing the page: {str(e)}",
-            links=[],
+            message=f"An error occurred during processing: {str(e)}",
+            seasons=[],
+            total_links=0,
             csv_data=""
         )
 
