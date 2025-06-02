@@ -9,7 +9,32 @@ function App() {
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
-  const handleSubmit = async (e) => {
+  const handleDemo = async () => {
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    try {
+      const response = await fetch(`${backendUrl}/api/demo-scrape`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult(data);
+      } else {
+        setError(data.message || 'Demo failed');
+      }
+    } catch (err) {
+      setError('Network error: Unable to connect to the server');
+    } finally {
+      setLoading(false);
+    }
+  };
     e.preventDefault();
     if (!url.trim()) {
       setError('Please enter a valid FBREF URL');
