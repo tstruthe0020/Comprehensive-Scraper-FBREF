@@ -177,8 +177,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test new fixtures extraction approach"
-    - "End-to-end season scraping test"
+    - "End-to-end season scraping test - Current season (2024-25)"
+    - "End-to-end season scraping test - Historical season (2023-24)"
+    - "Verify data quality and database storage"
+    - "Production validation with small sample"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -188,3 +190,5 @@ agent_communication:
       message: "Restored full scraping functionality. The main issue was that current server.py only had basic endpoints, while all scraping functionality was in server_old.py. I've implemented the new approach mentioned in session handover docs: extract match URLs from fixtures table, then visit individual match pages for team names using Playwright. All required endpoints are now available. Ready for testing."
     - agent: "testing"
       message: "Fixed issues with the fixtures extraction approach. The table ID format was incorrect (should be sched_2023-2024_9_1 with full year). Added fallback methods to extract match URLs directly from the page when the table can't be found. Also improved team name extraction with multiple fallback methods. The API endpoints are now working correctly. Verified by directly inserting test data into the database and testing all endpoints."
+    - agent: "main"
+      message: "CONTINUATION SESSION: Starting Phase 1 end-to-end testing. System is 95% complete and production-ready according to SESSION_HANDOVER.md. Will test both current season (2024-25) and historical season (2023-24) to verify fallback approaches work. Focus on verifying real data extraction and database storage quality."
