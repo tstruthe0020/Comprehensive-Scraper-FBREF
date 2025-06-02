@@ -211,10 +211,10 @@ https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures`}
                 </h3>
                 <div className="flex gap-3 items-center">
                   <button
-                    onClick={downloadCSV}
+                    onClick={downloadExcel}
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
                   >
-                    📥 Download Compiled CSV
+                    📥 Download Compiled Excel
                   </button>
                   <span className="text-sm text-green-700">
                     {result.total_links} total match links from {result.seasons?.length || 0} seasons
