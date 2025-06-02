@@ -12,6 +12,10 @@ from fastapi.responses import StreamingResponse
 from playwright.async_api import async_playwright
 import asyncio
 from urllib.parse import urlparse
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+import base64
 
 app = FastAPI()
 
