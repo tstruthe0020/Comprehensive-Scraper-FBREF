@@ -246,8 +246,10 @@ test_plan:
     - "End-to-end season scraping test - Historical season (2023-24)"
     - "Verify data quality and database storage"
     - "Production validation with small sample"
+    - "Comprehensive extraction implementation"
   stuck_tasks: 
     - "End-to-end season scraping test - Historical season (2023-24)"
+    - "Comprehensive extraction implementation"
   test_all: false
   test_priority: "high_first"
 
