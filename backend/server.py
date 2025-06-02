@@ -293,7 +293,7 @@ async def demo_scrape_fbref():
             url="https://fbref.com/en/comps/9/2023-2024/schedule/2023-2024-Premier-League-Scores-and-Fixtures",
             season_name="2023-2024",
             success=True,
-            message="Successfully extracted 5 match report links",
+            message="Successfully extracted 3 match report links",
             links=[
                 "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
                 "https://fbref.com/en/matches/8b1e4321/Arsenal-Wolves-August-17-2024-Premier-League",
@@ -317,42 +317,16 @@ async def demo_scrape_fbref():
     for season in demo_seasons:
         all_links.extend(season.links)
     
-    # Generate CSV content
-    csv_buffer = io.StringIO()
-    csv_writer = csv.writer(csv_buffer)
-    
-    # Write headers for match data
-    csv_writer.writerow([
-        'Season', 'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
-        'Home_Goals', 'Away_Goals', 'Competition', 'Venue', 'Source_URL'
-    ])
-    
-    # Write all match links organized by season
-    for season_result in demo_seasons:
-        for link in season_result.links:
-            csv_writer.writerow([
-                season_result.season_name, link, '', '', '', '', 
-                '', '', '', '', season_result.url
-            ])
-    
-    # Add separator and player data headers
-    csv_writer.writerow([])  # Empty row separator
-    csv_writer.writerow(['=== PLAYER DATA ==='])
-    csv_writer.writerow([
-        'Season', 'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
-        'Goals', 'Assists', 'Shots', 'Shots_on_Target', 'Passes_Completed',
-        'Pass_Accuracy', 'Tackles', 'Interceptions', 'Fouls', 'Cards'
-    ])
-    
-    csv_content = csv_buffer.getvalue()
-    csv_buffer.close()
+    # Generate Excel workbook
+    excel_b64, filename = create_excel_workbook(demo_seasons)
     
     return ScrapingResponse(
         success=True,
-        message=f"Demo: Successfully processed {len(demo_seasons)} seasons | Total match links extracted: {len(all_links)}",
+        message=f"Demo: Successfully processed {len(demo_seasons)} seasons | Total match links extracted: {len(all_links)} | Excel file generated with {len(all_links)} match sheets",
         seasons=demo_seasons,
         total_links=len(all_links),
-        csv_data=csv_content
+        excel_data=excel_b64,
+        filename=filename
     )
 
 def extract_match_info_from_url(url: str) -> Dict[str, str]:
