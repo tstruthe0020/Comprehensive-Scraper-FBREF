@@ -16,3 +16,56 @@
 2025-06-02 23:13:56,870 - INFO - Processing sheet 3/5: Match_003_Brighton_vs_Everton
 2025-06-02 23:13:56,870 - INFO - Scraping: https://fbref.com/en/matches/2c4f8901/Brighton-Everton-August-17-2024-Premier-League
 2025-06-02 23:13:56,870 - INFO - Extracting data from: https://fbref.com/en/matches/2c4f8901/Brighton-Everton-August-17-2024-Premier-League
+2025-06-02 23:14:23,491 - INFO - Successfully extracted 15 tables with 64 data points
+2025-06-02 23:14:23,500 - INFO - Successfully populated: Match_003_Brighton_vs_Everton
+2025-06-02 23:14:26,505 - INFO - Processing sheet 4/5: Match_004_Newcastle_vs_Southam
+2025-06-02 23:14:26,505 - INFO - Scraping: https://fbref.com/en/matches/9d7a2456/Newcastle-Southampton-August-17-2023-Premier-League
+2025-06-02 23:14:26,505 - INFO - Extracting data from: https://fbref.com/en/matches/9d7a2456/Newcastle-Southampton-August-17-2023-Premier-League
+2025-06-02 23:14:53,689 - INFO - Successfully extracted 15 tables with 64 data points
+2025-06-02 23:14:53,695 - INFO - Successfully populated: Match_004_Newcastle_vs_Southam
+2025-06-02 23:14:56,698 - INFO - Processing sheet 5/5: Match_005_Nottingham_vs_Forest
+2025-06-02 23:14:56,698 - INFO - Scraping: https://fbref.com/en/matches/4e6b1890/Nottingham-Forest-Bournemouth-August-17-2023-Premier-League
+2025-06-02 23:14:56,698 - INFO - Extracting data from: https://fbref.com/en/matches/4e6b1890/Nottingham-Forest-Bournemouth-August-17-2023-Premier-League
+2025-06-02 23:15:16,553 - INFO - Successfully extracted 15 tables with 64 data points
+2025-06-02 23:15:16,564 - INFO - Successfully populated: Match_005_Nottingham_vs_Forest
+2025-06-02 23:15:16,645 - INFO - Excel file updated and saved: /tmp/tmpgnlhn83_.xlsx
+2025-06-02 23:17:13,041 - INFO - Starting FBref integration for: /tmp/tmplswuy9z7.xlsx
+2025-06-02 23:17:13,041 - INFO - Starting Excel population for: /tmp/tmplswuy9z7.xlsx
+2025-06-02 23:17:14,643 - INFO - Found 380 match sheets to populate
+2025-06-02 23:17:16,237 - INFO - Browser setup completed successfully
+2025-06-02 23:17:16,237 - INFO - Processing sheet 1/380: Match_001_Manchester_vs_United
+2025-06-02 23:17:16,238 - INFO - Scraping: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-02 23:17:16,238 - INFO - Extracting data from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-02 23:18:52,563 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:18:53,011 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:18:53,065 - INFO - Successfully populated: Match_001_Manchester_vs_United
+2025-06-02 23:18:56,070 - INFO - Processing sheet 2/380: Match_002_Ipswich_vs_Town
+2025-06-02 23:18:56,071 - INFO - Scraping: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-02 23:18:56,071 - INFO - Extracting data from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-02 23:20:12,383 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:20:12,657 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:20:12,664 - INFO - Successfully populated: Match_002_Ipswich_vs_Town
+2025-06-02 23:20:15,667 - INFO - Processing sheet 3/380: Match_003_Newcastle_vs_United
+2025-06-02 23:20:15,667 - INFO - Scraping: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:20:15,667 - INFO - Extracting data from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:21:48,819 - WARNING - Error extracting rows: Timeout 30000ms exceeded.
+2025-06-02 23:24:16,780 - WARNING - Error creating data-stat mapping: Timeout 30000ms exceeded.
+2025-06-02 23:24:16,800 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:24:40,057 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:24:40,074 - INFO - Successfully populated: Match_003_Newcastle_vs_United
+2025-06-02 23:24:43,077 - INFO - Processing sheet 4/380: Match_004_Everton_vs_and
+2025-06-02 23:24:43,080 - INFO - Scraping: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:24:43,080 - INFO - Extracting data from: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:26:34,286 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:26:34,550 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:26:34,558 - INFO - Successfully populated: Match_004_Everton_vs_and
+2025-06-02 23:26:37,561 - INFO - Processing sheet 5/380: Match_005_Nottingham_vs_Forest
+2025-06-02 23:26:37,562 - INFO - Scraping: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:26:37,572 - INFO - Extracting data from: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:32:35,760 - INFO - Starting FBref integration for: /tmp/tmptd88qijk.xlsx
+2025-06-02 23:32:35,761 - INFO - Starting Excel population for: /tmp/tmptd88qijk.xlsx
+2025-06-02 23:32:37,233 - INFO - Found 380 match sheets to populate
+2025-06-02 23:32:38,454 - INFO - Browser setup completed successfully
+2025-06-02 23:32:38,454 - INFO - Processing sheet 1/380: Match_001_Crystal_vs_Palace
+2025-06-02 23:32:38,455 - INFO - Scraping: https://fbref.com/en/matches/e62f6e78/Crystal-Palace-Arsenal-August-5-2022-Premier-League
+2025-06-02 23:32:38,455 - INFO - Extracting data from: https://fbref.com/en/matches/e62f6e78/Crystal-Palace-Arsenal-August-5-2022-Premier-League
