@@ -151,14 +151,14 @@ class FBrefIntegration:
             if not isinstance(url, str) or not url.startswith("https://fbref.com"):
                 return {'valid': False, 'error': f'Invalid FBref URL in row 4, column 2: {url}'}
             
-            # Check for required cell structure
+            # Check for required cell structure based on our actual Excel layout
             required_cells = [
-                (4, 2, "Home team"),
-                (5, 2, "Away team"),
-                (12, 1, "Match statistics section"),
-                (22, 1, "Home team stats section"),
-                (32, 1, "Away team stats section"),
-                (42, 1, "Player stats section")
+                (5, 2, "Home team"),     # Row 5: Home Team
+                (6, 2, "Away team"),     # Row 6: Away Team  
+                (11, 1, "Match statistics section"),  # Row 11: "=== MATCH STATISTICS ==="
+                (18, 1, "Home team stats section"),  # Row 18: "=== HOME TEAM STATS ==="
+                (27, 1, "Away team stats section"),  # Row 27: "=== AWAY TEAM STATS ==="
+                (36, 1, "Player stats section")      # Row 36: "=== PLAYER STATISTICS ==="
             ]
             
             missing_sections = []
