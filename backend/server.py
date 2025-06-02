@@ -485,6 +485,15 @@ class FBrefScraper:
         try:
             logger.info(f"Scraping match: {match_url}")
             
+            # Add longer timeout and wait for network idle
+            await self.page.goto(match_url, timeout=60000, wait_until="networkidle")
+            await self.page.wait_for_timeout(3000)  # Wait longer for page to fully load
+            
+            # Take a screenshot for debugging
+            screenshot_path = f"/tmp/fbref_match_{match_url.split('/')[-2]}.png"
+            await self.page.screenshot(path=screenshot_path)
+            logger.info(f"Match page screenshot saved to {screenshot_path}")
+            
             # Extract metadata (including team names from match page)
             metadata = await self.extract_match_metadata(match_url)
             
@@ -530,6 +539,7 @@ class FBrefScraper:
                 away_red_cards=away_stats.get("red_cards", 0),
             )
             
+            logger.info(f"Successfully scraped match: {metadata.get('home_team', '')} vs {metadata.get('away_team', '')}")
             return match_data
             
         except Exception as e:
