@@ -378,6 +378,10 @@ def main():
     # Test 6: Mixed URLs
     mixed_urls_success = tester.test_mixed_urls(premier_league_url, invalid_url)
     
+    # Test 7: Real Premier League Seasons (2022-2023 and 2023-2024)
+    # This is a comprehensive test with real data
+    real_seasons_success = tester.test_real_premier_league_seasons()
+    
     # Print results
     print(f"\n📊 Tests passed: {tester.tests_passed}/{tester.tests_run}")
     
@@ -389,6 +393,7 @@ def main():
     print(f"Multi URL Scrape: {'✅' if multi_url_success else '❌'}")
     print(f"Invalid URL Handling: {'✅' if invalid_url_success else '❌'}")
     print(f"Mixed URLs Handling: {'✅' if mixed_urls_success else '❌'}")
+    print(f"Real Premier League Seasons: {'✅' if real_seasons_success else '❌'}")
     
     return 0 if tester.tests_passed == tester.tests_run else 1
 
