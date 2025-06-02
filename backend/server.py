@@ -710,7 +710,7 @@ async def start_scraping(season: str, background_tasks: BackgroundTasks, request
         logger.error(f"Error starting scrape: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-async def scrape_season_background(season: str, status_id: str):
+async def scrape_season_background(season: str, status_id: str, custom_url: Optional[str] = None):
     """Background task to scrape all matches in a season using new approach"""
     try:
         # Setup browser
@@ -721,13 +721,31 @@ async def scrape_season_background(season: str, status_id: str):
             )
             return
         
-        # Get match URLs using new approach
-        match_urls = await scraper.extract_season_fixtures(season)
+        # Get match URLs using new approach (with optional custom URL)
+        if custom_url:
+            # Use custom URL provided by user
+            match_urls = await scraper.extract_season_fixtures_custom(season, custom_url)
+        else:
+            # Use default URL generation
+            match_urls = await scraper.extract_season_fixtures(season)
         
         if not match_urls:
+            error_msg = f"No match URLs found for season {season}"
+            if not custom_url:
+                error_msg += ". Try providing a custom fixtures URL."
+            
             await db.scraping_status.update_one(
                 {"id": status_id},
-                {"$set": {"status": "failed", "errors": ["No match URLs found"]}}
+                {"$set": {
+                    "status": "failed", 
+                    "errors": [error_msg],
+                    "suggestions": [
+                        "1. Check if the season format is correct (e.g., '2024-25')",
+                        "2. Verify the fixtures page exists on FBref.com",
+                        "3. Try using the manual URL option with the correct fixtures page",
+                        "4. For historical seasons, the page structure might be different"
+                    ]
+                }}
             )
             return
         
@@ -740,13 +758,14 @@ async def scrape_season_background(season: str, status_id: str):
         # Scrape each match
         scraped_count = 0
         errors = []
+        match_extraction_errors = []
         
-        for match_url in match_urls:
+        for i, match_url in enumerate(match_urls):
             try:
                 # Update current match
                 await db.scraping_status.update_one(
                     {"id": status_id},
-                    {"$set": {"current_match": match_url}}
+                    {"$set": {"current_match": f"Processing match {i+1}/{len(match_urls)}: {match_url}"}}
                 )
                 
                 # Scrape match using new approach
@@ -763,7 +782,7 @@ async def scrape_season_background(season: str, status_id: str):
                         {"$set": {"matches_scraped": scraped_count}}
                     )
                 else:
-                    errors.append(f"Failed to scrape {match_url}")
+                    match_extraction_errors.append(f"Failed to extract data from: {match_url}")
                 
                 # Rate limiting - 1 second delay between requests
                 await asyncio.sleep(1)
@@ -773,23 +792,65 @@ async def scrape_season_background(season: str, status_id: str):
                 errors.append(error_msg)
                 logger.error(error_msg)
         
+        # Prepare final status
+        final_errors = errors + match_extraction_errors
+        suggestions = []
+        
+        if match_extraction_errors:
+            suggestions.extend([
+                "MATCH EXTRACTION ISSUES DETECTED:",
+                "• Some match report pages couldn't be parsed",
+                "• This could be due to:",
+                "  - Changes in FBref's match report page structure",
+                "  - Anti-scraping measures on individual match pages",
+                "  - Network timeouts or connection issues",
+                f"• Successfully extracted: {scraped_count}/{len(match_urls)} matches",
+                "• You can help by:",
+                "  - Checking if match report links are valid",
+                "  - Inspecting page structure for changes",
+                "  - Running with smaller batch sizes"
+            ])
+        
+        if scraped_count == 0:
+            suggestions.extend([
+                "NO MATCHES EXTRACTED - POSSIBLE CAUSES:",
+                "• Match report links may be invalid or redirecting",
+                "• FBref may have changed their page structure",
+                "• Anti-scraping measures may be blocking requests",
+                "• Network connectivity issues",
+                "RECOMMENDED ACTIONS:",
+                "• Try manual URL with a known working fixtures page",
+                "• Check browser logs for specific errors",
+                "• Verify match URLs are accessible manually"
+            ])
+        
         # Mark as completed
         await db.scraping_status.update_one(
             {"id": status_id},
             {"$set": {
-                "status": "completed",
+                "status": "completed" if scraped_count > 0 else "failed",
                 "completed_at": datetime.utcnow(),
-                "errors": errors
+                "errors": final_errors,
+                "suggestions": suggestions
             }}
         )
         
-        logger.info(f"Completed scraping season {season}. Scraped {scraped_count} matches with {len(errors)} errors")
+        logger.info(f"Completed scraping season {season}. Scraped {scraped_count} matches with {len(final_errors)} errors")
         
     except Exception as e:
         logger.error(f"Background scraping error: {e}")
         await db.scraping_status.update_one(
             {"id": status_id},
-            {"$set": {"status": "failed", "errors": [str(e)]}}
+            {"$set": {
+                "status": "failed", 
+                "errors": [str(e)],
+                "suggestions": [
+                    "UNEXPECTED ERROR OCCURRED:",
+                    "• Check backend logs for detailed error information",
+                    "• Verify browser/Playwright setup is working",
+                    "• Try restarting the scraping process"
+                ]
+            }}
         )
     finally:
         await scraper.cleanup()
