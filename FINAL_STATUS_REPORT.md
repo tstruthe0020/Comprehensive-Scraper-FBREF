@@ -32,10 +32,24 @@
 2. Visit each match report page to extract team names (proven working)
 3. Use existing `extract_match_metadata()` method (user-verified accurate)
 
-#### **TASK 2: Implement URL-Only Fixtures Extraction** ⏳ IN PROGRESS
-**Status:** Starting implementation  
-**Files to modify:** `/app/backend/server.py` (extract_season_fixtures method)  
-**Strategy:** Simplify fixtures extraction to only get URLs, then populate team names from match pages
+#### **TASK 2: Implement URL-Only Fixtures Extraction** ✅ COMPLETED
+**Status:** Implementation completed  
+**Files modified:** `/app/backend/server.py` (extract_season_fixtures method)  
+**Changes made:**
+- Simplified fixtures extraction to only get match URLs from table
+- Added logic to visit each match page and extract team names using proven method
+- Added 1-second delay between requests for rate limiting
+- Improved error handling and logging
+
+#### **TASK 3: API Endpoint Configuration** ⚠️  ISSUE IDENTIFIED  
+**Status:** Issue discovered  
+**Problem:** API endpoints for season scraping appear to be missing/misconfigured
+**Evidence:** `/api/scrape-season/{season}` returns 404 Not Found
+**Required:** Verify and fix API routing configuration
+
+#### **TASK 4: End-to-End Testing** 🔄 READY
+**Status:** Ready to test once API endpoints are fixed  
+**Approach:** Test the new fixtures extraction approach with a small subset of matches
 
 ---
 
