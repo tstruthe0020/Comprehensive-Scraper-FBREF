@@ -173,15 +173,18 @@ backend:
 
   - task: "End-to-end season scraping test - Historical season (2023-24)"
     implemented: true
-    working: "NA"
+    working: false
     file: "server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Ready for end-to-end testing of historical season 2023-24. This will test fallback methods for completed seasons that show league tables instead of fixtures. Will verify fallback URL extraction approach works."
+        - working: false
+          agent: "testing"
+          comment: "The scraper is unable to extract match URLs from the FBref website for the historical season (2023-24). The request to the historical season page timed out after 30 seconds. This could be due to FBref's anti-scraping measures or changes in the website structure. The API endpoints for retrieving data are working correctly, as verified with test data."
 
 frontend:
   - task: "Basic API integration test"
