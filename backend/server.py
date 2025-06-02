@@ -398,6 +398,8 @@ async def check_enhancement_availability():
             'status': 'Comprehensive scraper not installed',
             'details': {}
         }
+
+@app.post("/api/demo-scrape")
 async def demo_scrape_fbref():
     """Demo endpoint that shows what successful scraping would look like"""
     # Sample season results
