@@ -141,20 +141,14 @@ class FBrefScraper:
     async def extract_season_fixtures(self, season: str) -> List[str]:
         """
         Extract all match URLs from a season's fixtures page.
-        NEW APPROACH: Only extract match URLs, get team names from individual match pages.
+        IMPROVED APPROACH: Handle HTML comments and use multiple extraction methods.
         """
         try:
             fixtures_url = self.get_season_fixtures_url(season)
             logger.info(f"Fetching fixtures from: {fixtures_url}")
             
-            # Add longer timeout and wait for network idle
-            await self.page.goto(fixtures_url, timeout=60000, wait_until="networkidle")
-            await self.page.wait_for_timeout(5000)  # Wait longer for page to fully load
-            
-            # Take a screenshot for debugging
-            screenshot_path = f"/tmp/fbref_fixtures_{season}.png"
-            await self.page.screenshot(path=screenshot_path)
-            logger.info(f"Screenshot saved to {screenshot_path}")
+            await self.page.goto(fixtures_url, wait_until="domcontentloaded", timeout=30000)
+            await self.page.wait_for_timeout(2000)
             
             # Convert season format: 2023-24 -> 2023-2024
             if len(season.split('-')[1]) == 2:  # e.g., "2023-24"
@@ -164,140 +158,125 @@ class FBrefScraper:
             else:  # Already full format e.g., "2023-2024"
                 season_full = season
             
-            # Find the fixtures table
-            table_id = f"sched_{season_full}_9_1"
-            table_selector = f"table#{table_id}"
-            
-            logger.info(f"Looking for table with ID: {table_id}")
-            
             # Initialize match_links set
             match_links = set()  # Use set to avoid duplicates
             
-            # Try multiple approaches to find match links
-            
-            # Approach 1: Look for the specific table ID
+            # Method 1: Try to extract from HTML content directly (handles commented tables)
             try:
-                await self.page.wait_for_selector(table_selector, timeout=10000)
-                logger.info(f"Found fixtures table: {table_id}")
+                html_content = await self.page.content()
                 
-                # Extract all match URLs from the fixtures table
-                # Look for links in the score column that point to match reports
-                links = await self.page.query_selector_all(f"{table_selector} a[href*='/en/matches/']")
+                # Remove HTML comments that may hide the table
+                html_content = html_content.replace('<!--', '').replace('-->', '')
                 
-                for link in links:
-                    href = await link.get_attribute("href")
-                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
+                # Use regex to find match URLs in the HTML
+                import re
+                match_url_pattern = r'href=["\']([^"\']*\/en\/matches\/[^"\']*)["\']'
+                matches = re.findall(match_url_pattern, html_content)
+                
+                for match_url in matches:
+                    if "/en/matches/" in match_url and len(match_url.split("/")) > 5:
                         # Convert relative URLs to absolute
-                        if href.startswith("/"):
-                            href = f"https://fbref.com{href}"
-                        match_links.add(href)
-                        logger.info(f"Found match URL from table: {href}")
+                        if match_url.startswith("/"):
+                            match_url = f"https://fbref.com{match_url}"
+                        match_links.add(match_url)
+                
+                logger.info(f"Found {len(match_links)} match URLs from HTML content analysis")
                 
             except Exception as e:
-                logger.warning(f"Table with ID {table_id} not found: {e}")
-                
-            # Approach 2: Look for any table with schedule in the ID
-            if not match_links:
-                logger.info("Trying alternative approach - looking for tables with 'sched' in ID")
-                try:
-                    tables = await self.page.query_selector_all("table[id*='sched']")
-                    for table in tables:
-                        table_id = await table.get_attribute("id")
-                        logger.info(f"Found schedule table with ID: {table_id}")
-                        
-                        links = await table.query_selector_all("a[href*='/en/matches/']")
-                        for link in links:
-                            href = await link.get_attribute("href")
-                            if href and "/en/matches/" in href and len(href.split("/")) > 5:
-                                # Convert relative URLs to absolute
-                                if href.startswith("/"):
-                                    href = f"https://fbref.com{href}"
-                                match_links.add(href)
-                                logger.info(f"Found match URL from table {table_id}: {href}")
-                except Exception as e:
-                    logger.warning(f"Error finding schedule tables: {e}")
+                logger.warning(f"HTML content analysis failed: {e}")
             
-            # Approach 3: Look for any links to match reports on the page
-            if not match_links:
-                logger.info("Trying alternative approach - looking for match links throughout page")
-                
-                links = await self.page.query_selector_all("a[href*='/en/matches/']")
-                
-                for link in links:
-                    href = await link.get_attribute("href")
-                    link_text = await link.text_content()
+            # Method 2: Try finding the fixtures table (original approach)
+            if len(match_links) == 0:
+                try:
+                    table_id = f"sched_{season_full}_9_1"
+                    table_selector = f"table#{table_id}"
                     
-                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
-                        # Filter out non-match links by checking text content
-                        if link_text and ("Match Report" in link_text or "–" in link_text or "-" in link_text):
+                    logger.info(f"Looking for table with ID: {table_id}")
+                    
+                    await self.page.wait_for_selector(table_selector, timeout=10000)
+                    logger.info(f"Found fixtures table: {table_id}")
+                    
+                    # Extract all match URLs from the fixtures table
+                    links = await self.page.query_selector_all(f"{table_selector} a[href*='/en/matches/']")
+                    
+                    for link in links:
+                        href = await link.get_attribute("href")
+                        if href and "/en/matches/" in href and len(href.split("/")) > 5:
                             # Convert relative URLs to absolute
                             if href.startswith("/"):
                                 href = f"https://fbref.com{href}"
                             match_links.add(href)
-                            logger.info(f"Found match URL (alternative): {href}")
-            
-            # Approach 4: For historical seasons, try the results page instead
-            if not match_links and season != "2024-25":
-                historical_url = f"https://fbref.com/en/comps/9/{season}/results/Premier-League-Results"
-                logger.info(f"Trying historical results page: {historical_url}")
-                
-                await self.page.goto(historical_url, timeout=60000, wait_until="networkidle")
-                await self.page.wait_for_timeout(5000)
-                
-                # Take a screenshot for debugging
-                screenshot_path = f"/tmp/fbref_historical_{season}.png"
-                await self.page.screenshot(path=screenshot_path)
-                logger.info(f"Historical page screenshot saved to {screenshot_path}")
-                
-                links = await self.page.query_selector_all("a[href*='/en/matches/']")
-                
-                for link in links:
-                    href = await link.get_attribute("href")
-                    link_text = await link.text_content()
+                            logger.info(f"Found match URL from table: {href}")
                     
-                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
-                        # Convert relative URLs to absolute
-                        if href.startswith("/"):
-                            href = f"https://fbref.com{href}"
-                        match_links.add(href)
-                        logger.info(f"Found match URL from historical page: {href}")
+                except Exception as e:
+                    logger.warning(f"Table with ID {table_id} not found: {e}")
             
-            # Approach 5: For current season, try the fixtures page
-            if not match_links and season == "2024-25":
-                fixtures_url = "https://fbref.com/en/comps/9/fixtures/Premier-League-Fixtures"
-                logger.info(f"Trying current fixtures page: {fixtures_url}")
-                
-                await self.page.goto(fixtures_url, timeout=60000, wait_until="networkidle")
-                await self.page.wait_for_timeout(5000)
-                
-                # Take a screenshot for debugging
-                screenshot_path = f"/tmp/fbref_fixtures_current.png"
-                await self.page.screenshot(path=screenshot_path)
-                logger.info(f"Current fixtures screenshot saved to {screenshot_path}")
-                
-                links = await self.page.query_selector_all("a[href*='/en/matches/']")
-                
-                for link in links:
-                    href = await link.get_attribute("href")
-                    link_text = await link.text_content()
+            # Method 3: Look for match links throughout the page
+            if len(match_links) == 0:
+                try:
+                    logger.info("Trying alternative approach - looking for match links throughout page")
                     
-                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
-                        # Convert relative URLs to absolute
-                        if href.startswith("/"):
-                            href = f"https://fbref.com{href}"
-                        match_links.add(href)
-                        logger.info(f"Found match URL from current fixtures page: {href}")
+                    links = await self.page.query_selector_all("a[href*='/en/matches/']")
+                    
+                    for link in links:
+                        href = await link.get_attribute("href")
+                        link_text = await link.text_content()
+                        
+                        if href and "/en/matches/" in href and len(href.split("/")) > 5:
+                            # Filter out non-match links by checking text content
+                            if link_text and ("Match Report" in link_text or "–" in link_text or "-" in link_text or any(c.isdigit() for c in link_text)):
+                                # Convert relative URLs to absolute
+                                if href.startswith("/"):
+                                    href = f"https://fbref.com{href}"
+                                match_links.add(href)
+                                logger.info(f"Found match URL (alternative): {href}")
+                        
+                except Exception as e:
+                    logger.warning(f"Alternative approach failed: {e}")
             
-            # For testing purposes, limit to 10 matches if there are many
+            # Method 4: Try using requests library for commented tables
+            if len(match_links) == 0:
+                try:
+                    logger.info("Trying requests-based approach for commented tables")
+                    import requests
+                    from bs4 import BeautifulSoup
+                    
+                    response = requests.get(fixtures_url, headers={
+                        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
+                    })
+                    
+                    if response.status_code == 200:
+                        # Remove HTML comments
+                        html_content = response.text.replace('<!--', '').replace('-->', '')
+                        soup = BeautifulSoup(html_content, 'html.parser')
+                        
+                        # Find all links to match reports
+                        links = soup.find_all('a', href=True)
+                        for link in links:
+                            href = link.get('href')
+                            if href and '/en/matches/' in href and len(href.split('/')) > 5:
+                                if href.startswith('/'):
+                                    href = f"https://fbref.com{href}"
+                                match_links.add(href)
+                        
+                        logger.info(f"Found {len(match_links)} match URLs using requests approach")
+                    
+                except Exception as e:
+                    logger.warning(f"Requests-based approach failed: {e}")
+            
             match_links_list = list(match_links)
-            if len(match_links_list) > 10:
-                logger.info(f"Limiting to 10 matches for testing purposes (out of {len(match_links_list)} found)")
-                match_links_list = match_links_list[:10]
-            
             logger.info(f"Total match URLs found for season {season}: {len(match_links_list)}")
+            
+            # For testing, limit to first 20 matches to avoid overwhelming the system
+            if len(match_links_list) > 20:
+                match_links_list = match_links_list[:20]
+                logger.info(f"Limited to first 20 matches for testing: {len(match_links_list)}")
             
             if len(match_links_list) > 0:
                 logger.info(f"Successfully extracted {len(match_links_list)} match URLs")
+                # Log first few URLs for debugging
+                for i, url in enumerate(match_links_list[:3]):
+                    logger.info(f"Sample URL {i+1}: {url}")
                 return match_links_list
             else:
                 logger.error(f"No match URLs found for season {season}")
