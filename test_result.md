@@ -204,6 +204,21 @@ backend:
           agent: "testing"
           comment: "Verified that the API endpoints for retrieving data are working correctly. The GET /api/matches endpoint returns all matches, and can be filtered by season or team. The GET /api/seasons and GET /api/teams endpoints return the available seasons and teams. The POST /api/export-csv endpoint generates a CSV file with the filtered data. Test data was inserted into the database to verify these endpoints, and they all worked as expected. The data quality is good, with all required fields present and properly formatted."
 
+  - task: "Comprehensive extraction implementation"
+    implemented: true
+    working: false
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented comprehensive extraction strategy that extracts ALL data from match report pages instead of trying to parse specific fields. Added new functions: extract_all_match_data(), extract_all_tables_comprehensive(), extract_table_metadata(), extract_table_headers(), extract_table_rows(), create_data_stat_mapping(), and extract_basic_match_info()."
+        - working: false
+          agent: "testing"
+          comment: "Found a critical bug that prevents the comprehensive_data field from being stored in the database. The issue is in the scrape_season_background function where it calls match_data.dict() on line 1081, but match_data is already a dictionary (not a Pydantic model). This causes the comprehensive_data field to be lost during database insertion. The fix is simple: change 'await db.matches.insert_one(match_data.dict())' to 'await db.matches.insert_one(match_data)'. The comprehensive extraction functions themselves are well-implemented and should work correctly once the database insertion bug is fixed."
+
 frontend:
   - task: "Frontend interface with season selector and manual URL support"
     implemented: true
