@@ -354,6 +354,88 @@ class FBREFScraperTester:
             print("✅ Premier League seasons scrape successful")
             return True
         return False
+        
+    def test_check_enhancement_availability(self):
+        """Test the enhancement availability check endpoint"""
+        success, response = self.run_test(
+            "Enhancement Availability Check",
+            "GET",
+            "api/check-enhancement",
+            200
+        )
+        
+        if success:
+            print(f"Enhancement available: {response.get('available', False)}")
+            print(f"Status: {response.get('status', '')}")
+            
+            # Check if enhancement is available
+            if not response.get('available', False):
+                print("❌ Enhancement is not available")
+                return False
+                
+            print("✅ Enhancement is available")
+            return True
+        return False
+        
+    def test_enhance_excel(self):
+        """Test enhancing an Excel file with comprehensive data"""
+        # First, get a demo Excel file
+        success, demo_response = self.run_test(
+            "Demo Scrape for Enhancement",
+            "POST",
+            "api/demo-scrape",
+            200,
+            data={}
+        )
+        
+        if not success or not demo_response.get('excel_data'):
+            print("❌ Failed to get demo Excel file for enhancement test")
+            return False
+            
+        # Now try to enhance the Excel file
+        success, enhance_response = self.run_test(
+            "Enhance Excel",
+            "POST",
+            "api/enhance-excel",
+            200,
+            data={
+                "excel_data": demo_response.get('excel_data'),
+                "filename": demo_response.get('filename')
+            }
+        )
+        
+        if success:
+            print(f"Enhancement message: {enhance_response.get('message', '')}")
+            
+            # Check if enhancement was successful
+            if not enhance_response.get('success', False):
+                print(f"❌ Enhancement failed: {enhance_response.get('message', '')}")
+                return False
+                
+            # Check enhancement results
+            results = enhance_response.get('enhancement_results', {})
+            successful_matches = results.get('successful_matches', 0)
+            total_matches = results.get('total_matches', 0)
+            
+            print(f"Successfully enhanced {successful_matches}/{total_matches} matches")
+            
+            if successful_matches == 0:
+                print("❌ No matches were successfully enhanced")
+                return False
+                
+            # Validate the enhanced Excel file
+            excel_validation = self.save_and_validate_excel(
+                enhance_response.get('excel_data', ''),
+                enhance_response.get('filename', 'enhanced_excel.xlsx'),
+                'enhanced'
+            )
+            
+            if not excel_validation:
+                return False
+                
+            print("✅ Excel enhancement successful")
+            return True
+        return False
 
 def main():
     # Setup
