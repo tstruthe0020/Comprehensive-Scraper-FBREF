@@ -379,6 +379,257 @@ async def demo_scrape_fbref():
         csv_data=csv_content
     )
 
+def extract_match_info_from_url(url: str) -> Dict[str, str]:
+    """Extract match information from FBREF match URL"""
+    try:
+        # Example URL: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+        parts = url.split('/')
+        if len(parts) > 5:
+            match_info_part = parts[-1]  # "Manchester-United-Fulham-August-16-2024-Premier-League"
+            
+            # Try to parse the format: Home-Team-Away-Team-Date-Competition
+            info_parts = match_info_part.split('-')
+            
+            # Find date pattern (looking for year)
+            date_idx = None
+            for i, part in enumerate(info_parts):
+                if len(part) == 4 and part.isdigit() and part.startswith('20'):
+                    date_idx = i
+                    break
+            
+            if date_idx and date_idx >= 3:
+                # Extract teams (everything before date)
+                team_parts = info_parts[:date_idx-2]  # Exclude month and day
+                home_team = team_parts[0] if len(team_parts) > 0 else "Unknown"
+                
+                # Find where away team starts (usually in middle)
+                mid_point = len(team_parts) // 2
+                away_team = team_parts[mid_point] if len(team_parts) > mid_point else "Unknown"
+                
+                # Extract date
+                if date_idx >= 2:
+                    month = info_parts[date_idx-2]
+                    day = info_parts[date_idx-1]
+                    year = info_parts[date_idx]
+                    date = f"{month}-{day}-{year}"
+                else:
+                    date = "Unknown"
+                
+                # Extract competition (everything after year)
+                competition = "-".join(info_parts[date_idx+1:]) if date_idx+1 < len(info_parts) else "Unknown"
+                
+                # Create short name for sheet
+                short_name = f"{home_team}_vs_{away_team}"[:20]
+                
+                return {
+                    'home_team': home_team.replace('-', ' '),
+                    'away_team': away_team.replace('-', ' '),
+                    'date': date,
+                    'competition': competition.replace('-', ' '),
+                    'short_name': short_name
+                }
+    except Exception as e:
+        print(f"Error parsing match URL {url}: {e}")
+    
+    # Fallback
+    return {
+        'home_team': 'Unknown',
+        'away_team': 'Unknown', 
+        'date': 'Unknown',
+        'competition': 'Unknown',
+        'short_name': 'Unknown_Match'
+    }
+
+def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]:
+    """Create an Excel workbook with separate sheets for each match and a summary sheet"""
+    
+    wb = Workbook()
+    # Remove default sheet
+    wb.remove(wb.active)
+    
+    # Create summary sheet
+    summary_sheet = wb.create_sheet("Summary")
+    
+    # Style definitions
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+    border = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+    
+    # Summary sheet headers
+    summary_headers = [
+        "Season", "Match_Report_URL", "Match_Number", "Home_Team", "Away_Team", 
+        "Date", "Score", "Home_Goals", "Away_Goals", "Competition", "Venue", "Sheet_Name"
+    ]
+    
+    for col, header in enumerate(summary_headers, 1):
+        cell = summary_sheet.cell(row=1, column=col, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = border
+        cell.alignment = Alignment(horizontal="center")
+    
+    # Track all links and create sheets
+    all_links = []
+    match_number = 1
+    
+    for season_result in season_results:
+        if season_result.success:
+            for link in season_result.links:
+                all_links.append({
+                    'season': season_result.season_name,
+                    'url': link,
+                    'source_url': season_result.url,
+                    'match_number': match_number
+                })
+                
+                # Extract match info from URL for sheet naming
+                match_info = extract_match_info_from_url(link)
+                sheet_name = f"Match_{match_number:03d}_{match_info['short_name']}"
+                
+                # Ensure sheet name is valid (max 31 chars, no special chars)
+                sheet_name = re.sub(r'[^\w\-_]', '_', sheet_name)[:31]
+                
+                # Create individual match sheet
+                match_sheet = wb.create_sheet(sheet_name)
+                
+                # Match sheet headers - Basic match info
+                match_headers = [
+                    "Field", "Value"
+                ]
+                
+                for col, header in enumerate(match_headers, 1):
+                    cell = match_sheet.cell(row=1, column=col, value=header)
+                    cell.font = header_font
+                    cell.fill = header_fill
+                    cell.border = border
+                    cell.alignment = Alignment(horizontal="center")
+                
+                # Add basic match information
+                match_info_rows = [
+                    ("Season", season_result.season_name),
+                    ("Match Number", match_number),
+                    ("Match Report URL", link),
+                    ("Home Team", match_info['home_team']),
+                    ("Away Team", match_info['away_team']),
+                    ("Date", match_info['date']),
+                    ("Competition", match_info['competition']),
+                    ("Source URL", season_result.url),
+                    ("", ""),
+                    ("=== MATCH STATISTICS ===", ""),
+                    ("", ""),
+                    ("Field", "Value"),
+                    ("Goals (Home)", ""),
+                    ("Goals (Away)", ""),
+                    ("Final Score", ""),
+                    ("Attendance", ""),
+                    ("Referee", ""),
+                    ("Stadium", ""),
+                    ("", ""),
+                    ("=== HOME TEAM STATS ===", ""),
+                    ("", ""),
+                    ("Statistic", "Value"),
+                    ("Possession (%)", ""),
+                    ("Total Shots", ""),
+                    ("Shots on Target", ""),
+                    ("Corners", ""),
+                    ("Fouls", ""),
+                    ("Yellow Cards", ""),
+                    ("Red Cards", ""),
+                    ("", ""),
+                    ("=== AWAY TEAM STATS ===", ""),
+                    ("", ""),
+                    ("Statistic", "Value"),
+                    ("Possession (%)", ""),
+                    ("Total Shots", ""),
+                    ("Shots on Target", ""),
+                    ("Corners", ""),
+                    ("Fouls", ""),
+                    ("Yellow Cards", ""),
+                    ("Red Cards", ""),
+                    ("", ""),
+                    ("=== PLAYER STATISTICS ===", ""),
+                    ("", ""),
+                    ("Player", "Team", "Position", "Minutes", "Goals", "Assists", "Shots", "Passes", "Tackles", "Cards")
+                ]
+                
+                for row_num, (field, value) in enumerate(match_info_rows, 2):
+                    match_sheet.cell(row=row_num, column=1, value=field)
+                    match_sheet.cell(row=row_num, column=2, value=value)
+                    
+                    # Style section headers
+                    if field.startswith("===") and field.endswith("==="):
+                        cell = match_sheet.cell(row=row_num, column=1)
+                        cell.font = Font(bold=True, color="366092")
+                        cell.fill = PatternFill(start_color="E7E6E6", end_color="E7E6E6", fill_type="solid")
+                
+                # Auto-adjust column widths
+                for column in match_sheet.columns:
+                    max_length = 0
+                    column_letter = get_column_letter(column[0].column)
+                    for cell in column:
+                        try:
+                            if len(str(cell.value)) > max_length:
+                                max_length = len(str(cell.value))
+                        except:
+                            pass
+                    adjusted_width = min(max_length + 2, 50)
+                    match_sheet.column_dimensions[column_letter].width = adjusted_width
+                
+                # Add to summary sheet
+                summary_row = match_number + 1
+                summary_data = [
+                    season_result.season_name,
+                    link,
+                    match_number,
+                    match_info['home_team'],
+                    match_info['away_team'],
+                    match_info['date'],
+                    "",  # Score - to be filled later
+                    "",  # Home goals
+                    "",  # Away goals
+                    match_info['competition'],
+                    "",  # Venue - to be filled later
+                    sheet_name
+                ]
+                
+                for col, value in enumerate(summary_data, 1):
+                    cell = summary_sheet.cell(row=summary_row, column=col, value=value)
+                    cell.border = border
+                
+                match_number += 1
+    
+    # Auto-adjust column widths for summary sheet
+    for column in summary_sheet.columns:
+        max_length = 0
+        column_letter = get_column_letter(column[0].column)
+        for cell in column:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except:
+                pass
+        adjusted_width = min(max_length + 2, 50)
+        summary_sheet.column_dimensions[column_letter].width = adjusted_width
+    
+    # Generate filename
+    seasons_text = "_".join([s.season_name.replace("/", "-") for s in season_results if s.success])[:50]
+    filename = f"FBREF_Matches_{seasons_text}.xlsx"
+    
+    # Save to bytes
+    excel_buffer = io.BytesIO()
+    wb.save(excel_buffer)
+    excel_buffer.seek(0)
+    
+    # Encode to base64
+    excel_b64 = base64.b64encode(excel_buffer.getvalue()).decode('utf-8')
+    
+    return excel_b64, filename
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
