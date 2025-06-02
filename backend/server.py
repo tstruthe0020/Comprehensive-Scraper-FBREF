@@ -217,15 +217,49 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
             csv_data=""
         )
 
-@app.get("/api/download-csv/{filename}")
-async def download_csv(filename: str, csv_data: str):
-    def generate():
-        yield csv_data
+@app.post("/api/demo-scrape")
+async def demo_scrape_fbref():
+    """Demo endpoint that shows what successful scraping would look like"""
+    # Sample match report links that would be extracted
+    demo_links = [
+        "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
+        "https://fbref.com/en/matches/8b1e4321/Arsenal-Wolves-August-17-2024-Premier-League",
+        "https://fbref.com/en/matches/2c4f8901/Brighton-Everton-August-17-2024-Premier-League",
+        "https://fbref.com/en/matches/9d7a2456/Newcastle-Southampton-August-17-2024-Premier-League",
+        "https://fbref.com/en/matches/4e6b1890/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League"
+    ]
     
-    return StreamingResponse(
-        io.BytesIO(csv_data.encode()),
-        media_type="text/csv",
-        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    # Generate CSV content
+    csv_buffer = io.StringIO()
+    csv_writer = csv.writer(csv_buffer)
+    
+    # Write headers for match data
+    csv_writer.writerow([
+        'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
+        'Home_Goals', 'Away_Goals', 'Competition', 'Venue'
+    ])
+    
+    # Write match links (ready for future stat extraction)
+    for link in demo_links:
+        csv_writer.writerow([link, '', '', '', '', '', '', '', ''])
+    
+    # Add separator and player data headers
+    csv_writer.writerow([])  # Empty row separator
+    csv_writer.writerow(['=== PLAYER DATA ==='])
+    csv_writer.writerow([
+        'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
+        'Goals', 'Assists', 'Shots', 'Shots_on_Target', 'Passes_Completed',
+        'Pass_Accuracy', 'Tackles', 'Interceptions', 'Fouls', 'Cards'
+    ])
+    
+    csv_content = csv_buffer.getvalue()
+    csv_buffer.close()
+    
+    return ScrapingResponse(
+        success=True,
+        message=f"Demo: Successfully extracted {len(demo_links)} match report links from FBREF fixtures page.",
+        links=demo_links,
+        csv_data=csv_content
     )
 
 if __name__ == "__main__":
