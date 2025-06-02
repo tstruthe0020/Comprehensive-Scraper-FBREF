@@ -286,6 +286,107 @@ class FBrefScraper:
         except Exception as e:
             logger.error(f"Error extracting season fixtures for {season}: {e}")
             return []
+            
+    async def extract_season_fixtures_custom(self, season: str, custom_url: str) -> List[str]:
+        """
+        Extract match URLs from a custom fixtures URL provided by the user.
+        """
+        try:
+            logger.info(f"Using custom fixtures URL: {custom_url}")
+            
+            await self.page.goto(custom_url, wait_until="domcontentloaded", timeout=30000)
+            await self.page.wait_for_timeout(2000)
+            
+            # Initialize match_links set
+            match_links = set()
+            
+            # Method 1: Try HTML content analysis with comment removal
+            try:
+                html_content = await self.page.content()
+                html_content = html_content.replace('<!--', '').replace('-->', '')
+                
+                import re
+                match_url_pattern = r'href=["\']([^"\']*\/en\/matches\/[^"\']*)["\']'
+                matches = re.findall(match_url_pattern, html_content)
+                
+                for match_url in matches:
+                    if "/en/matches/" in match_url and len(match_url.split("/")) > 5:
+                        if match_url.startswith("/"):
+                            match_url = f"https://fbref.com{match_url}"
+                        match_links.add(match_url)
+                
+                logger.info(f"Found {len(match_links)} match URLs from custom URL HTML analysis")
+                
+            except Exception as e:
+                logger.warning(f"HTML analysis on custom URL failed: {e}")
+            
+            # Method 2: Look for match links throughout the page
+            if len(match_links) == 0:
+                try:
+                    links = await self.page.query_selector_all("a[href*='/en/matches/']")
+                    
+                    for link in links:
+                        href = await link.get_attribute("href")
+                        link_text = await link.text_content()
+                        
+                        if href and "/en/matches/" in href and len(href.split("/")) > 5:
+                            if link_text and ("Match Report" in link_text or "–" in link_text or "-" in link_text or any(c.isdigit() for c in link_text)):
+                                if href.startswith("/"):
+                                    href = f"https://fbref.com{href}"
+                                match_links.add(href)
+                    
+                    logger.info(f"Found {len(match_links)} match URLs from custom URL page scan")
+                    
+                except Exception as e:
+                    logger.warning(f"Page scan on custom URL failed: {e}")
+            
+            # Method 3: Try requests approach
+            if len(match_links) == 0:
+                try:
+                    import requests
+                    from bs4 import BeautifulSoup
+                    
+                    response = requests.get(custom_url, headers={
+                        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
+                    })
+                    
+                    if response.status_code == 200:
+                        html_content = response.text.replace('<!--', '').replace('-->', '')
+                        soup = BeautifulSoup(html_content, 'html.parser')
+                        
+                        links = soup.find_all('a', href=True)
+                        for link in links:
+                            href = link.get('href')
+                            if href and '/en/matches/' in href and len(href.split('/')) > 5:
+                                if href.startswith('/'):
+                                    href = f"https://fbref.com{href}"
+                                match_links.add(href)
+                        
+                        logger.info(f"Found {len(match_links)} match URLs using requests on custom URL")
+                    
+                except Exception as e:
+                    logger.warning(f"Requests approach on custom URL failed: {e}")
+            
+            match_links_list = list(match_links)
+            
+            # Limit for testing
+            if len(match_links_list) > 20:
+                match_links_list = match_links_list[:20]
+                logger.info(f"Limited to first 20 matches for testing: {len(match_links_list)}")
+            
+            if len(match_links_list) > 0:
+                logger.info(f"Successfully extracted {len(match_links_list)} match URLs from custom URL")
+                # Log first few URLs for debugging
+                for i, url in enumerate(match_links_list[:3]):
+                    logger.info(f"Sample URL {i+1}: {url}")
+                return match_links_list
+            else:
+                logger.error(f"No match URLs found in custom URL: {custom_url}")
+                return []
+            
+        except Exception as e:
+            logger.error(f"Error extracting fixtures from custom URL {custom_url}: {e}")
+            return []
     
     async def extract_match_metadata(self, match_url: str) -> Dict[str, Any]:
         """Extract basic match metadata from individual match page"""
