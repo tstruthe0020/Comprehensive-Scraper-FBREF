@@ -462,7 +462,7 @@ def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]
                 # Add basic match information
                 match_info_rows = [
                     ("Season", season_result.season_name),
-                    ("Match Number", match_number),
+                    ("Match Number", str(match_number)),
                     ("Match Report URL", link),
                     ("Home Team", match_info['home_team']),
                     ("Away Team", match_info['away_team']),
@@ -472,7 +472,6 @@ def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]
                     ("", ""),
                     ("=== MATCH STATISTICS ===", ""),
                     ("", ""),
-                    ("Field", "Value"),
                     ("Goals (Home)", ""),
                     ("Goals (Away)", ""),
                     ("Final Score", ""),
@@ -482,7 +481,6 @@ def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]
                     ("", ""),
                     ("=== HOME TEAM STATS ===", ""),
                     ("", ""),
-                    ("Statistic", "Value"),
                     ("Possession (%)", ""),
                     ("Total Shots", ""),
                     ("Shots on Target", ""),
@@ -493,7 +491,6 @@ def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]
                     ("", ""),
                     ("=== AWAY TEAM STATS ===", ""),
                     ("", ""),
-                    ("Statistic", "Value"),
                     ("Possession (%)", ""),
                     ("Total Shots", ""),
                     ("Shots on Target", ""),
@@ -504,7 +501,11 @@ def create_excel_workbook(season_results: List[SeasonResult]) -> tuple[str, str]
                     ("", ""),
                     ("=== PLAYER STATISTICS ===", ""),
                     ("", ""),
-                    ("Player", "Team", "Position", "Minutes", "Goals", "Assists", "Shots", "Passes", "Tackles", "Cards")
+                    ("Player Name", "Team"),
+                    ("Position", "Minutes"),
+                    ("Goals", "Assists"),
+                    ("Shots", "Passes"),
+                    ("Tackles", "Cards")
                 ]
                 
                 for row_num, (field, value) in enumerate(match_info_rows, 2):
