@@ -1,0 +1,57 @@
+{
+  "url": "https://fbref.com/en/matches/9c4f2bcd/Brentford-West-Ham-United-September-28-2024-Premier-League",
+  "verification_time": "2025-06-02T15:18:38.262893",
+  "metadata": {
+    "home_team": "Brentford",
+    "away_team": "West Ham United",
+    "home_score": 1,
+    "away_score": 1,
+    "match_date": "2024-09-28"
+  },
+  "team_stats": {
+    "home_team": {
+      "name": "Brentford",
+      "stats": {
+        "shots": 8,
+        "shots_on_target": 3,
+        "xg": 0.4,
+        "cards_yellow": 2,
+        "cards_red": 0,
+        "passes": 578,
+        "passes_pct": 77.5,
+        "tackles": 25,
+        "tackles_won": 15,
+        "interceptions": 10,
+        "blocks": 12,
+        "touches": 700,
+        "carries": 402,
+        "fouled": 8
+      }
+    },
+    "away_team": {
+      "name": "West Ham United",
+      "stats": {
+        "shots": 19,
+        "shots_on_target": 3,
+        "xg": 1.0,
+        "cards_yellow": 3,
+        "cards_red": 0,
+        "passes": 439,
+        "passes_pct": 77.0,
+        "tackles": 17,
+        "tackles_won": 7,
+        "interceptions": 10,
+        "blocks": 13,
+        "touches": 578,
+        "carries": 281,
+        "fouled": 2
+      }
+    }
+  },
+  "summary": {
+    "total_metadata_fields": 5,
+    "home_team_stats_count": 14,
+    "away_team_stats_count": 14,
+    "unique_stats_extracted": 14
+  }
+}

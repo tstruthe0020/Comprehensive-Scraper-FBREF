@@ -1,0 +1,29 @@
+{
+  "url": "https://fbref.com/en/matches/9c4f2bcd/Brentford-West-Ham-United-September-28-2024-Premier-League",
+  "scorebox_exists": true,
+  "total_tables": 29,
+  "stats_tables": 14,
+  "stats_table_ids": [
+    "stats_cd051869_summary",
+    "stats_cd051869_passing",
+    "stats_cd051869_passing_types",
+    "stats_cd051869_defense",
+    "stats_cd051869_possession",
+    "stats_cd051869_misc",
+    "keeper_stats_cd051869",
+    "stats_7c21e445_summary",
+    "stats_7c21e445_passing",
+    "stats_7c21e445_passing_types",
+    "stats_7c21e445_defense",
+    "stats_7c21e445_possession",
+    "stats_7c21e445_misc",
+    "keeper_stats_7c21e445"
+  ],
+  "working_selectors": {
+    "scorebox": true,
+    "scores": true,
+    "stats_tables": true,
+    "team_names_itemprop": false,
+    "possession_data": false
+  }
+}

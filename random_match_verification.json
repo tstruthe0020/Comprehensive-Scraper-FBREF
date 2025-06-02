@@ -1,0 +1,14 @@
+{
+  "verification_time": "2025-06-02T15:27:46.957933",
+  "total_tested": 1,
+  "successful": 0,
+  "failed": 1,
+  "success_rate": 0.0,
+  "results": [
+    {
+      "url": "https://fbref.com/en/matches/9c4f2bcd/Brentford-West-Ham-United-September-28-2024-Premier-League",
+      "error": "Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://fbref.com/en/matches/9c4f2bcd/Brentford-West-Ham-United-September-28-2024-Premier-League\", waiting until \"networkidle\"\n",
+      "success": false
+    }
+  ]
+}
