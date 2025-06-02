@@ -78,6 +78,39 @@ class FBREFScraperTester:
             print(f"Success: {response['success']}")
             print(f"Error message: {response['message']}")
         return success, response
+        
+    def test_demo_scrape(self):
+        """Test the demo scrape endpoint"""
+        success, response = self.run_test(
+            "Demo Scrape",
+            "POST",
+            "api/demo-scrape",
+            200
+        )
+        if success:
+            print(f"Success: {response['success']}")
+            print(f"Message: {response['message']}")
+            print(f"Links found: {len(response['links'])}")
+            print(f"First few links: {response['links'][:3] if response['links'] else []}")
+            print(f"CSV data available: {'Yes' if response['csv_data'] else 'No'}")
+            
+            # Verify we have exactly 5 demo links as expected
+            if len(response['links']) == 5:
+                print("✅ Demo returned exactly 5 links as expected")
+            else:
+                print(f"❌ Demo returned {len(response['links'])} links instead of 5")
+                
+            # Verify CSV format contains expected headers
+            if "Match_Report_URL,Home_Team,Away_Team,Date,Score" in response['csv_data']:
+                print("✅ CSV contains match data headers")
+            else:
+                print("❌ CSV missing match data headers")
+                
+            if "=== PLAYER DATA ===" in response['csv_data']:
+                print("✅ CSV contains player data section")
+            else:
+                print("❌ CSV missing player data section")
+        return success, response
 
 def main():
     # Setup
