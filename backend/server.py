@@ -1078,7 +1078,7 @@ async def scrape_season_background(season: str, status_id: str, custom_url: Opti
                 
                 if match_data:
                     # Save to database
-                    await db.matches.insert_one(match_data.dict())
+                    await db.matches.insert_one(match_data)
                     scraped_count += 1
                     
                     # Update progress
