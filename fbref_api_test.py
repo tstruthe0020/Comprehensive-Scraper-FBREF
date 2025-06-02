@@ -56,7 +56,7 @@ class FBrefScraperTester:
             logger.error(f"Error starting scraping: {e}")
             return None
     
-    def monitor_scraping_status(self, status_id, max_wait_time=300, check_interval=5):
+    def monitor_scraping_status(self, status_id, max_wait_time=600, check_interval=10):
         """Monitor scraping status until completion or timeout"""
         logger.info(f"Monitoring scraping status {status_id}...")
         start_time = time.time()
@@ -76,8 +76,11 @@ class FBrefScraperTester:
                 matches_scraped = status_data.get("matches_scraped", 0)
                 total_matches = status_data.get("total_matches", 0)
                 current_match = status_data.get("current_match", "")
+                errors = status_data.get("errors", [])
                 
                 logger.info(f"Status: {status} | Progress: {matches_scraped}/{total_matches} | Current: {current_match}")
+                if errors:
+                    logger.warning(f"Errors: {errors}")
                 
                 if status == "completed" or status == "failed":
                     completed = True
