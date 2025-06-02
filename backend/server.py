@@ -312,38 +312,75 @@ class FBrefScraper:
         metadata = {}
         
         try:
-            await self.page.goto(match_url)
-            await self.page.wait_for_timeout(2000)
+            # We're already on the match page from scrape_match_report, no need to navigate again
             
             # Extract team names and score from the scorebox
             scorebox = await self.page.query_selector("div.scorebox")
             if scorebox:
-                # Get team names
+                # Get team names - try multiple approaches
+                
+                # Approach 1: Look for itemprop="name" divs
                 team_elements = await scorebox.query_selector_all("div[itemprop='name']")
-                if len(team_elements) >= 2:
+                if team_elements and len(team_elements) >= 2:
                     metadata["home_team"] = (await team_elements[0].text_content()).strip()
                     metadata["away_team"] = (await team_elements[1].text_content()).strip()
+                    logger.info(f"Found team names (Method 1): {metadata['home_team']} vs {metadata['away_team']}")
                 else:
-                    # Try alternative approach for team names
+                    # Approach 2: Look for itemprop="name" links
                     team_elements = await scorebox.query_selector_all("a[itemprop='name']")
-                    if len(team_elements) >= 2:
+                    if team_elements and len(team_elements) >= 2:
                         metadata["home_team"] = (await team_elements[0].text_content()).strip()
                         metadata["away_team"] = (await team_elements[1].text_content()).strip()
+                        logger.info(f"Found team names (Method 2): {metadata['home_team']} vs {metadata['away_team']}")
                     else:
-                        # Try another approach - look for team names in the title
-                        title = await self.page.title()
-                        title_match = re.search(r"(.+?)\s+vs\.\s+(.+?)\s+Match Report", title)
-                        if title_match:
-                            metadata["home_team"] = title_match.group(1).strip()
-                            metadata["away_team"] = title_match.group(2).strip()
+                        # Approach 3: Look for team divs
+                        team_divs = await scorebox.query_selector_all("div.team")
+                        if team_divs and len(team_divs) >= 2:
+                            for i, team_div in enumerate(team_divs[:2]):
+                                team_name_elem = await team_div.query_selector("a")
+                                if team_name_elem:
+                                    team_name = (await team_name_elem.text_content()).strip()
+                                    if i == 0:
+                                        metadata["home_team"] = team_name
+                                    else:
+                                        metadata["away_team"] = team_name
+                            logger.info(f"Found team names (Method 3): {metadata.get('home_team', 'Unknown')} vs {metadata.get('away_team', 'Unknown')}")
+                        else:
+                            # Approach 4: Look for any links to team pages
+                            team_links = await scorebox.query_selector_all("a[href*='/en/squads/']")
+                            if team_links and len(team_links) >= 2:
+                                metadata["home_team"] = (await team_links[0].text_content()).strip()
+                                metadata["away_team"] = (await team_links[1].text_content()).strip()
+                                logger.info(f"Found team names (Method 4): {metadata['home_team']} vs {metadata['away_team']}")
+                            else:
+                                # Approach 5: Look for team names in the title
+                                title = await self.page.title()
+                                title_match = re.search(r"(.+?)\s+vs\.\s+(.+?)\s+Match Report", title)
+                                if title_match:
+                                    metadata["home_team"] = title_match.group(1).strip()
+                                    metadata["away_team"] = title_match.group(2).strip()
+                                    logger.info(f"Found team names (Method 5): {metadata['home_team']} vs {metadata['away_team']}")
+                                else:
+                                    # Approach 6: Extract from URL
+                                    url_parts = match_url.split('/')
+                                    if len(url_parts) > 5:
+                                        match_info = url_parts[-2]
+                                        teams_match = re.search(r"([A-Za-z-]+)-([A-Za-z-]+)", match_info)
+                                        if teams_match:
+                                            metadata["home_team"] = teams_match.group(1).replace('-', ' ')
+                                            metadata["away_team"] = teams_match.group(2).replace('-', ' ')
+                                            logger.info(f"Found team names (Method 6): {metadata['home_team']} vs {metadata['away_team']}")
                 
                 # Get scores
                 score_elements = await scorebox.query_selector_all("div.score")
-                if len(score_elements) >= 2:
+                if score_elements and len(score_elements) >= 2:
                     home_score_text = (await score_elements[0].text_content()).strip()
                     away_score_text = (await score_elements[1].text_content()).strip()
                     metadata["home_score"] = int(home_score_text) if home_score_text.isdigit() else 0
                     metadata["away_score"] = int(away_score_text) if away_score_text.isdigit() else 0
+                    logger.info(f"Found scores: {metadata['home_score']} - {metadata['away_score']}")
+            else:
+                logger.warning("Could not find scorebox element")
             
             # Extract match date
             date_element = await self.page.query_selector("span.venuetime")
@@ -351,7 +388,8 @@ class FBrefScraper:
                 date_value = await date_element.get_attribute("data-venue-date")
                 if date_value:
                     metadata["match_date"] = date_value
-                    
+                    logger.info(f"Found match date: {metadata['match_date']}")
+            
             # Extract referee and venue information
             info_box = await self.page.query_selector("div#info_box, div.info_box, div#meta")
             if info_box:
@@ -361,27 +399,32 @@ class FBrefScraper:
                 referee_match = re.search(r"Referee:\s*([^,\n]+)", info_text)
                 if referee_match:
                     metadata["referee"] = referee_match.group(1).strip()
+                    logger.info(f"Found referee: {metadata['referee']}")
                 
                 # Extract assistants
                 assistant_match = re.search(r"Assistant(?:s)?:\s*([^,\n]+)", info_text)
                 if assistant_match:
                     assistants = [a.strip() for a in assistant_match.group(1).split(",")]
                     metadata["assistant_referees"] = assistants
+                    logger.info(f"Found assistant referees: {metadata['assistant_referees']}")
                 
                 # Extract 4th official
                 fourth_match = re.search(r"Fourth [Oo]fficial:\s*([^,\n]+)", info_text)
                 if fourth_match:
                     metadata["fourth_official"] = fourth_match.group(1).strip()
+                    logger.info(f"Found fourth official: {metadata['fourth_official']}")
                 
                 # Extract VAR
                 var_match = re.search(r"VAR:\s*([^,\n]+)", info_text)
                 if var_match:
                     metadata["var_referee"] = var_match.group(1).strip()
+                    logger.info(f"Found VAR referee: {metadata['var_referee']}")
                     
                 # Extract stadium
                 stadium_match = re.search(r"Venue:\s*([^,\n]+)", info_text)
                 if stadium_match:
                     metadata["stadium"] = stadium_match.group(1).strip()
+                    logger.info(f"Found stadium: {metadata['stadium']}")
             else:
                 # Try to extract information from the page content
                 page_text = await self.page.content()
@@ -390,11 +433,13 @@ class FBrefScraper:
                 referee_match = re.search(r"Referee:\s*([^,\n<]+)", page_text)
                 if referee_match:
                     metadata["referee"] = referee_match.group(1).strip()
+                    logger.info(f"Found referee (alternative): {metadata['referee']}")
                 
                 # Extract stadium
                 stadium_match = re.search(r"Venue:\s*([^,\n<]+)", page_text)
                 if stadium_match:
                     metadata["stadium"] = stadium_match.group(1).strip()
+                    logger.info(f"Found stadium (alternative): {metadata['stadium']}")
             
         except Exception as e:
             logger.error(f"Error extracting metadata from {match_url}: {e}")
