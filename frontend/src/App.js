@@ -99,7 +99,42 @@ function App() {
     }
   };
 
-  const downloadExcel = () => {
+  const enhanceExcel = async () => {
+    if (!result || !result.excel_data || enhancing) return;
+
+    setEnhancing(true);
+    try {
+      const response = await fetch(`${backendUrl}/api/enhance-excel`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          excel_data: result.excel_data,
+          filename: result.filename
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update result with enhanced data
+        setResult({
+          ...result,
+          excel_data: data.excel_data,
+          filename: data.filename,
+          message: data.message,
+          enhancement_results: data.enhancement_results
+        });
+      } else {
+        setError(`Enhancement failed: ${data.message}`);
+      }
+    } catch (err) {
+      setError('Enhancement error: Unable to connect to the server');
+    } finally {
+      setEnhancing(false);
+    }
+  };
     if (result && result.excel_data) {
       const byteCharacters = atob(result.excel_data);
       const byteNumbers = new Array(byteCharacters.length);
