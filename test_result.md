@@ -225,12 +225,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "End-to-end season scraping test - Current season (2024-25)"
     - "End-to-end season scraping test - Historical season (2023-24)"
     - "Verify data quality and database storage"
     - "Production validation with small sample"
   stuck_tasks: 
-    - "End-to-end season scraping test - Current season (2024-25)"
     - "End-to-end season scraping test - Historical season (2023-24)"
   test_all: false
   test_priority: "high_first"
