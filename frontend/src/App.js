@@ -135,6 +135,8 @@ function App() {
       setEnhancing(false);
     }
   };
+
+  const downloadExcel = () => {
     if (result && result.excel_data) {
       const byteCharacters = atob(result.excel_data);
       const byteNumbers = new Array(byteCharacters.length);
