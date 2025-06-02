@@ -249,7 +249,7 @@ class FBrefScraper:
                     metadata["match_date"] = date_value
                     
             # Extract referee and venue information
-            info_box = await self.page.query_selector("div#info_box, div.info_box")
+            info_box = await self.page.query_selector("div#info_box, div.info_box, div#meta")
             if info_box:
                 info_text = await info_box.text_content()
                 
@@ -276,6 +276,19 @@ class FBrefScraper:
                     
                 # Extract stadium
                 stadium_match = re.search(r"Venue:\s*([^,\n]+)", info_text)
+                if stadium_match:
+                    metadata["stadium"] = stadium_match.group(1).strip()
+            else:
+                # Try to extract information from the page content
+                page_text = await self.page.content()
+                
+                # Extract referee
+                referee_match = re.search(r"Referee:\s*([^,\n<]+)", page_text)
+                if referee_match:
+                    metadata["referee"] = referee_match.group(1).strip()
+                
+                # Extract stadium
+                stadium_match = re.search(r"Venue:\s*([^,\n<]+)", page_text)
                 if stadium_match:
                     metadata["stadium"] = stadium_match.group(1).strip()
             
