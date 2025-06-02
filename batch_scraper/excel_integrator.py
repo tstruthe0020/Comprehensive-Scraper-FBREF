@@ -285,13 +285,13 @@ class ExcelIntegrator:
         """
         try:
             # Clear existing player data first
-            for row in range(42, 200):  # Clear up to row 200
+            for row in range(38, 200):  # Clear up to row 200
                 for col in range(1, 11):
                     worksheet.cell(row=row, column=col, value="")
             
             # Populate player data
             for i, player in enumerate(player_stats):
-                row = 42 + i
+                row = 38 + i
                 
                 # Populate each column
                 worksheet.cell(row=row, column=1, value=player.get('player_name', ''))  # Player Name
