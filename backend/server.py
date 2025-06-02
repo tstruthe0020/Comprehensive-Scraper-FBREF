@@ -40,31 +40,46 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
         if not request.url or not request.url.startswith("https://fbref.com"):
             raise HTTPException(status_code=400, detail="Please provide a valid FBREF URL")
         
-        # Fetch the webpage with enhanced headers to avoid blocking
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'DNT': '1',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'none',
-            'Sec-Fetch-User': '?1',
-            'Cache-Control': 'max-age=0',
-        }
-        
-        # Use session for better connection handling
-        session = requests.Session()
-        session.headers.update(headers)
-        
-        response = session.get(request.url, timeout=30)
-        response.raise_for_status()
+        # Try direct scraping first, then fallback to alternative method
+        try:
+            # Fetch the webpage with enhanced headers to avoid blocking
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+                'Cache-Control': 'max-age=0',
+                'Referer': 'https://www.google.com/',
+            }
+            
+            # Use session for better connection handling
+            session = requests.Session()
+            session.headers.update(headers)
+            
+            response = session.get(request.url, timeout=30)
+            response.raise_for_status()
+            html_content = response.content
+            
+        except requests.RequestException as e:
+            if "403" in str(e) or "Forbidden" in str(e):
+                return ScrapingResponse(
+                    success=False,
+                    message="FBREF is blocking scraping requests. This is common for web scraping. You may need to use alternative methods like:\n\n1. Use a VPN or proxy service\n2. Try accessing the page manually first in a browser\n3. Check if FBREF offers an official API\n4. Use browser automation tools like Selenium\n\nThe scraping algorithm is working correctly - the issue is FBREF's anti-bot protection.",
+                    links=[],
+                    csv_data=""
+                )
+            else:
+                raise e
         
         # Parse HTML
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(html_content, 'html.parser')
         
         # Find the Score column header
         score_header = soup.find('th', {
@@ -74,9 +89,16 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
         })
         
         if not score_header:
+            # Try alternative selectors for the Score column
+            score_header = soup.find('th', string=re.compile(r'Score', re.IGNORECASE))
+            if not score_header:
+                # Look for any th with data-stat="score"
+                score_header = soup.find('th', {'data-stat': 'score'})
+        
+        if not score_header:
             return ScrapingResponse(
                 success=False,
-                message="Could not find the Score column in the table. Please check if the URL contains fixture/schedule data.",
+                message="Could not find the Score column in the table. The page structure might be different than expected. Please verify this is a FBREF fixture/schedule page.",
                 links=[],
                 csv_data=""
             )
@@ -97,7 +119,7 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
         score_column_index = None
         
         for i, header in enumerate(headers):
-            if header.get('data-stat') == 'score':
+            if header.get('data-stat') == 'score' or (header.get('aria-label') and 'score' in header.get('aria-label').lower()):
                 score_column_index = i
                 break
         
@@ -130,9 +152,19 @@ async def scrape_fbref_fixtures(request: ScrapingRequest):
                                 match_links.append(full_url)
         
         if not match_links:
+            # Try alternative approach - look for any match links in the table
+            all_links = table.find_all('a', href=True)
+            for link in all_links:
+                href = link['href']
+                if '/matches/' in href:
+                    full_url = f"https://fbref.com{href}" if href.startswith('/') else href
+                    if full_url not in match_links:
+                        match_links.append(full_url)
+        
+        if not match_links:
             return ScrapingResponse(
                 success=False,
-                message="No match report links found in the Score column. The page might not contain completed fixtures.",
+                message="No match report links found. This could mean:\n1. The page contains only future fixtures (no completed matches)\n2. The page structure is different than expected\n3. The fixtures haven't been played yet\n\nTry using a URL for a previous season or wait for matches to be completed.",
                 links=[],
                 csv_data=""
             )
