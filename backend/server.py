@@ -151,11 +151,34 @@ class FBrefScraper:
             await self.page.wait_for_timeout(3000)
             
             # Find the fixtures table
-            table_id = f"sched_{season}_9_1"
+            # Try different table ID formats
+            season_for_id = season.replace("-", "-20")  # Convert 2023-24 to 2023-2024
+            table_id = f"sched_{season_for_id}_9_1"
             table_selector = f"table#{table_id}"
             
+            # Initialize match_links set
+            match_links = set()  # Use set to avoid duplicates
+            
             # Wait for table to load
-            await self.page.wait_for_selector(table_selector, timeout=10000)
+            try:
+                await self.page.wait_for_selector(table_selector, timeout=5000)
+            except Exception as e:
+                logger.warning(f"Table with ID {table_id} not found, trying alternative approach")
+                # Try a more general approach - look for any links to match reports
+                links = await self.page.query_selector_all("a[href*='/en/matches/']")
+                
+                for link in links:
+                    href = await link.get_attribute("href")
+                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
+                        # Convert relative URLs to absolute
+                        if href.startswith("/"):
+                            href = f"https://fbref.com{href}"
+                        match_links.add(href)
+                        logger.info(f"Found match URL: {href}")
+                
+                match_links_list = list(match_links)
+                logger.info(f"Found {len(match_links_list)} match URLs for season {season} using alternative approach")
+                return match_links_list
             
             # Extract all match URLs from the fixtures table
             match_links = set()  # Use set to avoid duplicates
