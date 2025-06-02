@@ -219,6 +219,19 @@ class FBrefScraper:
                 if len(team_elements) >= 2:
                     metadata["home_team"] = (await team_elements[0].text_content()).strip()
                     metadata["away_team"] = (await team_elements[1].text_content()).strip()
+                else:
+                    # Try alternative approach for team names
+                    team_elements = await scorebox.query_selector_all("a[itemprop='name']")
+                    if len(team_elements) >= 2:
+                        metadata["home_team"] = (await team_elements[0].text_content()).strip()
+                        metadata["away_team"] = (await team_elements[1].text_content()).strip()
+                    else:
+                        # Try another approach - look for team names in the title
+                        title = await self.page.title()
+                        title_match = re.search(r"(.+?)\s+vs\.\s+(.+?)\s+Match Report", title)
+                        if title_match:
+                            metadata["home_team"] = title_match.group(1).strip()
+                            metadata["away_team"] = title_match.group(2).strip()
                 
                 # Get scores
                 score_elements = await scorebox.query_selector_all("div.score")
