@@ -306,14 +306,35 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
 @app.post("/api/demo-scrape")
 async def demo_scrape_fbref():
     """Demo endpoint that shows what successful scraping would look like"""
-    # Sample match report links that would be extracted
-    demo_links = [
-        "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
-        "https://fbref.com/en/matches/8b1e4321/Arsenal-Wolves-August-17-2024-Premier-League",
-        "https://fbref.com/en/matches/2c4f8901/Brighton-Everton-August-17-2024-Premier-League",
-        "https://fbref.com/en/matches/9d7a2456/Newcastle-Southampton-August-17-2024-Premier-League",
-        "https://fbref.com/en/matches/4e6b1890/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League"
+    # Sample season results
+    demo_seasons = [
+        SeasonResult(
+            url="https://fbref.com/en/comps/9/2023-2024/schedule/2023-2024-Premier-League-Scores-and-Fixtures",
+            season_name="2023-2024",
+            success=True,
+            message="Successfully extracted 5 match report links",
+            links=[
+                "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
+                "https://fbref.com/en/matches/8b1e4321/Arsenal-Wolves-August-17-2024-Premier-League",
+                "https://fbref.com/en/matches/2c4f8901/Brighton-Everton-August-17-2024-Premier-League"
+            ]
+        ),
+        SeasonResult(
+            url="https://fbref.com/en/comps/9/2022-2023/schedule/2022-2023-Premier-League-Scores-and-Fixtures",
+            season_name="2022-2023",
+            success=True,
+            message="Successfully extracted 2 match report links",
+            links=[
+                "https://fbref.com/en/matches/9d7a2456/Newcastle-Southampton-August-17-2023-Premier-League",
+                "https://fbref.com/en/matches/4e6b1890/Nottingham-Forest-Bournemouth-August-17-2023-Premier-League"
+            ]
+        )
     ]
+    
+    # Compile all links
+    all_links = []
+    for season in demo_seasons:
+        all_links.extend(season.links)
     
     # Generate CSV content
     csv_buffer = io.StringIO()
@@ -321,19 +342,23 @@ async def demo_scrape_fbref():
     
     # Write headers for match data
     csv_writer.writerow([
-        'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
-        'Home_Goals', 'Away_Goals', 'Competition', 'Venue'
+        'Season', 'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
+        'Home_Goals', 'Away_Goals', 'Competition', 'Venue', 'Source_URL'
     ])
     
-    # Write match links (ready for future stat extraction)
-    for link in demo_links:
-        csv_writer.writerow([link, '', '', '', '', '', '', '', ''])
+    # Write all match links organized by season
+    for season_result in demo_seasons:
+        for link in season_result.links:
+            csv_writer.writerow([
+                season_result.season_name, link, '', '', '', '', 
+                '', '', '', '', season_result.url
+            ])
     
     # Add separator and player data headers
     csv_writer.writerow([])  # Empty row separator
     csv_writer.writerow(['=== PLAYER DATA ==='])
     csv_writer.writerow([
-        'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
+        'Season', 'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
         'Goals', 'Assists', 'Shots', 'Shots_on_Target', 'Passes_Completed',
         'Pass_Accuracy', 'Tackles', 'Interceptions', 'Fouls', 'Cards'
     ])
@@ -343,8 +368,9 @@ async def demo_scrape_fbref():
     
     return ScrapingResponse(
         success=True,
-        message=f"Demo: Successfully extracted {len(demo_links)} match report links from FBREF fixtures page.",
-        links=demo_links,
+        message=f"Demo: Successfully processed {len(demo_seasons)} seasons | Total match links extracted: {len(all_links)}",
+        seasons=demo_seasons,
+        total_links=len(all_links),
         csv_data=csv_content
     )
 
