@@ -388,144 +388,413 @@ class FBrefScraper:
             logger.error(f"Error extracting fixtures from custom URL {custom_url}: {e}")
             return []
     
-    async def extract_match_metadata(self, match_url: str) -> Dict[str, Any]:
-        """Extract basic match metadata from individual match page"""
-        metadata = {}
-        
+    async def extract_all_match_data(self, match_url: str, season: str) -> Dict[str, Any]:
+        """Extract ALL available data from a match report page"""
         try:
-            # We're already on the match page from scrape_match_report, no need to navigate again
+            logger.info(f"Extracting all data from: {match_url}")
             
-            # Extract team names and score from the scorebox
-            scorebox = await self.page.query_selector("div.scorebox")
-            if scorebox:
-                # Get team names - try multiple approaches
-                
-                # Approach 1: Look for itemprop="name" divs
-                team_elements = await scorebox.query_selector_all("div[itemprop='name']")
-                if team_elements and len(team_elements) >= 2:
-                    metadata["home_team"] = (await team_elements[0].text_content()).strip()
-                    metadata["away_team"] = (await team_elements[1].text_content()).strip()
-                    logger.info(f"Found team names (Method 1): {metadata['home_team']} vs {metadata['away_team']}")
-                else:
-                    # Approach 2: Look for itemprop="name" links
-                    team_elements = await scorebox.query_selector_all("a[itemprop='name']")
-                    if team_elements and len(team_elements) >= 2:
-                        metadata["home_team"] = (await team_elements[0].text_content()).strip()
-                        metadata["away_team"] = (await team_elements[1].text_content()).strip()
-                        logger.info(f"Found team names (Method 2): {metadata['home_team']} vs {metadata['away_team']}")
-                    else:
-                        # Approach 3: Look for team divs
-                        team_divs = await scorebox.query_selector_all("div.team")
-                        if team_divs and len(team_divs) >= 2:
-                            for i, team_div in enumerate(team_divs[:2]):
-                                team_name_elem = await team_div.query_selector("a")
-                                if team_name_elem:
-                                    team_name = (await team_name_elem.text_content()).strip()
-                                    if i == 0:
-                                        metadata["home_team"] = team_name
-                                    else:
-                                        metadata["away_team"] = team_name
-                            logger.info(f"Found team names (Method 3): {metadata.get('home_team', 'Unknown')} vs {metadata.get('away_team', 'Unknown')}")
-                        else:
-                            # Approach 4: Look for any links to team pages
-                            team_links = await scorebox.query_selector_all("a[href*='/en/squads/']")
-                            if team_links and len(team_links) >= 2:
-                                metadata["home_team"] = (await team_links[0].text_content()).strip()
-                                metadata["away_team"] = (await team_links[1].text_content()).strip()
-                                logger.info(f"Found team names (Method 4): {metadata['home_team']} vs {metadata['away_team']}")
-                            else:
-                                # Approach 5: Look for team names in the title
-                                title = await self.page.title()
-                                title_match = re.search(r"(.+?)\s+vs\.\s+(.+?)\s+Match Report", title)
-                                if title_match:
-                                    metadata["home_team"] = title_match.group(1).strip()
-                                    metadata["away_team"] = title_match.group(2).strip()
-                                    logger.info(f"Found team names (Method 5): {metadata['home_team']} vs {metadata['away_team']}")
-                                else:
-                                    # Approach 6: Extract from URL
-                                    url_parts = match_url.split('/')
-                                    if len(url_parts) > 5:
-                                        match_info = url_parts[-2]
-                                        teams_match = re.search(r"([A-Za-z-]+)-([A-Za-z-]+)", match_info)
-                                        if teams_match:
-                                            metadata["home_team"] = teams_match.group(1).replace('-', ' ')
-                                            metadata["away_team"] = teams_match.group(2).replace('-', ' ')
-                                            logger.info(f"Found team names (Method 6): {metadata['home_team']} vs {metadata['away_team']}")
-                
-                # Get scores
-                score_elements = await scorebox.query_selector_all("div.score")
-                if score_elements and len(score_elements) >= 2:
-                    home_score_text = (await score_elements[0].text_content()).strip()
-                    away_score_text = (await score_elements[1].text_content()).strip()
-                    metadata["home_score"] = int(home_score_text) if home_score_text.isdigit() else 0
-                    metadata["away_score"] = int(away_score_text) if away_score_text.isdigit() else 0
-                    logger.info(f"Found scores: {metadata['home_score']} - {metadata['away_score']}")
-            else:
-                logger.warning("Could not find scorebox element")
+            await self.page.goto(match_url, wait_until="domcontentloaded", timeout=30000)
+            await self.page.wait_for_timeout(3000)
             
-            # Extract match date
-            date_element = await self.page.query_selector("span.venuetime")
-            if date_element:
-                date_value = await date_element.get_attribute("data-venue-date")
-                if date_value:
-                    metadata["match_date"] = date_value
-                    logger.info(f"Found match date: {metadata['match_date']}")
+            # Initialize comprehensive data structure
+            match_data = {
+                'basic_info': {},
+                'all_tables': {},
+                'all_divs_with_data': {},
+                'metadata': {
+                    'match_url': match_url,
+                    'season': season,
+                    'extraction_timestamp': datetime.utcnow().isoformat(),
+                    'page_title': await self.page.title(),
+                    'total_tables_found': 0,
+                    'total_data_points': 0
+                }
+            }
             
-            # Extract referee and venue information
-            info_box = await self.page.query_selector("div#info_box, div.info_box, div#meta")
-            if info_box:
-                info_text = await info_box.text_content()
-                
-                # Extract referee
-                referee_match = re.search(r"Referee:\s*([^,\n]+)", info_text)
-                if referee_match:
-                    metadata["referee"] = referee_match.group(1).strip()
-                    logger.info(f"Found referee: {metadata['referee']}")
-                
-                # Extract assistants
-                assistant_match = re.search(r"Assistant(?:s)?:\s*([^,\n]+)", info_text)
-                if assistant_match:
-                    assistants = [a.strip() for a in assistant_match.group(1).split(",")]
-                    metadata["assistant_referees"] = assistants
-                    logger.info(f"Found assistant referees: {metadata['assistant_referees']}")
-                
-                # Extract 4th official
-                fourth_match = re.search(r"Fourth [Oo]fficial:\s*([^,\n]+)", info_text)
-                if fourth_match:
-                    metadata["fourth_official"] = fourth_match.group(1).strip()
-                    logger.info(f"Found fourth official: {metadata['fourth_official']}")
-                
-                # Extract VAR
-                var_match = re.search(r"VAR:\s*([^,\n]+)", info_text)
-                if var_match:
-                    metadata["var_referee"] = var_match.group(1).strip()
-                    logger.info(f"Found VAR referee: {metadata['var_referee']}")
-                    
-                # Extract stadium
-                stadium_match = re.search(r"Venue:\s*([^,\n]+)", info_text)
-                if stadium_match:
-                    metadata["stadium"] = stadium_match.group(1).strip()
-                    logger.info(f"Found stadium: {metadata['stadium']}")
-            else:
-                # Try to extract information from the page content
-                page_text = await self.page.content()
-                
-                # Extract referee
-                referee_match = re.search(r"Referee:\s*([^,\n<]+)", page_text)
-                if referee_match:
-                    metadata["referee"] = referee_match.group(1).strip()
-                    logger.info(f"Found referee (alternative): {metadata['referee']}")
-                
-                # Extract stadium
-                stadium_match = re.search(r"Venue:\s*([^,\n<]+)", page_text)
-                if stadium_match:
-                    metadata["stadium"] = stadium_match.group(1).strip()
-                    logger.info(f"Found stadium (alternative): {metadata['stadium']}")
+            # Extract basic match information first
+            match_data['basic_info'] = await self.extract_basic_match_info()
+            
+            # Extract ALL tables with complete structure
+            match_data['all_tables'] = await self.extract_all_tables_comprehensive()
+            
+            # Extract any other elements that might contain data
+            match_data['all_divs_with_data'] = await self.extract_data_elements()
+            
+            # Update metadata
+            match_data['metadata']['total_tables_found'] = len(match_data['all_tables'])
+            match_data['metadata']['total_data_points'] = self.count_total_data_points(match_data)
+            
+            logger.info(f"Extracted {match_data['metadata']['total_tables_found']} tables with {match_data['metadata']['total_data_points']} data points")
+            
+            return match_data
             
         except Exception as e:
-            logger.error(f"Error extracting metadata from {match_url}: {e}")
+            logger.error(f"Error extracting all data from {match_url}: {e}")
+            return {}
+
+    async def extract_all_tables_comprehensive(self) -> Dict[str, Any]:
+        """Extract every single table on the page with complete metadata"""
+        
+        all_tables = {}
+        
+        try:
+            # Find ALL tables on the page
+            tables = await self.page.query_selector_all("table")
+            
+            for i, table in enumerate(tables):
+                table_key = f"table_{i}"
+                
+                # Extract comprehensive table information
+                table_data = {
+                    'table_metadata': {},
+                    'headers': [],
+                    'rows': [],
+                    'all_cells_raw': [],
+                    'data_stat_mapping': {},
+                    'table_text_content': ''
+                }
+                
+                # Get table metadata
+                table_data['table_metadata'] = await self.extract_table_metadata(table, i)
+                
+                # Get table text content for reference
+                table_data['table_text_content'] = await table.text_content()
+                
+                # Extract headers with all attributes
+                table_data['headers'] = await self.extract_table_headers(table)
+                
+                # Extract all rows with complete data
+                table_data['rows'] = await self.extract_table_rows(table)
+                
+                # Extract all cells as raw data
+                table_data['all_cells_raw'] = await self.extract_all_cells_raw(table)
+                
+                # Create data-stat mapping
+                table_data['data_stat_mapping'] = await self.create_data_stat_mapping(table)
+                
+                # Add table to collection
+                all_tables[table_key] = table_data
+                
+                # Log table summary
+                logger.info(f"Table {i}: ID='{table_data['table_metadata']['id']}', "
+                           f"Rows={len(table_data['rows'])}, "
+                           f"Headers={len(table_data['headers'])}")
+                
+        except Exception as e:
+            logger.error(f"Error extracting all tables: {e}")
+        
+        return all_tables
+
+    async def extract_table_metadata(self, table, index: int) -> Dict[str, Any]:
+        """Extract all metadata about a table"""
+        
+        metadata = {
+            'index': index,
+            'id': '',
+            'class': '',
+            'data_attributes': {},
+            'parent_info': {},
+            'all_attributes': {}
+        }
+        
+        try:
+            # Basic attributes
+            metadata['id'] = await table.get_attribute("id") or f"no_id_{index}"
+            metadata['class'] = await table.get_attribute("class") or ""
+            
+            # All data-* attributes
+            for attr_name in ['data-stat', 'data-table', 'data-type']:
+                attr_value = await table.get_attribute(attr_name)
+                if attr_value:
+                    metadata['data_attributes'][attr_name] = attr_value
+            
+            # Get all attributes
+            all_attrs = await table.evaluate("element => Array.from(element.attributes).map(attr => ({name: attr.name, value: attr.value}))")
+            metadata['all_attributes'] = all_attrs
+            
+            # Parent container information
+            try:
+                parent_tag = await table.evaluate("element => element.parentElement ? element.parentElement.tagName : null")
+                parent_id = await table.evaluate("element => element.parentElement ? element.parentElement.id : null")
+                parent_class = await table.evaluate("element => element.parentElement ? element.parentElement.className : null")
+                metadata['parent_info'] = {
+                    'tag': parent_tag,
+                    'id': parent_id,
+                    'class': parent_class
+                }
+            except:
+                pass
+            
+        except Exception as e:
+            logger.warning(f"Error extracting table metadata: {e}")
         
         return metadata
+
+    async def extract_table_headers(self, table) -> List[Dict[str, Any]]:
+        """Extract all header information with complete attributes"""
+        
+        headers = []
+        
+        try:
+            # Look for headers in thead and tbody
+            header_selectors = ["thead tr th", "thead tr td", "tbody tr:first-child th"]
+            
+            for selector in header_selectors:
+                header_elements = await table.query_selector_all(selector)
+                if header_elements:
+                    for i, header in enumerate(header_elements):
+                        header_data = {
+                            'index': i,
+                            'text': '',
+                            'data_stat': '',
+                            'title': '',
+                            'colspan': 1,
+                            'rowspan': 1,
+                            'all_attributes': {}
+                        }
+                        
+                        # Extract text
+                        header_data['text'] = (await header.text_content()).strip()
+                        
+                        # Extract key attributes
+                        header_data['data_stat'] = await header.get_attribute("data-stat") or ""
+                        header_data['title'] = await header.get_attribute("title") or ""
+                        
+                        # Extract span information
+                        colspan = await header.get_attribute("colspan")
+                        rowspan = await header.get_attribute("rowspan")
+                        header_data['colspan'] = int(colspan) if colspan else 1
+                        header_data['rowspan'] = int(rowspan) if rowspan else 1
+                        
+                        # Get all attributes
+                        all_attrs = await header.evaluate("element => Array.from(element.attributes).map(attr => ({name: attr.name, value: attr.value}))")
+                        header_data['all_attributes'] = all_attrs
+                        
+                        headers.append(header_data)
+                    break  # Use first successful selector
+                    
+        except Exception as e:
+            logger.warning(f"Error extracting table headers: {e}")
+        
+        return headers
+
+    async def extract_table_rows(self, table) -> List[Dict[str, Any]]:
+        """Extract all row data with complete cell information"""
+        
+        rows = []
+        
+        try:
+            # Get all rows from tbody
+            row_elements = await table.query_selector_all("tbody tr")
+            
+            for row_index, row in enumerate(row_elements):
+                row_data = {
+                    'row_index': row_index,
+                    'row_text': '',
+                    'cells': [],
+                    'data_stat_values': {},
+                    'row_attributes': {}
+                }
+                
+                # Get row text
+                row_data['row_text'] = (await row.text_content()).strip()
+                
+                # Get row attributes
+                row_id = await row.get_attribute("id")
+                row_class = await row.get_attribute("class")
+                if row_id:
+                    row_data['row_attributes']['id'] = row_id
+                if row_class:
+                    row_data['row_attributes']['class'] = row_class
+                
+                # Extract all cells
+                cells = await row.query_selector_all("td, th")
+                
+                for cell_index, cell in enumerate(cells):
+                    cell_data = {
+                        'cell_index': cell_index,
+                        'text': '',
+                        'data_stat': '',
+                        'tag_name': '',
+                        'all_attributes': {},
+                        'inner_html': '',
+                        'has_links': False,
+                        'links': []
+                    }
+                    
+                    # Basic cell information
+                    cell_data['text'] = (await cell.text_content()).strip()
+                    cell_data['data_stat'] = await cell.get_attribute("data-stat") or ""
+                    cell_data['tag_name'] = await cell.evaluate("element => element.tagName")
+                    
+                    # Get inner HTML for complex content
+                    cell_data['inner_html'] = await cell.inner_html()
+                    
+                    # Check for links
+                    links = await cell.query_selector_all("a")
+                    if links:
+                        cell_data['has_links'] = True
+                        for link in links:
+                            link_href = await link.get_attribute("href")
+                            link_text = await link.text_content()
+                            cell_data['links'].append({
+                                'href': link_href,
+                                'text': link_text.strip()
+                            })
+                    
+                    # Get all attributes
+                    all_attrs = await cell.evaluate("element => Array.from(element.attributes).map(attr => ({name: attr.name, value: attr.value}))")
+                    cell_data['all_attributes'] = all_attrs
+                    
+                    # Store in row
+                    row_data['cells'].append(cell_data)
+                    
+                    # Also store by data-stat for easy access
+                    if cell_data['data_stat']:
+                        row_data['data_stat_values'][cell_data['data_stat']] = cell_data['text']
+                
+                rows.append(row_data)
+                
+        except Exception as e:
+            logger.warning(f"Error extracting table rows: {e}")
+        
+        return rows
+
+    async def extract_all_cells_raw(self, table) -> List[Dict[str, Any]]:
+        """Extract every single cell as raw data for complete coverage"""
+        
+        all_cells = []
+        
+        try:
+            cells = await table.query_selector_all("td, th")
+            
+            for i, cell in enumerate(cells):
+                cell_info = {
+                    'global_index': i,
+                    'text_content': (await cell.text_content()).strip(),
+                    'inner_html': await cell.inner_html(),
+                    'tag_name': await cell.evaluate("element => element.tagName"),
+                    'data_stat': await cell.get_attribute("data-stat"),
+                    'class': await cell.get_attribute("class"),
+                    'id': await cell.get_attribute("id"),
+                    'title': await cell.get_attribute("title")
+                }
+                
+                # Get all attributes safely
+                try:
+                    all_attrs = await cell.evaluate("element => Array.from(element.attributes).map(attr => ({name: attr.name, value: attr.value}))")
+                    cell_info['all_attributes'] = all_attrs
+                except:
+                    cell_info['all_attributes'] = []
+                
+                all_cells.append(cell_info)
+                
+        except Exception as e:
+            logger.warning(f"Error extracting raw cells: {e}")
+        
+        return all_cells
+
+    async def create_data_stat_mapping(self, table) -> Dict[str, str]:
+        """Create a mapping of all data-stat attributes to their values"""
+        
+        mapping = {}
+        
+        try:
+            cells_with_data_stat = await table.query_selector_all("[data-stat]")
+            
+            for cell in cells_with_data_stat:
+                data_stat = await cell.get_attribute("data-stat")
+                text_value = (await cell.text_content()).strip()
+                
+                if data_stat and text_value:
+                    # Handle multiple values for same data-stat (use list)
+                    if data_stat in mapping:
+                        if isinstance(mapping[data_stat], list):
+                            mapping[data_stat].append(text_value)
+                        else:
+                            mapping[data_stat] = [mapping[data_stat], text_value]
+                    else:
+                        mapping[data_stat] = text_value
+                        
+        except Exception as e:
+            logger.warning(f"Error creating data-stat mapping: {e}")
+        
+        return mapping
+
+    async def extract_basic_match_info(self) -> Dict[str, Any]:
+        """Extract basic match information"""
+        
+        basic_info = {
+            'page_title': '',
+            'scorebox_data': {},
+            'match_info_box': {},
+            'breadcrumb_info': {}
+        }
+        
+        try:
+            # Page title
+            basic_info['page_title'] = await self.page.title()
+            
+            # Scorebox information
+            scorebox = await self.page.query_selector("div.scorebox")
+            if scorebox:
+                basic_info['scorebox_data'] = {
+                    'full_html': await scorebox.inner_html(),
+                    'text_content': await scorebox.text_content(),
+                    'all_elements': []
+                }
+                
+                # Extract all elements in scorebox
+                elements = await scorebox.query_selector_all("*")
+                for element in elements:
+                    element_info = {
+                        'tag': await element.evaluate("element => element.tagName"),
+                        'text': (await element.text_content()).strip(),
+                        'class': await element.get_attribute("class"),
+                        'id': await element.get_attribute("id"),
+                        'itemprop': await element.get_attribute("itemprop"),
+                        'data_stat': await element.get_attribute("data-stat")
+                    }
+                    basic_info['scorebox_data']['all_elements'].append(element_info)
+            
+            # Match info box
+            info_selectors = ["div.info", "div#info", "div.meta", "div#meta", "div[class*='info']"]
+            for selector in info_selectors:
+                info_boxes = await self.page.query_selector_all(selector)
+                for i, info_box in enumerate(info_boxes):
+                    key = f'{selector.replace("div.", "").replace("#", "").replace("[", "").replace("]", "")}_{i}'
+                    basic_info['match_info_box'][key] = {
+                        'html': await info_box.inner_html(),
+                        'text': await info_box.text_content()
+                    }
+            
+            # Breadcrumb/navigation info
+            breadcrumb_selectors = ["div.breadcrumb", "nav.breadcrumb", ".breadcrumb"]
+            for selector in breadcrumb_selectors:
+                breadcrumbs = await self.page.query_selector_all(selector)
+                for i, breadcrumb in enumerate(breadcrumbs):
+                    basic_info['breadcrumb_info'][f'breadcrumb_{i}'] = await breadcrumb.text_content()
+                
+        except Exception as e:
+            logger.warning(f"Error extracting basic match info: {e}")
+        
+        return basic_info
+
+    def count_total_data_points(self, match_data: Dict[str, Any]) -> int:
+        """Count total data points extracted"""
+        total = 0
+        
+        try:
+            for table_data in match_data.get('all_tables', {}).values():
+                total += len(table_data.get('data_stat_mapping', {}))
+                total += len(table_data.get('all_cells_raw', []))
+            
+            total += len(match_data.get('all_divs_with_data', {}))
+            
+        except Exception:
+            pass
+        
+        return total
     
     async def extract_team_stats(self, team_name: str) -> Dict[str, Any]:
         """Extract statistics for a specific team from current page"""
