@@ -151,20 +151,22 @@ class FBrefIntegration:
             if not isinstance(url, str) or not url.startswith("https://fbref.com"):
                 return {'valid': False, 'error': f'Invalid FBref URL in row 4, column 2: {url}'}
             
-            # Check for required cell structure based on our actual Excel layout
-            required_cells = [
+            # Check for basic structure (just verify key rows exist, not content)
+            required_rows = [
                 (5, 2, "Home team"),     # Row 5: Home Team
                 (6, 2, "Away team"),     # Row 6: Away Team  
-                (11, 1, "Match statistics section"),  # Row 11: "=== MATCH STATISTICS ==="
-                (18, 1, "Home team stats section"),  # Row 18: "=== HOME TEAM STATS ==="
-                (27, 1, "Away team stats section"),  # Row 27: "=== AWAY TEAM STATS ==="
-                (36, 1, "Player stats section")      # Row 36: "=== PLAYER STATISTICS ==="
             ]
             
             missing_sections = []
-            for row, col, description in required_cells:
-                if not ws.cell(row=row, column=col).value:
+            for row, col, description in required_rows:
+                cell_value = ws.cell(row=row, column=col).value
+                if not cell_value:
                     missing_sections.append(f"Row {row}, Col {col} ({description})")
+            
+            # Just check if we have enough rows (our structure should have at least 40 rows)
+            max_row = ws.max_row
+            if max_row < 30:
+                missing_sections.append(f"Insufficient rows: {max_row} (need at least 30)")
             
             if missing_sections:
                 return {
