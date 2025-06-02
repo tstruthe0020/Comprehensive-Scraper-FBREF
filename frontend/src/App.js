@@ -182,12 +182,15 @@ const FBrefScraper = () => {
 
           {/* Status Message */}
           {scrapingStatus && (
-            <div className={`p-3 rounded-md ${
-              scrapingStatus.status === "completed" ? "bg-green-100 text-green-800" :
-              scrapingStatus.status === "failed" ? "bg-red-100 text-red-800" :
-              "bg-blue-100 text-blue-800"
-            }`}>
-              {formatStatusMessage()}
+            <div>
+              <div className={`p-3 rounded-md ${
+                scrapingStatus.status === "completed" ? "bg-green-100 text-green-800" :
+                scrapingStatus.status === "failed" ? "bg-red-100 text-red-800" :
+                "bg-blue-100 text-blue-800"
+              }`}>
+                {formatStatusMessage()}
+              </div>
+              {renderSuggestions()}
             </div>
           )}
 
