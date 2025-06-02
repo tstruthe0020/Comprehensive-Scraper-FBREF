@@ -156,6 +156,30 @@ backend:
           agent: "main"
           comment: "Added selenium, playwright, beautifulsoup4, webdriver-manager to requirements.txt and installed successfully."
 
+  - task: "End-to-end season scraping test - Current season (2024-25)"
+    implemented: true
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Ready for end-to-end testing of current season 2024-25. This should work perfectly as current seasons have full fixtures tables available. Will test complete scraping flow from match URL extraction to data storage."
+
+  - task: "End-to-end season scraping test - Historical season (2023-24)"
+    implemented: true
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Ready for end-to-end testing of historical season 2023-24. This will test fallback methods for completed seasons that show league tables instead of fixtures. Will verify fallback URL extraction approach works."
+
 frontend:
   - task: "Basic API integration test"
     implemented: true
