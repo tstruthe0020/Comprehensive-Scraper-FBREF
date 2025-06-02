@@ -81,14 +81,23 @@ function App() {
     }
   };
 
-  const downloadCSV = () => {
-    if (result && result.csv_data) {
-      const blob = new Blob([result.csv_data], { type: 'text/csv' });
+  const downloadExcel = () => {
+    if (result && result.excel_data) {
+      const byteCharacters = atob(result.excel_data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { 
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      });
+      
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.style.display = 'none';
       a.href = url;
-      a.download = 'fbref_compiled_match_data.csv';
+      a.download = result.filename || 'fbref_compiled_match_data.xlsx';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
