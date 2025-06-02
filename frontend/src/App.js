@@ -119,7 +119,7 @@ function App() {
             FBREF Multi-Season Scraper
           </h1>
           <p className="text-gray-600 mb-6">
-            Extract match report links from multiple FBREF fixture/schedule pages and compile all data into a single CSV for analysis.
+            Extract match report links from multiple FBREF fixture/schedule pages and compile all data into a structured Excel file with separate sheets for each match.
           </p>
 
           <form onSubmit={handleSubmit} className="mb-6">
