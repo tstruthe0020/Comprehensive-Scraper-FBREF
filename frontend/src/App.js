@@ -6,8 +6,26 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhancementAvailable, setEnhancementAvailable] = useState(false);
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+
+  // Check if enhancement is available on component mount
+  useEffect(() => {
+    checkEnhancementAvailability();
+  }, []);
+
+  const checkEnhancementAvailability = async () => {
+    try {
+      const response = await fetch(`${backendUrl}/api/check-enhancement`);
+      const data = await response.json();
+      setEnhancementAvailable(data.available);
+    } catch (err) {
+      console.log('Enhancement check failed:', err);
+      setEnhancementAvailable(false);
+    }
+  };
 
   const handleDemo = async () => {
     setLoading(true);
