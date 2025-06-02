@@ -274,7 +274,31 @@ def enhance_excel_with_fbref_data(excel_path: str, rate_limit_delay: int = 3) ->
     
     try:
         fbref = FBrefIntegration(rate_limit_delay=rate_limit_delay)
-        return fbref.populate_excel_sync(excel_path)
+        
+        # Check if we're in an async context
+        try:
+            loop = asyncio.get_running_loop()
+            # We're already in an event loop, use a different approach
+            import concurrent.futures
+            import threading
+            
+            def run_in_thread():
+                # Create new event loop in separate thread
+                new_loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(new_loop)
+                try:
+                    return new_loop.run_until_complete(fbref.populate_excel_file(excel_path))
+                finally:
+                    new_loop.close()
+            
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(run_in_thread)
+                return future.result(timeout=300)  # 5 minute timeout
+                
+        except RuntimeError:
+            # No event loop running, safe to use asyncio.run
+            return fbref.populate_excel_sync(excel_path)
+            
     except Exception as e:
         return {
             'success': False,
