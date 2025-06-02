@@ -52,6 +52,8 @@ class ScrapingResponse(BaseModel):
     total_links: int = 0
     excel_data: str = ""  # Base64 encoded Excel file
     filename: str = ""
+    enhancement_available: bool = False
+    enhancement_results: Dict = {}
 
 @app.get("/api/health")
 async def health_check():
