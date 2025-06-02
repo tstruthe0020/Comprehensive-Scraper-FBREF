@@ -112,8 +112,8 @@ class ExcelIntegrator:
                     # Get the worksheet
                     ws = wb[sheet_name]
                     
-                    # Extract match URL from the sheet
-                    match_url = ws.cell(row=3, column=2).value
+                    # Extract match URL from the sheet (row 4, column 2 in our structure)
+                    match_url = ws.cell(row=4, column=2).value
                     
                     if not match_url:
                         logger.warning(f"No match URL found in sheet: {sheet_name}")
