@@ -796,182 +796,178 @@ class FBrefScraper:
         
         return total
     
-    async def extract_team_stats(self, team_name: str) -> Dict[str, Any]:
-        """Extract statistics for a specific team from current page"""
-        stats = {}
-        
+    def extract_team_name_from_comprehensive(self, data: Dict[str, Any], team_type: str) -> str:
+        """Extract team name from comprehensive data"""
         try:
-            logger.info(f"Extracting stats for team: {team_name}")
+            basic_info = data.get('basic_info', {})
+            scorebox_data = basic_info.get('scorebox_data', {})
             
-            # Look for team stats in various possible table structures
-            tables = await self.page.query_selector_all("table")
+            # Look for team names in scorebox elements
+            for element in scorebox_data.get('all_elements', []):
+                if element.get('itemprop') == 'name' and element.get('text'):
+                    # This is a simplified approach - will need refinement
+                    return element.get('text', 'Unknown Team')
             
-            for table in tables:
-                table_text = await table.text_content()
-                table_id = await table.get_attribute("id") or ""
-                
-                # Check if this table contains stats for the team
-                if team_name.lower() in table_text.lower() or "stats" in table_id.lower():
-                    logger.info(f"Found potential stats table: {table_id}")
-                    
-                    # Extract possession
-                    poss_cell = await table.query_selector("td[data-stat='possession']")
-                    if poss_cell:
-                        poss_text = (await poss_cell.text_content()).strip().replace("%", "")
-                        try:
-                            stats["possession"] = float(poss_text)
-                            logger.info(f"Found possession: {stats['possession']}%")
-                        except ValueError:
-                            stats["possession"] = 0.0
-                    
-                    # Extract shots data
-                    shots_cell = await table.query_selector("td[data-stat='shots_total']")
-                    if shots_cell:
-                        try:
-                            shots_text = (await shots_cell.text_content()).strip()
-                            stats["shots"] = int(shots_text) if shots_text.isdigit() else 0
-                            logger.info(f"Found shots: {stats['shots']}")
-                        except ValueError:
-                            pass
-                    
-                    # Extract shots on target
-                    sot_cell = await table.query_selector("td[data-stat='shots_on_target']")
-                    if sot_cell:
-                        try:
-                            sot_text = (await sot_cell.text_content()).strip()
-                            stats["shots_on_target"] = int(sot_text) if sot_text.isdigit() else 0
-                            logger.info(f"Found shots on target: {stats['shots_on_target']}")
-                        except ValueError:
-                            pass
-                    
-                    # Extract xG
-                    xg_cell = await table.query_selector("td[data-stat='xg']")
-                    if xg_cell:
-                        try:
-                            xg_text = (await xg_cell.text_content()).strip()
-                            stats["expected_goals"] = float(xg_text) if xg_text else 0.0
-                            logger.info(f"Found expected goals: {stats['expected_goals']}")
-                        except ValueError:
-                            pass
-                    
-                    # Extract fouls
-                    fouls_cell = await table.query_selector("td[data-stat='fouls']")
-                    if fouls_cell:
-                        try:
-                            fouls_text = (await fouls_cell.text_content()).strip()
-                            stats["fouls_committed"] = int(fouls_text) if fouls_text.isdigit() else 0
-                            logger.info(f"Found fouls committed: {stats['fouls_committed']}")
-                        except ValueError:
-                            pass
-                    
-                    # Extract cards
-                    yellow_cell = await table.query_selector("td[data-stat='cards_yellow']")
-                    if yellow_cell:
-                        try:
-                            yellow_text = (await yellow_cell.text_content()).strip()
-                            stats["yellow_cards"] = int(yellow_text) if yellow_text.isdigit() else 0
-                            logger.info(f"Found yellow cards: {stats['yellow_cards']}")
-                        except ValueError:
-                            pass
-                    
-                    red_cell = await table.query_selector("td[data-stat='cards_red']")
-                    if red_cell:
-                        try:
-                            red_text = (await red_cell.text_content()).strip()
-                            stats["red_cards"] = int(red_text) if red_text.isdigit() else 0
-                            logger.info(f"Found red cards: {stats['red_cards']}")
-                        except ValueError:
-                            pass
-                    
-                    # If we found at least some stats, we can break
-                    if len(stats) > 0:
-                        break
+            # Fallback: try to extract from page title
+            page_title = basic_info.get('page_title', '')
+            if 'vs' in page_title:
+                teams = page_title.split('vs')
+                if len(teams) >= 2:
+                    if team_type == 'home':
+                        return teams[0].strip()
+                    else:
+                        return teams[1].split()[0].strip()  # Take first word after vs
             
-            # If we didn't find any stats, try a more general approach
-            if not stats:
-                logger.info("Trying alternative approach for stats extraction")
-                
-                # Look for any tables with stats in the ID or class
-                stats_tables = await self.page.query_selector_all("table[id*='stats'], table[class*='stats']")
-                
-                for table in stats_tables:
-                    table_id = await table.get_attribute("id") or ""
-                    logger.info(f"Checking stats table: {table_id}")
-                    
-                    # Look for rows that might contain team stats
-                    rows = await table.query_selector_all("tr")
-                    
-                    for row in rows:
-                        row_text = await row.text_content()
-                        
-                        # Check if this row contains the team name
-                        if team_name.lower() in row_text.lower():
-                            logger.info(f"Found row with team name: {team_name}")
-                            
-                            # Extract cells
-                            cells = await row.query_selector_all("td")
-                            
-                            # Try to identify stats based on position or data attributes
-                            for i, cell in enumerate(cells):
-                                cell_text = (await cell.text_content()).strip()
-                                data_stat = await cell.get_attribute("data-stat") or ""
-                                
-                                # Use data-stat attribute if available
-                                if data_stat:
-                                    if "possession" in data_stat and cell_text:
-                                        try:
-                                            stats["possession"] = float(cell_text.replace("%", ""))
-                                        except ValueError:
-                                            pass
-                                    elif "shots" in data_stat and "target" not in data_stat and cell_text:
-                                        try:
-                                            stats["shots"] = int(cell_text) if cell_text.isdigit() else 0
-                                        except ValueError:
-                                            pass
-                                    elif "target" in data_stat and cell_text:
-                                        try:
-                                            stats["shots_on_target"] = int(cell_text) if cell_text.isdigit() else 0
-                                        except ValueError:
-                                            pass
-                                    elif "xg" in data_stat and cell_text:
-                                        try:
-                                            stats["expected_goals"] = float(cell_text) if cell_text else 0.0
-                                        except ValueError:
-                                            pass
-                                    elif "foul" in data_stat and cell_text:
-                                        try:
-                                            stats["fouls_committed"] = int(cell_text) if cell_text.isdigit() else 0
-                                        except ValueError:
-                                            pass
-                                    elif "yellow" in data_stat and cell_text:
-                                        try:
-                                            stats["yellow_cards"] = int(cell_text) if cell_text.isdigit() else 0
-                                        except ValueError:
-                                            pass
-                                    elif "red" in data_stat and cell_text:
-                                        try:
-                                            stats["red_cards"] = int(cell_text) if cell_text.isdigit() else 0
-                                        except ValueError:
-                                            pass
-                            
-                            # If we found at least some stats, we can break
-                            if len(stats) > 0:
-                                break
-                    
-                    # If we found at least some stats, we can break
-                    if len(stats) > 0:
-                        break
-            
-            # Log the stats we found
-            if stats:
-                logger.info(f"Stats found for {team_name}: {stats}")
-            else:
-                logger.warning(f"No stats found for {team_name}")
+            return 'Unknown Team'
             
         except Exception as e:
-            logger.error(f"Error extracting stats for {team_name}: {e}")
-        
-        return stats
+            logger.warning(f"Error extracting {team_type} team name: {e}")
+            return 'Unknown Team'
+
+    def extract_score_from_comprehensive(self, data: Dict[str, Any], team_type: str) -> int:
+        """Extract score from comprehensive data"""
+        try:
+            # Look through all tables for score information
+            for table_key, table_data in data.get('all_tables', {}).items():
+                data_stat_mapping = table_data.get('data_stat_mapping', {})
+                
+                # Look for score-related data-stat attributes
+                if 'score' in data_stat_mapping:
+                    score_text = data_stat_mapping['score']
+                    if score_text.isdigit():
+                        return int(score_text)
+                
+                # Look in scorebox for score information
+                basic_info = data.get('basic_info', {})
+                scorebox_data = basic_info.get('scorebox_data', {})
+                for element in scorebox_data.get('all_elements', []):
+                    if 'score' in (element.get('class', '') or '').lower():
+                        score_text = element.get('text', '').strip()
+                        if score_text.isdigit():
+                            return int(score_text)
+            
+            return 0
+            
+        except Exception as e:
+            logger.warning(f"Error extracting {team_type} score: {e}")
+            return 0
+
+    def extract_date_from_comprehensive(self, data: Dict[str, Any]) -> str:
+        """Extract match date from comprehensive data"""
+        try:
+            # Look for date in various places
+            basic_info = data.get('basic_info', {})
+            
+            # Check scorebox elements
+            scorebox_data = basic_info.get('scorebox_data', {})
+            for element in scorebox_data.get('all_elements', []):
+                if 'date' in (element.get('class', '') or '').lower() or 'time' in (element.get('class', '') or '').lower():
+                    date_text = element.get('text', '').strip()
+                    if date_text:
+                        return date_text
+            
+            # Look through all tables for date information
+            for table_key, table_data in data.get('all_tables', {}).items():
+                data_stat_mapping = table_data.get('data_stat_mapping', {})
+                if 'date' in data_stat_mapping:
+                    return data_stat_mapping['date']
+            
+            return ''
+            
+        except Exception as e:
+            logger.warning(f"Error extracting date: {e}")
+            return ''
+
+    def extract_stadium_from_comprehensive(self, data: Dict[str, Any]) -> str:
+        """Extract stadium from comprehensive data"""
+        try:
+            # Look in match info boxes
+            basic_info = data.get('basic_info', {})
+            match_info_box = basic_info.get('match_info_box', {})
+            
+            for box_key, box_data in match_info_box.items():
+                text = box_data.get('text', '')
+                if 'venue:' in text.lower():
+                    # Extract venue information
+                    import re
+                    venue_match = re.search(r"venue:\s*([^,\n]+)", text, re.IGNORECASE)
+                    if venue_match:
+                        return venue_match.group(1).strip()
+                        
+            return ''
+            
+        except Exception as e:
+            logger.warning(f"Error extracting stadium: {e}")
+            return ''
+
+    def extract_referee_from_comprehensive(self, data: Dict[str, Any]) -> str:
+        """Extract referee from comprehensive data"""
+        try:
+            # Look in match info boxes
+            basic_info = data.get('basic_info', {})
+            match_info_box = basic_info.get('match_info_box', {})
+            
+            for box_key, box_data in match_info_box.items():
+                text = box_data.get('text', '')
+                if 'referee:' in text.lower():
+                    # Extract referee information
+                    import re
+                    referee_match = re.search(r"referee:\s*([^,\n]+)", text, re.IGNORECASE)
+                    if referee_match:
+                        return referee_match.group(1).strip()
+                        
+            return ''
+            
+        except Exception as e:
+            logger.warning(f"Error extracting referee: {e}")
+            return ''
+
+    async def scrape_match_report(self, match_url: str, season: str) -> Optional[Dict[str, Any]]:
+        """Scrape a single match report using comprehensive extraction approach"""
+        try:
+            logger.info(f"Comprehensive scraping of match: {match_url}")
+            
+            # Extract ALL data from the match page
+            comprehensive_data = await self.extract_all_match_data(match_url, season)
+            
+            if not comprehensive_data:
+                logger.warning(f"Could not extract any data from {match_url}")
+                return None
+            
+            # Log what was extracted
+            metadata = comprehensive_data.get('metadata', {})
+            logger.info(f"Extracted {metadata.get('total_tables_found', 0)} tables with {metadata.get('total_data_points', 0)} data points")
+            
+            # For now, return the complete raw data
+            # This will be processed later once you identify what each field means
+            match_data = {
+                'id': str(uuid.uuid4()),
+                'season': season,
+                'match_url': match_url,
+                'scraped_at': datetime.utcnow(),
+                
+                # Store all comprehensive data
+                'comprehensive_data': comprehensive_data,
+                
+                # Extract basic info for compatibility with current system
+                'home_team': self.extract_team_name_from_comprehensive(comprehensive_data, 'home'),
+                'away_team': self.extract_team_name_from_comprehensive(comprehensive_data, 'away'),
+                'home_score': self.extract_score_from_comprehensive(comprehensive_data, 'home'),
+                'away_score': self.extract_score_from_comprehensive(comprehensive_data, 'away'),
+                'match_date': self.extract_date_from_comprehensive(comprehensive_data),
+                'stadium': self.extract_stadium_from_comprehensive(comprehensive_data),
+                'referee': self.extract_referee_from_comprehensive(comprehensive_data),
+                
+                # Placeholder for processed stats (will be filled later)
+                'processed_team_stats': {},
+                'processed_player_stats': []
+            }
+            
+            return match_data
+            
+        except Exception as e:
+            logger.error(f"Error scraping match {match_url}: {e}")
+            return None
     
     async def scrape_match_report(self, match_url: str, season: str) -> Optional[MatchData]:
         """Scrape a single match report using the new approach"""
