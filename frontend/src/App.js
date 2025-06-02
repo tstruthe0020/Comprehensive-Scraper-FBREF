@@ -126,6 +126,15 @@ function App() {
                 {loading ? 'Scraping...' : 'Extract Links'}
               </button>
               
+              <button
+                type="button"
+                onClick={handleDemo}
+                disabled={loading}
+                className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 py-2 rounded-md font-medium transition-colors duration-200"
+              >
+                {loading ? 'Loading...' : 'Try Demo'}
+              </button>
+              
               {result && (
                 <button
                   type="button"
