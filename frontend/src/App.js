@@ -106,6 +106,23 @@ const FBrefScraper = () => {
     return "";
   };
 
+  const renderSuggestions = () => {
+    if (!scrapingStatus?.suggestions || scrapingStatus.suggestions.length === 0) return null;
+    
+    return (
+      <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+        <h4 className="font-semibold text-yellow-800 mb-2">Suggestions & Help:</h4>
+        <div className="text-sm text-yellow-700 space-y-1">
+          {scrapingStatus.suggestions.map((suggestion, index) => (
+            <div key={index} className={suggestion.startsWith('•') || suggestion.startsWith('-') ? 'ml-4' : suggestion.endsWith(':') ? 'font-semibold mt-2' : ''}>
+              {suggestion}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
