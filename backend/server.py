@@ -294,7 +294,110 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
             filename=""
         )
 
-@app.post("/api/demo-scrape")
+@app.post("/api/enhance-excel")
+async def enhance_excel_with_comprehensive_data(request: dict):
+    """Enhance an existing Excel file with comprehensive FBREF data"""
+    if not COMPREHENSIVE_SCRAPER_AVAILABLE:
+        raise HTTPException(
+            status_code=503, 
+            detail="Comprehensive scraper integration not available. Please check system setup."
+        )
+    
+    try:
+        excel_b64 = request.get('excel_data')
+        filename = request.get('filename', 'enhanced_excel.xlsx')
+        
+        if not excel_b64:
+            raise HTTPException(status_code=400, detail="Excel data required")
+        
+        # Decode Excel data
+        excel_bytes = base64.b64decode(excel_b64)
+        
+        # Save to temporary file
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp_file:
+            tmp_file.write(excel_bytes)
+            tmp_file_path = tmp_file.name
+        
+        try:
+            # Validate Excel structure
+            validation = validate_excel_for_fbref(tmp_file_path)
+            
+            if not validation['valid']:
+                return {
+                    'success': False,
+                    'message': f"Excel structure incompatible: {validation['error']}",
+                    'excel_data': excel_b64,
+                    'filename': filename,
+                    'enhancement_results': validation
+                }
+            
+            # Enhance the Excel file
+            results = await enhance_excel_with_fbref_data(tmp_file_path)
+            
+            # Read the enhanced file
+            with open(tmp_file_path, 'rb') as f:
+                enhanced_excel_bytes = f.read()
+            
+            enhanced_excel_b64 = base64.b64encode(enhanced_excel_bytes).decode('utf-8')
+            
+            # Add "Enhanced" to filename
+            enhanced_filename = filename.replace('.xlsx', '_Enhanced.xlsx')
+            
+            message_parts = []
+            if results['success']:
+                message_parts.append(f"Successfully enhanced Excel file")
+                message_parts.append(f"Populated {results['successful_matches']}/{results['total_matches']} matches")
+                if results['failed_matches'] > 0:
+                    message_parts.append(f"{results['failed_matches']} matches failed (normal for anti-scraping)")
+            else:
+                message_parts.append("Enhancement completed with issues")
+            
+            return {
+                'success': results['success'],
+                'message': " | ".join(message_parts),
+                'excel_data': enhanced_excel_b64,
+                'filename': enhanced_filename,
+                'enhancement_results': results
+            }
+            
+        finally:
+            # Clean up temporary file
+            os.unlink(tmp_file_path)
+            
+    except Exception as e:
+        return {
+            'success': False,
+            'message': f"Enhancement failed: {str(e)}",
+            'excel_data': excel_b64,
+            'filename': filename,
+            'enhancement_results': {'error': str(e)}
+        }
+
+@app.get("/api/check-enhancement")
+async def check_enhancement_availability():
+    """Check if comprehensive scraper enhancement is available"""
+    if COMPREHENSIVE_SCRAPER_AVAILABLE:
+        try:
+            from integration_wrapper import check_fbref_availability
+            status = check_fbref_availability()
+            return {
+                'available': True,
+                'status': 'Comprehensive enhancement ready',
+                'details': status
+            }
+        except Exception as e:
+            return {
+                'available': False,
+                'status': f'Enhancement error: {str(e)}',
+                'details': {}
+            }
+    else:
+        return {
+            'available': False,
+            'status': 'Comprehensive scraper not installed',
+            'details': {}
+        }
 async def demo_scrape_fbref():
     """Demo endpoint that shows what successful scraping would look like"""
     # Sample season results
