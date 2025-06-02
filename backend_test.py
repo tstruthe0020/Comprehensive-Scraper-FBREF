@@ -469,7 +469,17 @@ def main():
     # Test 6: Mixed URLs
     mixed_urls_success = tester.test_mixed_urls(premier_league_url, invalid_url)
     
-    # Test 7: Real Premier League Seasons (2022-2023 and 2023-2024)
+    # Test 7: Enhancement Availability Check
+    enhancement_available_success = tester.test_check_enhancement_availability()
+    
+    # Test 8: Excel Enhancement
+    if enhancement_available_success:
+        enhance_excel_success = tester.test_enhance_excel()
+    else:
+        enhance_excel_success = False
+        print("❌ Skipping enhancement test as enhancement is not available")
+    
+    # Test 9: Real Premier League Seasons (2022-2023 and 2023-2024)
     # This is a comprehensive test with real data
     real_seasons_success = tester.test_real_premier_league_seasons()
     
@@ -484,6 +494,8 @@ def main():
     print(f"Multi URL Scrape: {'✅' if multi_url_success else '❌'}")
     print(f"Invalid URL Handling: {'✅' if invalid_url_success else '❌'}")
     print(f"Mixed URLs Handling: {'✅' if mixed_urls_success else '❌'}")
+    print(f"Enhancement Availability: {'✅' if enhancement_available_success else '❌'}")
+    print(f"Excel Enhancement: {'✅' if enhance_excel_success else '❌'}")
     print(f"Real Premier League Seasons: {'✅' if real_seasons_success else '❌'}")
     
     return 0 if tester.tests_passed == tester.tests_run else 1
