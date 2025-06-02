@@ -240,36 +240,8 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
             # Small delay between requests to be respectful
             await asyncio.sleep(1)
         
-        # Generate CSV content with all compiled data
-        csv_buffer = io.StringIO()
-        csv_writer = csv.writer(csv_buffer)
-        
-        # Write headers for match data
-        csv_writer.writerow([
-            'Season', 'Match_Report_URL', 'Home_Team', 'Away_Team', 'Date', 'Score',
-            'Home_Goals', 'Away_Goals', 'Competition', 'Venue', 'Source_URL'
-        ])
-        
-        # Write all match links organized by season
-        for season_result in season_results:
-            if season_result.success:
-                for link in season_result.links:
-                    csv_writer.writerow([
-                        season_result.season_name, link, '', '', '', '', 
-                        '', '', '', '', season_result.url
-                    ])
-        
-        # Add separator and player data headers
-        csv_writer.writerow([])  # Empty row separator
-        csv_writer.writerow(['=== PLAYER DATA ==='])
-        csv_writer.writerow([
-            'Season', 'Match_URL', 'Player_Name', 'Team', 'Position', 'Minutes_Played',
-            'Goals', 'Assists', 'Shots', 'Shots_on_Target', 'Passes_Completed',
-            'Pass_Accuracy', 'Tackles', 'Interceptions', 'Fouls', 'Cards'
-        ])
-        
-        csv_content = csv_buffer.getvalue()
-        csv_buffer.close()
+        # Generate Excel workbook with separate sheets for each match
+        excel_b64, filename = create_excel_workbook(season_results)
         
         # Prepare response
         successful_seasons = [s for s in season_results if s.success]
@@ -281,12 +253,14 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
                 message="Failed to scrape any seasons. All URLs encountered errors.",
                 seasons=season_results,
                 total_links=0,
-                csv_data=""
+                excel_data="",
+                filename=""
             )
         
         message_parts = []
         message_parts.append(f"Successfully processed {len(successful_seasons)}/{len(request.urls)} seasons")
         message_parts.append(f"Total match links extracted: {len(all_links)}")
+        message_parts.append(f"Excel file generated with {len(all_links)} match sheets")
         
         if failed_seasons:
             message_parts.append(f"{len(failed_seasons)} seasons failed")
@@ -296,7 +270,8 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
             message=" | ".join(message_parts),
             seasons=season_results,
             total_links=len(all_links),
-            csv_data=csv_content
+            excel_data=excel_b64,
+            filename=filename
         )
         
     except Exception as e:
