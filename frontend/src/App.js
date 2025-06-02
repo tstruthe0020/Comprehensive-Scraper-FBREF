@@ -269,10 +269,26 @@ https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures`}
                     onClick={downloadExcel}
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
                   >
-                    📥 Download Compiled Excel
+                    📥 Download Excel
                   </button>
+                  
+                  {enhancementAvailable && result.filename && !result.filename.includes('Enhanced') && (
+                    <button
+                      onClick={enhanceExcel}
+                      disabled={enhancing}
+                      className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
+                    >
+                      {enhancing ? '🔄 Enhancing...' : '⚡ Enhance with Match Data'}
+                    </button>
+                  )}
+                  
                   <span className="text-sm text-green-700">
                     {result.total_links} total match links from {result.seasons?.length || 0} seasons
+                    {result.filename && result.filename.includes('Enhanced') && (
+                      <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+                        ✨ Enhanced with Match Data
+                      </span>
+                    )}
                   </span>
                 </div>
               </div>
