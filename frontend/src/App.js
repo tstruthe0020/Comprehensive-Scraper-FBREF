@@ -17,6 +17,11 @@ const FBrefScraper = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [availableSeasons, setAvailableSeasons] = useState(["2024-25", "2023-24", "2022-23", "2021-22"]);
 
+  // Load existing matches on component mount
+  useEffect(() => {
+    loadMatches();
+  }, [selectedSeason]);
+
   // Poll scraping status
   useEffect(() => {
     let interval;
