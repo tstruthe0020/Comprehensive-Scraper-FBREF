@@ -24,12 +24,20 @@ app.add_middleware(
 )
 
 class ScrapingRequest(BaseModel):
+    urls: List[str]  # Changed from single url to multiple urls
+
+class SeasonResult(BaseModel):
     url: str
+    season_name: str
+    success: bool
+    message: str
+    links: List[str] = []
 
 class ScrapingResponse(BaseModel):
     success: bool
     message: str
-    links: List[str] = []
+    seasons: List[SeasonResult] = []
+    total_links: int = 0
     csv_data: str = ""
 
 @app.get("/api/health")
