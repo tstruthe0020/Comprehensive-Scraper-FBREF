@@ -118,13 +118,13 @@ table_id = f"sched_{season_full}_9_1"
 ### **READY TO TEST COMMANDS:**
 ```bash
 # Start small test
-curl -X POST "https://d9fa9676-5525-4d0d-9a2e-5255efe1d294.preview.emergentagent.com/api/scrape-season/2024-25"
+curl -X POST "https://7b629056-ce44-4a79-a230-280a3032b354.preview.emergentagent.com/api/scrape-season/2024-25"
 
 # Monitor progress  
-curl -X GET "https://d9fa9676-5525-4d0d-9a2e-5255efe1d294.preview.emergentagent.com/api/scraping-status/{status_id}"
+curl -X GET "https://7b629056-ce44-4a79-a230-280a3032b354.preview.emergentagent.com/api/scraping-status/{status_id}"
 
 # Check results
-curl -X GET "https://d9fa9676-5525-4d0d-9a2e-5255efe1d294.preview.emergentagent.com/api/matches"
+curl -X GET "https://7b629056-ce44-4a79-a230-280a3032b354.preview.emergentagent.com/api/matches"
 ```
 
 ---
