@@ -684,20 +684,25 @@ async def root():
     return {"message": "FBref Match Report Scraper API - Updated with New Approach"}
 
 @api_router.post("/scrape-season/{season}")
-async def start_scraping(season: str, background_tasks: BackgroundTasks):
+async def start_scraping(season: str, background_tasks: BackgroundTasks, request: Optional[dict] = None):
     """Start scraping a season's match reports using the new approach"""
     try:
+        # Handle request body for custom URL
+        custom_url = None
+        if request and "custom_url" in request:
+            custom_url = request["custom_url"]
+        
         # Create scraping status
         status = ScrapingStatus(
             status="running",
-            current_match=f"Starting scrape for season {season}"
+            current_match=f"Starting scrape for season {season}" + (f" with custom URL: {custom_url}" if custom_url else "")
         )
         
         # Save status to database
         await db.scraping_status.insert_one(status.dict())
         
         # Start background scraping task
-        background_tasks.add_task(scrape_season_background, season, status.id)
+        background_tasks.add_task(scrape_season_background, season, status.id, custom_url)
         
         return {"message": f"Started scraping season {season}", "status_id": status.id}
         
