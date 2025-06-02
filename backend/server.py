@@ -150,22 +150,31 @@ class FBrefScraper:
             await self.page.goto(fixtures_url)
             await self.page.wait_for_timeout(3000)
             
+            # Convert season format: 2023-24 -> 2023-2024
+            if len(season.split('-')[1]) == 2:  # e.g., "2023-24"
+                year_start = season.split('-')[0]
+                year_end = "20" + season.split('-')[1]
+                season_full = f"{year_start}-{year_end}"
+            else:  # Already full format e.g., "2023-2024"
+                season_full = season
+            
             # Find the fixtures table
-            # Try different table ID formats
-            season_for_id = season.replace("-", "-20")  # Convert 2023-24 to 2023-2024
-            table_id = f"sched_{season_for_id}_9_1"
+            table_id = f"sched_{season_full}_9_1"
             table_selector = f"table#{table_id}"
+            
+            logger.info(f"Looking for table with ID: {table_id}")
             
             # Initialize match_links set
             match_links = set()  # Use set to avoid duplicates
             
             # Wait for table to load
             try:
-                await self.page.wait_for_selector(table_selector, timeout=5000)
-            except Exception as e:
-                logger.warning(f"Table with ID {table_id} not found, trying alternative approach")
-                # Try a more general approach - look for any links to match reports
-                links = await self.page.query_selector_all("a[href*='/en/matches/']")
+                await self.page.wait_for_selector(table_selector, timeout=10000)
+                logger.info(f"Found fixtures table: {table_id}")
+                
+                # Extract all match URLs from the fixtures table
+                # Look for links in the score column that point to match reports
+                links = await self.page.query_selector_all(f"{table_selector} a[href*='/en/matches/']")
                 
                 for link in links:
                     href = await link.get_attribute("href")
@@ -174,30 +183,39 @@ class FBrefScraper:
                         if href.startswith("/"):
                             href = f"https://fbref.com{href}"
                         match_links.add(href)
-                        logger.info(f"Found match URL: {href}")
+                        logger.info(f"Found match URL from table: {href}")
                 
-                match_links_list = list(match_links)
-                logger.info(f"Found {len(match_links_list)} match URLs for season {season} using alternative approach")
-                return match_links_list
-            
-            # Extract all match URLs from the fixtures table
-            match_links = set()  # Use set to avoid duplicates
-            
-            # Look for links in the table that point to match reports
-            links = await self.page.query_selector_all(f"{table_selector} a[href*='/en/matches/']")
-            
-            for link in links:
-                href = await link.get_attribute("href")
-                if href and "/en/matches/" in href and len(href.split("/")) > 5:
-                    # Convert relative URLs to absolute
-                    if href.startswith("/"):
-                        href = f"https://fbref.com{href}"
-                    match_links.add(href)
-                    logger.info(f"Found match URL: {href}")
+            except Exception as e:
+                logger.warning(f"Table with ID {table_id} not found: {e}")
+                logger.info("Trying alternative approach - looking for match links throughout page")
+                
+                # Alternative approach: look for any links to match reports on the page
+                # This handles completed seasons that may have different page structures
+                links = await self.page.query_selector_all("a[href*='/en/matches/']")
+                
+                for link in links:
+                    href = await link.get_attribute("href")
+                    link_text = await link.text_content()
+                    
+                    if href and "/en/matches/" in href and len(href.split("/")) > 5:
+                        # Filter out non-match links by checking text content
+                        if link_text and ("Match Report" in link_text or "–" in link_text or "-" in link_text):
+                            # Convert relative URLs to absolute
+                            if href.startswith("/"):
+                                href = f"https://fbref.com{href}"
+                            match_links.add(href)
+                            logger.info(f"Found match URL (alternative): {href}")
             
             match_links_list = list(match_links)
-            logger.info(f"Found {len(match_links_list)} match URLs for season {season}")
-            return match_links_list
+            logger.info(f"Total match URLs found for season {season}: {len(match_links_list)}")
+            
+            # For completed seasons, we should expect ~380 matches for Premier League
+            if len(match_links_list) > 0:
+                logger.info(f"Successfully extracted {len(match_links_list)} match URLs")
+                return match_links_list
+            else:
+                logger.error(f"No match URLs found for season {season}")
+                return []
             
         except Exception as e:
             logger.error(f"Error extracting season fixtures for {season}: {e}")
