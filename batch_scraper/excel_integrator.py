@@ -281,7 +281,7 @@ class ExcelIntegrator:
 
     def populate_player_statistics(self, worksheet, player_stats: List[Dict[str, Any]]):
         """
-        Populate player statistics section (starting from row 42)
+        Populate player statistics section (starting from row 38)
         """
         try:
             # Clear existing player data first
