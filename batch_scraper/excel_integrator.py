@@ -37,32 +37,32 @@ class ExcelIntegrator:
         }
         
         self.match_stats_mapping = {
-            'home_goals': (12, 2),
-            'away_goals': (13, 2),
-            'final_score': (14, 2),
-            'attendance': (15, 2),
-            'referee': (16, 2),
-            'stadium': (17, 2)
+            'home_goals': (12, 2),      # Row 12: Goals (Home)
+            'away_goals': (13, 2),      # Row 13: Goals (Away)  
+            'final_score': (14, 2),     # Row 14: Final Score
+            'attendance': (15, 2),      # Row 15: Attendance
+            'referee': (16, 2),         # Row 16: Referee
+            'stadium': (17, 2)          # Row 17: Stadium
         }
         
         self.home_team_stats_mapping = {
-            'possession': (22, 2),
-            'total_shots': (23, 2),
-            'shots_on_target': (24, 2),
-            'corners': (25, 2),
-            'fouls': (26, 2),
-            'yellow_cards': (27, 2),
-            'red_cards': (28, 2)
+            'possession': (20, 2),      # Row 20: Possession (%) 
+            'total_shots': (21, 2),     # Row 21: Total Shots
+            'shots_on_target': (22, 2), # Row 22: Shots on Target
+            'corners': (23, 2),         # Row 23: Corners
+            'fouls': (24, 2),           # Row 24: Fouls
+            'yellow_cards': (25, 2),    # Row 25: Yellow Cards
+            'red_cards': (26, 2)        # Row 26: Red Cards
         }
         
         self.away_team_stats_mapping = {
-            'possession': (32, 2),
-            'total_shots': (33, 2),
-            'shots_on_target': (34, 2),
-            'corners': (35, 2),
-            'fouls': (36, 2),
-            'yellow_cards': (37, 2),
-            'red_cards': (38, 2)
+            'possession': (29, 2),      # Row 29: Possession (%)
+            'total_shots': (30, 2),     # Row 30: Total Shots  
+            'shots_on_target': (31, 2), # Row 31: Shots on Target
+            'corners': (32, 2),         # Row 32: Corners
+            'fouls': (33, 2),           # Row 33: Fouls
+            'yellow_cards': (34, 2),    # Row 34: Yellow Cards
+            'red_cards': (35, 2)        # Row 35: Red Cards
         }
         
         self.player_stats_columns = {
