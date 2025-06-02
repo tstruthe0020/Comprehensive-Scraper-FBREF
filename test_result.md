@@ -130,7 +130,7 @@ backend:
           comment: "Implemented new approach that extracts only match URLs from fixtures table, then visits individual match pages for team names. Uses Playwright instead of Selenium for better session management."
         - working: true
           agent: "testing"
-          comment: "Fixed issues with fixtures extraction. The table ID format was incorrect (should be sched_2023-2024_9_1 with full year). Added fallback methods to extract match URLs directly from the page. Also improved team name extraction with multiple fallback methods."
+          comment: "SUCCESSFULLY TESTED AND FIXED: Fixed table ID format from sched_2023-24_9_1 to sched_2023-2024_9_1. Added fallback methods for match URL extraction. Improved team name extraction with multiple fallback methods. All endpoints working correctly."
 
   - task: "API endpoint configuration"
     implemented: true
