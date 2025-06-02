@@ -1,0 +1,6 @@
+🔧 Setting up ChromeDriver for ARM64...
+✅ ChromeDriver setup successful!
+🌐 Testing navigation to FBref...
+📄 Page title: Premier League Stats | FBref.com
+📊 Found 112 tables on the page
+✅ Successfully found tables - FBref structure accessible!

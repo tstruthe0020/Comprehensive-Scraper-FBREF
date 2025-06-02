@@ -1,0 +1,14 @@
+================================================================================
+STEP B: PREMIER LEAGUE MATCH LINK GENERATION TEST
+================================================================================
+Testing season: 2023-24
+
+🔧 Setting up ChromeDriver...
+2025-06-02 08:15:02,305 - server - INFO - Chrome driver setup successful on ARM64
+✅ ChromeDriver setup successful
+
+📋 STEP 1: Get season fixtures URL
+Fixtures URL: https://fbref.com/en/comps/9/2023-24/schedule/Premier-League-Scores-and-Fixtures
+
+🔗 STEP 2: Extract match links
+2025-06-02 08:15:02,306 - server - INFO - Fetching fixtures from: https://fbref.com/en/comps/9/2023-24/schedule/Premier-League-Scores-and-Fixtures

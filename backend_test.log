@@ -1,0 +1,106 @@
+2025-06-02 07:18:39,874 - __main__ - INFO - Running test: test_01_api_root
+test_01_api_root (__main__.FBrefScraperAPITest.test_01_api_root)
+Test API root endpoint ... 2025-06-02 07:18:39,874 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:39,874 - __main__ - INFO - Testing API root endpoint...
+2025-06-02 07:18:39,948 - __main__ - INFO - API root response: {'message': 'FBref Match Report Scraper API v2 - Team Focused'}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.074s
+
+OK
+2025-06-02 07:18:39,948 - __main__ - INFO - Test test_01_api_root completed with success
+
+==================================================
+
+2025-06-02 07:18:39,948 - __main__ - INFO - Running test: test_05_data_retrieval_endpoints
+test_05_data_retrieval_endpoints (__main__.FBrefScraperAPITest.test_05_data_retrieval_endpoints)
+Test data retrieval endpoints ... 2025-06-02 07:18:39,948 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:39,948 - __main__ - INFO - Testing data retrieval endpoints...
+2025-06-02 07:18:40,012 - __main__ - INFO - Available seasons: []
+2025-06-02 07:18:40,056 - __main__ - INFO - Found 0 teams
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.108s
+
+OK
+2025-06-02 07:18:40,056 - __main__ - INFO - Test test_05_data_retrieval_endpoints completed with success
+
+==================================================
+
+2025-06-02 07:18:40,056 - __main__ - INFO - Running test: test_06_csv_export
+test_06_csv_export (__main__.FBrefScraperAPITest.test_06_csv_export)
+Test CSV export functionality ... 2025-06-02 07:18:40,056 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:40,056 - __main__ - INFO - Testing CSV export...
+2025-06-02 07:18:40,095 - __main__ - WARNING - No seasons or teams available for CSV export test
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+OK
+2025-06-02 07:18:40,095 - __main__ - INFO - Test test_06_csv_export completed with success
+
+==================================================
+
+2025-06-02 07:18:40,095 - __main__ - INFO - Running test: test_02_single_season_scraping
+test_02_single_season_scraping (__main__.FBrefScraperAPITest.test_02_single_season_scraping)
+Test single season scraping endpoint ... 2025-06-02 07:18:40,096 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:40,096 - __main__ - INFO - Testing single season scraping...
+2025-06-02 07:18:40,148 - __main__ - INFO - Started scraping with status ID: 30bc82f8-18e1-458f-bc86-c7e408edd98b
+2025-06-02 07:18:45,195 - __main__ - INFO - Scraping status: failed, Matches scraped: 0/0
+2025-06-02 07:18:45,195 - __main__ - ERROR - Scraping failed with errors: ['Failed to setup Chrome driver']
+2025-06-02 07:18:45,213 - __main__ - WARNING - No matches found for 2024-25 season
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.118s
+
+OK
+2025-06-02 07:18:45,214 - __main__ - INFO - Test test_02_single_season_scraping completed with success
+
+==================================================
+
+2025-06-02 07:18:45,214 - __main__ - INFO - Running test: test_03_multi_season_scraping
+test_03_multi_season_scraping (__main__.FBrefScraperAPITest.test_03_multi_season_scraping)
+Test multi-season scraping endpoint ... 2025-06-02 07:18:45,214 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:45,214 - __main__ - INFO - Testing multi-season scraping...
+2025-06-02 07:18:45,235 - __main__ - INFO - Started multi-season scraping with status ID: d8e63c76-c897-475f-b3e4-d1ba61325358
+2025-06-02 07:18:50,279 - __main__ - INFO - Multi-season scraping status: failed, Seasons: 0/2
+2025-06-02 07:18:50,279 - __main__ - ERROR - Multi-season scraping failed with errors: ['Failed to setup Chrome driver']
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.066s
+
+OK
+2025-06-02 07:18:50,280 - __main__ - INFO - Test test_03_multi_season_scraping completed with success
+
+==================================================
+
+2025-06-02 07:18:50,280 - __main__ - INFO - Running test: test_04_team_focused_scraping
+test_04_team_focused_scraping (__main__.FBrefScraperAPITest.test_04_team_focused_scraping)
+Test team-focused scraping endpoint ... 2025-06-02 07:18:50,280 - __main__ - INFO - Using API URL: https://33275516-8b6a-4117-9b17-07552f496b04.preview.emergentagent.com/api
+2025-06-02 07:18:50,280 - __main__ - INFO - Testing team-focused scraping...
+2025-06-02 07:18:50,351 - __main__ - WARNING - No teams available for 2024-25 season
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+OK
+2025-06-02 07:18:50,351 - __main__ - INFO - Test test_04_team_focused_scraping completed with success
+
+==================================================
+
+
+Test Results Summary:
+test_01_api_root: ✅ PASS
+test_05_data_retrieval_endpoints: ✅ PASS
+test_06_csv_export: ✅ PASS
+test_02_single_season_scraping: ✅ PASS
+test_03_multi_season_scraping: ✅ PASS
+test_04_team_focused_scraping: ✅ PASS
+
+✅ All tests passed successfully!
