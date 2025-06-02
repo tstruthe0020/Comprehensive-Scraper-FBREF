@@ -280,7 +280,8 @@ async def scrape_multiple_fbref_seasons(request: ScrapingRequest):
             message=f"An error occurred during processing: {str(e)}",
             seasons=[],
             total_links=0,
-            csv_data=""
+            excel_data="",
+            filename=""
         )
 
 @app.post("/api/demo-scrape")
