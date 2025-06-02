@@ -106,10 +106,18 @@ class FBREFScraperTester:
             # Validate a sample match sheet structure
             sample_sheet = wb[match_sheets[0]]
             
-            # Check for Match Report URL in row 3, column 2
-            match_url_cell = sample_sheet.cell(row=3, column=2)
-            if not match_url_cell.value or not str(match_url_cell.value).startswith("https://fbref.com"):
-                print(f"❌ Match Report URL not found in expected location (row 3, column 2)")
+            # Find the Match Report URL row
+            match_url_found = False
+            for row_idx in range(1, 10):  # Check first 10 rows
+                if sample_sheet.cell(row=row_idx, column=1).value == "Match Report URL":
+                    url_cell = sample_sheet.cell(row=row_idx, column=2)
+                    if url_cell.value and str(url_cell.value).startswith("https://fbref.com"):
+                        match_url_found = True
+                        print(f"✅ Match Report URL found in row {row_idx}, column 2")
+                        break
+            
+            if not match_url_found:
+                print("❌ Match Report URL not found in expected location")
                 return False
                 
             # Check for section headers
