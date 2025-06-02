@@ -42,7 +42,8 @@ class ScrapingResponse(BaseModel):
     message: str
     seasons: List[SeasonResult] = []
     total_links: int = 0
-    csv_data: str = ""
+    excel_data: str = ""  # Base64 encoded Excel file
+    filename: str = ""
 
 @app.get("/api/health")
 async def health_check():
