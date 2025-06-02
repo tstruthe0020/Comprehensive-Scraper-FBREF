@@ -206,11 +206,11 @@ backend:
 
   - task: "Comprehensive extraction implementation"
     implemented: true
-    working: false
+    working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -218,6 +218,9 @@ backend:
         - working: false
           agent: "testing"
           comment: "Found a critical bug that prevents the comprehensive_data field from being stored in the database. The issue is in the scrape_season_background function where it calls match_data.dict() on line 1081, but match_data is already a dictionary (not a Pydantic model). This causes the comprehensive_data field to be lost during database insertion. The fix is simple: change 'await db.matches.insert_one(match_data.dict())' to 'await db.matches.insert_one(match_data)'. The comprehensive extraction functions themselves are well-implemented and should work correctly once the database insertion bug is fixed."
+        - working: true
+          agent: "testing"
+          comment: "Fixed the bug by changing 'await db.matches.insert_one(match_data.dict())' to 'await db.matches.insert_one(match_data)'. Verified that the comprehensive_data field is now being stored correctly in the database. The comprehensive extraction functions (extract_all_match_data, extract_all_tables_comprehensive, etc.) are well-implemented and working correctly. Basic match info extraction (teams, scores, date, stadium, referee) is also working properly."
 
 frontend:
   - task: "Frontend interface with season selector and manual URL support"
