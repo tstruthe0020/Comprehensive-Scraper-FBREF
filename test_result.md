@@ -205,17 +205,17 @@ backend:
           comment: "Verified that the API endpoints for retrieving data are working correctly. The GET /api/matches endpoint returns all matches, and can be filtered by season or team. The GET /api/seasons and GET /api/teams endpoints return the available seasons and teams. The POST /api/export-csv endpoint generates a CSV file with the filtered data. Test data was inserted into the database to verify these endpoints, and they all worked as expected. The data quality is good, with all required fields present and properly formatted."
 
 frontend:
-  - task: "Basic API integration test"
+  - task: "Frontend interface with season selector and manual URL support"
     implemented: true
-    working: true
+    working: "NA"
     file: "App.js"
     stuck_count: 0
-    priority: "low"
-    needs_retesting: false
+    priority: "high"
+    needs_retesting: true
     status_history:
-        - working: true
+        - working: "NA"
           agent: "main"
-          comment: "Frontend successfully connects to backend API and displays basic message."
+          comment: "Created comprehensive frontend interface with season selector, extraction controls, progress tracking, manual URL modal for when fixtures page not found, enhanced error reporting with suggestions, and results display table. Includes real-time status polling and error handling."
 
 metadata:
   created_by: "main_agent"
