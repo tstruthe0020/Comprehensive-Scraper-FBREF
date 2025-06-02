@@ -282,7 +282,18 @@ def enhance_excel_with_fbref_data(excel_path: str, rate_limit_delay: int = 3) ->
 
 def validate_excel_for_fbref(excel_path: str) -> Dict[str, Any]:
     """
-    Validate Excel file structure for FBref integration
+    Validate Excel file structure for FBref integration.
+    
+    Our specific structure (different from the GitHub repo):
+    - Row 1: Headers ("Field", "Value")
+    - Row 2: Season  
+    - Row 3: Match Number
+    - Row 4: Match Report URL  ← Our actual location
+    - Row 5: Home Team
+    - Row 6: Away Team
+    - Row 7: Date
+    - Row 8: Competition
+    - Row 9: Source URL
     
     Args:
         excel_path: Path to Excel file
