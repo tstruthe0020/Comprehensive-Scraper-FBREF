@@ -121,7 +121,12 @@ def main():
     if not health_success:
         print("❌ Health endpoint failed, stopping tests")
         return 1
-
+        
+    # Test demo scrape endpoint
+    demo_success, demo_response = tester.test_demo_scrape()
+    if not demo_success:
+        print("❌ Demo scrape endpoint failed")
+    
     # Test valid URL
     valid_url = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
     valid_success, valid_response = tester.test_scrape_valid_url(valid_url)
@@ -136,6 +141,15 @@ def main():
     
     # Print results
     print(f"\n📊 Tests passed: {tester.tests_passed}/{tester.tests_run}")
+    
+    # Check if the demo test returned links and CSV data
+    if demo_success and demo_response['success']:
+        has_links = len(demo_response['links']) == 5
+        has_csv = bool(demo_response['csv_data'])
+        
+        print(f"\nDemo test results:")
+        print(f"- Found 5 links: {'✅' if has_links else '❌'}")
+        print(f"- Generated CSV: {'✅' if has_csv else '❌'}")
     
     # Check if the valid URL test returned links and CSV data
     if valid_success and valid_response['success']:
