@@ -349,11 +349,18 @@ class FBrefBatchScraper:
         return results
 
     async def cleanup(self):
-        """Clean up browser resources"""
-        if self.browser:
-            await self.browser.close()
-        if self.playwright:
-            await self.playwright.stop()
+        """Clean up browser resources properly"""
+        try:
+            if hasattr(self, 'page') and self.page:
+                await self.page.close()
+            if hasattr(self, 'context') and self.context:
+                await self.context.close()
+            if hasattr(self, 'browser') and self.browser:
+                await self.browser.close()
+            if hasattr(self, 'playwright') and self.playwright:
+                await self.playwright.stop()
+        except Exception as e:
+            logger.error(f"Error during cleanup: {e}")
 
 async def main():
     parser = argparse.ArgumentParser(description='FBref Batch Scraper')
