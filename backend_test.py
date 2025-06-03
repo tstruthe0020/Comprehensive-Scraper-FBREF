@@ -10,7 +10,7 @@ from typing import List, Dict, Any
 from openpyxl import load_workbook
 
 class FBREFScraperTester:
-    def __init__(self, base_url="https://90280e76-97e5-45e5-996a-34bbf3ba566e.preview.emergentagent.com"):
+    def __init__(self, base_url="https://9aa64198-0506-4953-9f37-c01ed700ebf0.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
