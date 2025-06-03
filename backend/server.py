@@ -90,6 +90,12 @@ async def csv_scrape_full_workflow(request: CSVScrapingRequest):
     3. Scrape team and player stats from each match
     4. Update CSV with all statistics
     """
+    if not CSV_SCRAPER_AVAILABLE:
+        raise HTTPException(
+            status_code=503,
+            detail="CSV scraper not available. Please check system setup."
+        )
+    
     try:
         if not request.urls or len(request.urls) == 0:
             raise HTTPException(status_code=400, detail="Please provide at least one FBREF fixtures URL")
