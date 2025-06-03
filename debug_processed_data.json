@@ -1,0 +1,1848 @@
+{
+  "match_info": {
+    "match_url": "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
+    "page_title": "Manchester United vs. Fulham Match Report \u2013 Friday August 16, 2024 | FBref.com",
+    "extraction_timestamp": "2025-06-03T00:19:35.439122",
+    "home_team": "",
+    "away_team": "",
+    "home_score": 0,
+    "away_score": 0,
+    "match_date": "",
+    "stadium": "",
+    "referee": "",
+    "attendance": ""
+  },
+  "team_summary": [],
+  "passing_stats": [],
+  "defensive_stats": [],
+  "player_stats": [],
+  "match_events": [],
+  "raw_data": {
+    "basic_info": {
+      "page_title": "Manchester United vs. Fulham Match Report \u2013 Friday August 16, 2024 | FBref.com",
+      "scorebox_data": {
+        "text_content": "\n\t\n\t\t\n\n\n\t\n\t\t\n\t\t \n\t\n\n\n\n\t\t\t\tManchester United\n\t\t\t\n\t\t\n\t\t\n\t\t\t12.4\n\t\t1-0-0    \n\t\t\t\n\t\t\t\n\t\t\t\n  \n  Prev Match\n  \n  \n  Next Match\n  \n\n\n\n\t\tManager: Erik\u00a0ten\u00a0Hag\n\t\tCaptain: Bruno\u00a0Fernandes\n\t\n\t\n\t\t\n\n\n\t\n\t\t\n\t\t \n\t\n\n\n\n\t\t\t\tFulham\n\t\t\t\n\t\t\n\t\t\n\t\t\t00.4\n\t\t0-0-1    \n\t\t\t\n\t\t\t\n\t\t\t\n  \n  Prev Match\n  \n  \n  Next Match\n  \n\n\n\n\t\tManager: Marco\u00a0Silva\n\t\tCaptain: Bernd\u00a0Leno\n\t\n\t\n\t\n\t\tFriday August 16, 2024, 20:00 (venue time) 19:00 (local time)Premier League (Matchweek 1)Manchester United vs. Fulham Historical Head-to-Head\u00a0Attendance: 73,297Venue: Old Trafford, ManchesterOfficials: Robert\u00a0Jones (Referee)\u00a0\u00b7 Ian\u00a0Hussin (AR1)\u00a0\u00b7 Simon\u00a0Bennett (AR2)\u00a0\u00b7 Anthony\u00a0Taylor (4th)\u00a0\u00b7 Jarred\u00a0Gillett (VAR)\n\t\t\n\t\n\t\n\t\n\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\tJoshua Zirkzee \u00b7 87\u2019 \n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\n\t\n",
+        "html": "\n\t<div>\n\t\t<div>\n\n\n\t<div class=\"media-item logo\">\n\t\t<img class=\"teamlogo\" src=\"https://cdn.ssref.net/req/202505011/tlogo/fb/19538871.png\" alt=\"Manchester United Club Crest\">\n\t\t \n\t</div>\n\n\n<strong>\n\t\t\t\t<a href=\"/en/squads/19538871/Manchester-United-Stats\">Manchester United</a>\n\t\t\t</strong>\n\t\t</div>\n\t\t<div class=\"scores\">\n\t\t\t<div class=\"score\">1</div><div class=\"score_xg\">2.4</div>\n\t\t</div><div>1-0-0</div>    \n\t\t\t\n\t\t\t\n\t\t\t<div class=\"prevnext\">\n  \n  <a href=\"/en/matches/923aa854/Manchester-Derby-Manchester-City-Manchester-United-August-10-2024-FA-Community-Shield\" class=\"button2 prev\">Prev Match</a>\n  \n  \n  <a href=\"/en/matches/fc8ab8b2/Brighton-and-Hove-Albion-Manchester-United-August-24-2024-Premier-League\" class=\"button2 next\">Next Match</a>\n  \n</div>\n\n\n\t\t<div class=\"datapoint\"><strong>Manager</strong>: Erik&nbsp;ten&nbsp;Hag</div>\n\t\t<div class=\"datapoint\"><strong>Captain</strong>: <a href=\"/en/players/507c7bdf/Bruno-Fernandes\">Bruno&nbsp;Fernandes</a></div>\n\t</div>\n\t<div>\n\t\t<div>\n\n\n\t<div class=\"media-item logo loader\">\n\t\t<img class=\"teamlogo\" src=\"https://cdn.ssref.net/req/202505011/tlogo/fb/fd962109.png\" alt=\"Fulham Club Crest\">\n\t\t \n\t</div>\n\n\n<strong>\n\t\t\t\t<a href=\"/en/squads/fd962109/Fulham-Stats\">Fulham</a>\n\t\t\t</strong>\n\t\t</div>\n\t\t<div class=\"scores\">\n\t\t\t<div class=\"score\">0</div><div class=\"score_xg\">0.4</div>\n\t\t</div><div>0-0-1</div>    \n\t\t\t\n\t\t\t\n\t\t\t<div class=\"prevnext\">\n  \n  <a href=\"/en/matches/0fde9d70/Luton-Town-Fulham-May-19-2024-Premier-League\" class=\"button2 prev\">Prev Match</a>\n  \n  \n  <a href=\"/en/matches/4d0079fb/Fulham-Leicester-City-August-24-2024-Premier-League\" class=\"button2 next\">Next Match</a>\n  \n</div>\n\n\n\t\t<div class=\"datapoint\"><strong>Manager</strong>: Marco&nbsp;Silva</div>\n\t\t<div class=\"datapoint\"><strong>Captain</strong>: <a href=\"/en/players/2628fd2b/Bernd-Leno\">Bernd&nbsp;Leno</a></div>\n\t</div>\n\t\n\t<div class=\"scorebox_meta\">\n\t\t<div><strong><a href=\"/en/matches/2024-08-16\">Friday August 16, 2024</a></strong>, <span class=\"venuetime\" data-venue-date=\"2024-08-16\" data-venue-time=\"20:00\" data-venue-epoch=\"1723834800\">20:00 (venue time)</span> <span class=\"localtime\" data-label=\"your time\">19:00 (local time)</span></div><div><a href=\"/en/comps/9/Premier-League-Stats\">Premier League</a> (Matchweek 1)</div><div><a href=\"/en/stathead/matchup/teams/fd962109/19538871/Fulham-vs-Manchester-United-History\">Manchester United vs. Fulham Historical Head-to-Head</a></div><div>&nbsp;</div><div><strong><small>Attendance</small></strong>: <small>73,297</small></div><div><strong><small>Venue</small></strong>: <small>Old Trafford, Manchester</small></div><div><strong><small>Officials</small></strong>: <small><span style=\"display:inline-block\">Robert&nbsp;Jones (Referee)</span>&nbsp;\u00b7 <span style=\"display:inline-block\">Ian&nbsp;Hussin (AR1)</span>&nbsp;\u00b7 <span style=\"display:inline-block\">Simon&nbsp;Bennett (AR2)</span>&nbsp;\u00b7 <span style=\"display:inline-block\">Anthony&nbsp;Taylor (4th)</span>&nbsp;\u00b7 <span style=\"display:inline-block\">Jarred&nbsp;Gillett (VAR)</span></small></div>\n\t\t\n\t</div>\n\t\n\t\n\t\t\n\t\t\n\t\t<div class=\"event\" id=\"a\">\n\t\t\t\n\t\t\t\t<div><a href=\"/en/players/028e70b9/Joshua-Zirkzee\">Joshua Zirkzee</a> \u00b7 87\u2019 <div class=\"event_icon goal\"></div></div>\n\t\t\t\n\t\t</div>\n\t\t<div class=\"event\" id=\"b\">\n\t\t\t\n\t\t</div>\n\t\n"
+      },
+      "match_info_box": {}
+    },
+    "all_tables": {
+      "table_0": {
+        "table_metadata": {
+          "index": 0,
+          "id": "no_id_0",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Liverpool",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "84 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Arsenal",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "74 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Manchester City",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "71 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Chelsea",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "69 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Liverpool\n            84 pts\n            Club\n          \n        \n          \n            Arsenal\n            74 pts\n            Club\n          \n        \n          \n            Manchester City\n            71 pts\n            Club\n          \n        \n          \n            Chelsea\n            69 pts\n            Club\n          \n        \n      "
+      },
+      "table_1": {
+        "table_metadata": {
+          "index": 1,
+          "id": "no_id_1",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Napoli",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "82 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Internazionale",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "81 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Atalanta",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "74 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Juventus",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "70 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Napoli\n            82 pts\n            Club\n          \n        \n          \n            Internazionale\n            81 pts\n            Club\n          \n        \n          \n            Atalanta\n            74 pts\n            Club\n          \n        \n          \n            Juventus\n            70 pts\n            Club\n          \n        \n      "
+      },
+      "table_2": {
+        "table_metadata": {
+          "index": 2,
+          "id": "no_id_2",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Barcelona",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "88 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Real Madrid",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "84 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Atl\u00e9tico Madrid",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "76 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Athletic Club",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "70 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Barcelona\n            88 pts\n            Club\n          \n        \n          \n            Real Madrid\n            84 pts\n            Club\n          \n        \n          \n            Atl\u00e9tico Madrid\n            76 pts\n            Club\n          \n        \n          \n            Athletic Club\n            70 pts\n            Club\n          \n        \n      "
+      },
+      "table_3": {
+        "table_metadata": {
+          "index": 3,
+          "id": "no_id_3",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Paris Saint-Germain",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "84 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Marseille",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "65 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Monaco",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "61 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Nice",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "60 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Paris Saint-Germain\n            84 pts\n            Club\n          \n        \n          \n            Marseille\n            65 pts\n            Club\n          \n        \n          \n            Monaco\n            61 pts\n            Club\n          \n        \n          \n            Nice\n            60 pts\n            Club\n          \n        \n      "
+      },
+      "table_4": {
+        "table_metadata": {
+          "index": 4,
+          "id": "no_id_4",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Bayern Munich",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "82 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Bayer Leverkusen",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "69 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Eintracht Frankfurt",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "60 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Dortmund",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "57 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Bayern Munich\n            82 pts\n            Club\n          \n        \n          \n            Bayer Leverkusen\n            69 pts\n            Club\n          \n        \n          \n            Eintracht Frankfurt\n            60 pts\n            Club\n          \n        \n          \n            Dortmund\n            57 pts\n            Club\n          \n        \n      "
+      },
+      "table_5": {
+        "table_metadata": {
+          "index": 5,
+          "id": "no_id_5",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Philadelphia Union",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "34 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Vancouver Whitecaps FC",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "32 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "San Diego FC",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "30 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "FC Cincinnati",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "30 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Philadelphia Union\n            34 pts\n            Club\n          \n        \n          \n            Vancouver Whitecaps FC\n            32 pts\n            Club\n          \n        \n          \n            San Diego FC\n            30 pts\n            Club\n          \n        \n          \n            FC Cincinnati\n            30 pts\n            Club\n          \n        \n      "
+      },
+      "table_6": {
+        "table_metadata": {
+          "index": 6,
+          "id": "no_id_6",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Kansas City Current",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "24 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "San Diego Wave",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "20 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Orlando Pride",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "19 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Washington Spirit",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "19 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Kansas City Current\n            24 pts\n            Club\n          \n        \n          \n            San Diego Wave\n            20 pts\n            Club\n          \n        \n          \n            Orlando Pride\n            19 pts\n            Club\n          \n        \n          \n            Washington Spirit\n            19 pts\n            Club\n          \n        \n      "
+      },
+      "table_7": {
+        "table_metadata": {
+          "index": 7,
+          "id": "no_id_7",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Chelsea",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "60 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Arsenal",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "48 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Manchester United",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "44 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Manchester City",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "43 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Chelsea\n            60 pts\n            Club\n          \n        \n          \n            Arsenal\n            48 pts\n            Club\n          \n        \n          \n            Manchester United\n            44 pts\n            Club\n          \n        \n          \n            Manchester City\n            43 pts\n            Club\n          \n        \n      "
+      },
+      "table_8": {
+        "table_metadata": {
+          "index": 8,
+          "id": "no_id_8",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Lyon",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "62 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Paris Saint-Germain",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "52 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Paris FC",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "45 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Dijon",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "43 pts",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 2,
+                "text": "Club",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n        \n          \n            Lyon\n            62 pts\n            Club\n          \n        \n          \n            Paris Saint-Germain\n            52 pts\n            Club\n          \n        \n          \n            Paris FC\n            45 pts\n            Club\n          \n        \n          \n            Dijon\n            43 pts\n            Club\n          \n        \n      "
+      },
+      "table_9": {
+        "table_metadata": {
+          "index": 9,
+          "id": "no_id_9",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [
+          {
+            "index": 0,
+            "text": "Manchester Utd (4-2-3-1)",
+            "data_stat": "",
+            "title": ""
+          }
+        ],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Manchester Utd (4-2-3-1)",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "24",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Andr\u00e9 Onana",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "3",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Noussair Mazraoui",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "5",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Harry Maguire",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 4,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "6",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Lisandro Mart\u00ednez",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 5,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "7",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Mason Mount",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 6,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "8",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Bruno Fernandes",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 7,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "10",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Marcus Rashford",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 8,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "16",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Amad Diallo",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 9,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "18",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Casemiro",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 10,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "20",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Diogo Dalot",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 11,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "37",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Kobbie Mainoo",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 12,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Bench",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 13,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "1",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Altay Bay\u0131nd\u0131r",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 14,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "4",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Matthijs de Ligt",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 15,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "11",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Joshua Zirkzee",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 16,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "14",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Christian Eriksen",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 17,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "17",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Alejandro Garnacho",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 18,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "21",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Antony",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 19,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "35",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Jonny Evans",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 20,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "39",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Scott McTominay",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 21,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "43",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Toby Collyer",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n\t\tManchester Utd (4-2-3-1)\n\t\t24Andr\u00e9 Onana3Noussair Mazraoui5Harry Maguire6Lisandro Mart\u00ednez7Mason Mount8Bruno Fernandes10Marcus Rashford16Amad Diallo18Casemiro20Diogo Dalot37Kobbie Mainoo\n\t\tBench\n\t\t1Altay Bay\u0131nd\u0131r4Matthijs de Ligt11Joshua Zirkzee14Christian Eriksen17Alejandro Garnacho21Antony35Jonny Evans39Scott McTominay43Toby Collyer\n\t\t"
+      },
+      "table_10": {
+        "table_metadata": {
+          "index": 10,
+          "id": "no_id_10",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": []
+        },
+        "headers": [
+          {
+            "index": 0,
+            "text": "Fulham (4-2-3-1)",
+            "data_stat": "",
+            "title": ""
+          }
+        ],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Fulham (4-2-3-1)",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "1",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Bernd Leno",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "2",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Kenny Tete",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "3",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Calvin Bassey",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 4,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "9",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Rodrigo Muniz",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 5,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "11",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Adama Traor\u00e9",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 6,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "17",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Alex Iwobi",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 7,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "18",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Andreas Pereira",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 8,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "20",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Sa\u0161a Luki\u0107",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 9,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "31",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Issa Diop",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 10,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "32",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Emile Smith Rowe",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 11,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "33",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Antonee Robinson",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 12,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Bench",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 13,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "23",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Steven Benda",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 14,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "6",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Harrison Reed",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 15,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "7",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Ra\u00fal Jim\u00e9nez",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 16,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "8",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Harry Wilson",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 17,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "10",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Tom Cairney",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 18,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "15",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Jorge Cuenca",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 19,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "21",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Timothy Castagne",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 20,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "24",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Joshua King",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 21,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "28",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Jay Stansfield",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n\t\tFulham (4-2-3-1)\n\t\t1Bernd Leno2Kenny Tete3Calvin Bassey9Rodrigo Muniz11Adama Traor\u00e917Alex Iwobi18Andreas Pereira20Sa\u0161a Luki\u010731Issa Diop32Emile Smith Rowe33Antonee Robinson\n\t\tBench\n\t\t23Steven Benda6Harrison Reed7Ra\u00fal Jim\u00e9nez8Harry Wilson10Tom Cairney15Jorge Cuenca21Timothy Castagne24Joshua King28Jay Stansfield\n\t\t"
+      },
+      "table_11": {
+        "table_metadata": {
+          "index": 11,
+          "id": "no_id_11",
+          "class": "",
+          "data_attributes": {},
+          "all_attributes": [
+            {
+              "name": "cellpadding",
+              "value": "0"
+            },
+            {
+              "name": "cellspacing",
+              "value": "8"
+            },
+            {
+              "name": "width",
+              "value": "100%"
+            },
+            {
+              "name": "border",
+              "value": "0"
+            },
+            {
+              "name": "style",
+              "value": "table-layout: fixed;"
+            }
+          ]
+        },
+        "headers": [
+          {
+            "index": 0,
+            "text": "Manchester Utd",
+            "data_stat": "",
+            "title": ""
+          },
+          {
+            "index": 1,
+            "text": "Fulham",
+            "data_stat": "",
+            "title": ""
+          }
+        ],
+        "rows": [
+          {
+            "row_index": 0,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Manchester Utd",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "Fulham",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 1,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Possession",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 2,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "55%",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "45%",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 3,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Passing Accuracy",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 4,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "430 of 524\u00a0\u2014\u00a082%",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "78%\u00a0\u2014\u00a0329 of 424",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 5,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Shots on Target",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 6,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "5 of 14\u00a0\u2014\u00a036%",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "20%\u00a0\u2014\u00a02 of 10",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 7,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Saves",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 8,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "2 of 2\u00a0\u2014\u00a0100%",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "80%\u00a0\u2014\u00a04 of 5",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 9,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "Cards",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          },
+          {
+            "row_index": 10,
+            "cells": [
+              {
+                "cell_index": 0,
+                "text": "",
+                "data_stat": ""
+              },
+              {
+                "cell_index": 1,
+                "text": "",
+                "data_stat": ""
+              }
+            ],
+            "data_stat_values": {}
+          }
+        ],
+        "data_stat_mapping": {},
+        "table_text_content": "\n\t\t\t\n\t\t\t\n\t\t\t\tManchester Utd \n\n\n\t\n\t\t\n\t\t \n\t\n\n\n\n\t\t\t\t\n\n\n\t\n\t\t\n\t\t \n\t\n\n\n Fulham\n\t\t\t\n\t\t\t\n\t\t\t\tPossession\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t55%\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t45%\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\tPassing Accuracy\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t430 of 524\u00a0\u2014\u00a082%\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t78%\u00a0\u2014\u00a0329 of 424\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\tShots on Target\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t5 of 14\u00a0\u2014\u00a036%\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t20%\u00a0\u2014\u00a02 of 10\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\tSaves\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t2 of 2\u00a0\u2014\u00a0100%\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t80%\u00a0\u2014\u00a04 of 5\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\tCards\n\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t"
+      }
+    },
+    "all_divs_with_data": {},
+    "metadata": {
+      "match_url": "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League",
+      "season": "2024-25",
+      "extraction_timestamp": "2025-06-03T00:19:35.439122",
+      "page_title": "Manchester United vs. Fulham Match Report \u2013 Friday August 16, 2024 | FBref.com",
+      "total_tables_found": 12,
+      "total_data_points": 0
+    }
+  }
+}
