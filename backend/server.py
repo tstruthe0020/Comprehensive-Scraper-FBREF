@@ -76,6 +76,216 @@ class ScrapingResponse(BaseModel):
     enhancement_available: bool = False
     enhancement_results: Dict = {}
 
+@app.post("/api/csv-scrape-workflow")
+async def csv_scrape_full_workflow(request: CSVScrapingRequest):
+    """
+    Complete CSV-based workflow:
+    1. Extract match URLs from fixtures pages
+    2. Create CSV with match URLs
+    3. Scrape team and player stats from each match
+    4. Update CSV with all statistics
+    """
+    try:
+        if not request.urls or len(request.urls) == 0:
+            raise HTTPException(status_code=400, detail="Please provide at least one FBREF fixtures URL")
+        
+        # Validate URLs
+        for url in request.urls:
+            if not url or not url.strip().startswith("https://fbref.com"):
+                raise HTTPException(status_code=400, detail=f"Invalid FBREF URL: {url}")
+        
+        # Initialize CSV scraper
+        csv_scraper = CSVMatchReportScraper(rate_limit_delay=3, headless=True)
+        
+        logger.info(f"Starting CSV workflow for {len(request.urls)} fixtures URLs")
+        
+        # Run the complete workflow
+        csv_content = await csv_scraper.full_workflow(
+            fixtures_urls=[url.strip() for url in request.urls],
+            max_matches=request.max_matches
+        )
+        
+        if not csv_content:
+            return CSVScrapingResponse(
+                success=False,
+                message="Failed to generate CSV data",
+                csv_data="",
+                filename="",
+                total_matches=0,
+                processed_matches=0
+            )
+        
+        # Count matches for response
+        lines = csv_content.strip().split('\n')
+        total_matches = max(0, len(lines) - 1)  # Subtract header row
+        
+        # Count processed matches (those with 'Yes' in Scraped column)
+        processed_matches = 0
+        if len(lines) > 1:
+            import csv
+            import io
+            csv_reader = csv.DictReader(io.StringIO(csv_content))
+            processed_matches = sum(1 for row in csv_reader if row.get('Scraped', '').strip().lower() == 'yes')
+        
+        # Generate filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"FBREF_Match_Stats_{timestamp}.csv"
+        
+        # Encode CSV to base64 for download
+        csv_b64 = base64.b64encode(csv_content.encode('utf-8')).decode('utf-8')
+        
+        return CSVScrapingResponse(
+            success=True,
+            message=f"Successfully processed {processed_matches}/{total_matches} matches with complete statistics",
+            csv_data=csv_b64,
+            filename=filename,
+            total_matches=total_matches,
+            processed_matches=processed_matches
+        )
+        
+    except Exception as e:
+        logger.error(f"CSV workflow error: {e}")
+        return CSVScrapingResponse(
+            success=False,
+            message=f"CSV workflow failed: {str(e)}",
+            csv_data="",
+            filename="",
+            total_matches=0,
+            processed_matches=0
+        )
+
+@app.post("/api/csv-extract-urls-only")
+async def csv_extract_match_urls_only(request: CSVScrapingRequest):
+    """
+    Step 1 only: Extract match URLs from fixtures and create initial CSV
+    """
+    try:
+        if not request.urls or len(request.urls) == 0:
+            raise HTTPException(status_code=400, detail="Please provide at least one FBREF fixtures URL")
+        
+        # Initialize CSV scraper
+        csv_scraper = CSVMatchReportScraper(rate_limit_delay=2, headless=True)
+        
+        if not await csv_scraper.setup_browser():
+            raise HTTPException(status_code=500, detail="Failed to setup browser")
+        
+        try:
+            all_match_urls = []
+            
+            # Extract URLs from all fixtures pages
+            for fixtures_url in request.urls:
+                match_urls = await csv_scraper.extract_match_urls_from_fixtures(fixtures_url.strip())
+                all_match_urls.extend(match_urls)
+                await asyncio.sleep(1)  # Rate limiting
+            
+            # Remove duplicates and limit if specified
+            all_match_urls = list(dict.fromkeys(all_match_urls))
+            if request.max_matches:
+                all_match_urls = all_match_urls[:request.max_matches]
+            
+            if not all_match_urls:
+                return CSVScrapingResponse(
+                    success=False,
+                    message="No match URLs found in the provided fixtures pages",
+                    csv_data="",
+                    filename="",
+                    total_matches=0,
+                    processed_matches=0
+                )
+            
+            # Create initial CSV
+            csv_content = csv_scraper.create_initial_csv(all_match_urls)
+            
+            # Generate filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"FBREF_Match_URLs_{timestamp}.csv"
+            
+            # Encode to base64
+            csv_b64 = base64.b64encode(csv_content.encode('utf-8')).decode('utf-8')
+            
+            return CSVScrapingResponse(
+                success=True,
+                message=f"Successfully extracted {len(all_match_urls)} match URLs",
+                csv_data=csv_b64,
+                filename=filename,
+                total_matches=len(all_match_urls),
+                processed_matches=0
+            )
+            
+        finally:
+            await csv_scraper.cleanup()
+        
+    except Exception as e:
+        logger.error(f"URL extraction error: {e}")
+        return CSVScrapingResponse(
+            success=False,
+            message=f"URL extraction failed: {str(e)}",
+            csv_data="",
+            filename="",
+            total_matches=0,
+            processed_matches=0
+        )
+
+@app.post("/api/demo-csv-workflow")
+async def demo_csv_workflow():
+    """Demo the CSV workflow with current Premier League season (limited matches)"""
+    try:
+        # Use current Premier League fixtures
+        demo_url = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
+        
+        csv_scraper = CSVMatchReportScraper(rate_limit_delay=2, headless=True)
+        
+        # Run workflow with max 3 matches for demo
+        csv_content = await csv_scraper.full_workflow(
+            fixtures_urls=[demo_url],
+            max_matches=3
+        )
+        
+        if not csv_content:
+            return CSVScrapingResponse(
+                success=False,
+                message="Demo failed: No data generated",
+                csv_data="",
+                filename="",
+                total_matches=0,
+                processed_matches=0
+            )
+        
+        # Count matches
+        lines = csv_content.strip().split('\n')
+        total_matches = max(0, len(lines) - 1)
+        
+        # Count processed
+        processed_matches = 0
+        if len(lines) > 1:
+            import csv
+            import io
+            csv_reader = csv.DictReader(io.StringIO(csv_content))
+            processed_matches = sum(1 for row in csv_reader if row.get('Scraped', '').strip().lower() == 'yes')
+        
+        filename = f"FBREF_Demo_CSV_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        csv_b64 = base64.b64encode(csv_content.encode('utf-8')).decode('utf-8')
+        
+        return CSVScrapingResponse(
+            success=True,
+            message=f"Demo completed: {processed_matches}/{total_matches} matches with stats from current Premier League",
+            csv_data=csv_b64,
+            filename=filename,
+            total_matches=total_matches,
+            processed_matches=processed_matches
+        )
+        
+    except Exception as e:
+        logger.error(f"Demo CSV workflow error: {e}")
+        return CSVScrapingResponse(
+            success=False,
+            message=f"Demo failed: {str(e)}",
+            csv_data="",
+            filename="",
+            total_matches=0,
+            processed_matches=0
+        )
+
 @app.get("/api/health")
 async def health_check():
     return {"status": "healthy"}
