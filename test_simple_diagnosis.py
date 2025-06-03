@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 async def test_single_match():
     """Test comprehensive scraper with a known match URL"""
     
-    # Use a recent Premier League match URL
-    test_url = "https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League"
+    # Use a working Premier League match URL
+    test_url = "https://fbref.com/en/matches/eac7c00b/West-Ham-United-Aston-Villa-August-17-2024-Premier-League"
     
     print(f"🔍 Testing comprehensive scraper with: {test_url}")
     
