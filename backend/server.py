@@ -24,7 +24,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Import the CSV scraper
-from .csv_scraper import CSVMatchReportScraper
+try:
+    from csv_scraper import CSVMatchReportScraper
+    CSV_SCRAPER_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️ CSV scraper not available: {e}")
+    CSV_SCRAPER_AVAILABLE = False
 
 # Import the comprehensive scraper integration
 try:
