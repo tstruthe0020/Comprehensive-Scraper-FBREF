@@ -2275,3 +2275,9 @@
 2025-06-03 01:34:31,420 - INFO - Processing sheet 4/5: Match_004_Everton_vs_and
 2025-06-03 01:34:31,420 - INFO - Scraping: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
 2025-06-03 01:34:31,420 - INFO - Extracting data from: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-03 01:35:14,519 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-03 01:35:14,629 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-03 01:35:14,673 - INFO - Successfully populated: Match_004_Everton_vs_and
+2025-06-03 01:35:17,676 - INFO - Processing sheet 5/5: Match_005_Nottingham_vs_Forest
+2025-06-03 01:35:17,676 - INFO - Scraping: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-03 01:35:17,676 - INFO - Extracting data from: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
