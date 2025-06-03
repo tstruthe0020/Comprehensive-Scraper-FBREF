@@ -170,6 +170,12 @@ async def csv_extract_match_urls_only(request: CSVScrapingRequest):
     """
     Step 1 only: Extract match URLs from fixtures and create initial CSV
     """
+    if not CSV_SCRAPER_AVAILABLE:
+        raise HTTPException(
+            status_code=503,
+            detail="CSV scraper not available. Please check system setup."
+        )
+    
     try:
         if not request.urls or len(request.urls) == 0:
             raise HTTPException(status_code=400, detail="Please provide at least one FBREF fixtures URL")
