@@ -17,6 +17,9 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 import base64
 
+# Import the CSV scraper
+from csv_scraper import CSVMatchReportScraper
+
 # Import the comprehensive scraper integration
 try:
     from integration_wrapper import enhance_excel_with_fbref_data, validate_excel_for_fbref
