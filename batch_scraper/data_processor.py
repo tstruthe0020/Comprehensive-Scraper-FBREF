@@ -130,28 +130,57 @@ class DataProcessor:
         return match_info
 
     def extract_team_summary(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Extract team summary statistics"""
+        """Extract team summary statistics - improved to find data anywhere"""
         
         team_stats = []
         all_tables = data.get('all_tables', {})
         
         for table_key, table_data in all_tables.items():
-            table_id = table_data.get('table_metadata', {}).get('id', '')
+            rows = table_data.get('rows', [])
             
-            # Look for team stats table
-            if 'team_stats' in table_id or 'summary' in table_id:
-                rows = table_data.get('rows', [])
+            # Look through all rows for team statistics
+            for row in rows:
+                data_stat_values = row.get('data_stat_values', {})
                 
-                for row in rows:
-                    data_stat_values = row.get('data_stat_values', {})
+                # Check if this row has team stats data (look for key team stats fields)
+                has_team_stats = any(field in data_stat_values for field in ['poss', 'shots', 'xg', 'passes'])
+                
+                if has_team_stats and data_stat_values:
+                    team_row = {}
                     
-                    if 'team' in data_stat_values:
-                        team_row = {'team': data_stat_values.get('team', '')}
+                    # Try to identify team name from common fields
+                    team_name = ""
+                    for possible_team_field in ['team', 'squad', 'club']:
+                        if possible_team_field in data_stat_values:
+                            team_name = data_stat_values[possible_team_field]
+                            break
+                    
+                    # If no team field found, use table metadata to determine home/away
+                    if not team_name:
+                        table_metadata = table_data.get('table_metadata', {})
+                        table_id = table_metadata.get('id', '').lower()
+                        table_class = table_metadata.get('class', '').lower()
                         
-                        # Extract all available team stats
-                        for field in self.team_stats_fields:
-                            team_row[field] = data_stat_values.get(field, '')
-                        
+                        if 'home' in table_id or 'home' in table_class:
+                            team_name = 'home'
+                        elif 'away' in table_id or 'away' in table_class:
+                            team_name = 'away'
+                        else:
+                            # Use table headers to identify team
+                            headers = table_data.get('headers', [])
+                            if headers:
+                                header_text = headers[0].get('text', '')
+                                if header_text and len(header_text) > 3:  # Likely team name
+                                    team_name = header_text
+                    
+                    team_row['team'] = team_name
+                    
+                    # Extract all available team stats using correct data-stat names
+                    for field in self.team_stats_fields:
+                        team_row[field] = data_stat_values.get(field, '')
+                    
+                    # Only add if we have meaningful data
+                    if team_name and any(team_row.get(field) for field in self.team_stats_fields):
                         team_stats.append(team_row)
         
         return team_stats
