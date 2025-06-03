@@ -324,42 +324,111 @@ class CSVMatchReportScraper:
         return match_info
 
     async def extract_team_stats_from_tables(self, soup) -> Dict[str, Any]:
-        """Extract team statistics from stats tables"""
+        """Extract team statistics from stats tables - IMPROVED VERSION"""
         team_stats = {}
         
         try:
-            # Look for team stats tables
+            # Find all tables
             tables = soup.find_all('table')
             
             for table in tables:
-                # Check if this is a team stats table
+                # Look for the team comparison table
                 headers = table.find_all('th')
                 header_texts = [th.get_text(strip=True).lower() for th in headers]
                 
-                # Look for possession, shots, etc. in headers
-                if any(stat in ' '.join(header_texts) for stat in ['possession', 'shots', 'fouls']):
-                    # Extract team stats from this table
-                    rows = table.find('tbody').find_all('tr') if table.find('tbody') else []
+                # Check if this looks like the team comparison table
+                if len(header_texts) >= 3:
+                    # Look for pattern: [team1, team2, stat1, stat2, ...]
+                    potential_teams = header_texts[:2]
+                    potential_stats = header_texts[2:]
                     
-                    for row in rows:
-                        cells = row.find_all(['td', 'th'])
-                        if len(cells) >= 3:  # Assuming format: Team | Stat | Value
-                            team_name = cells[0].get_text(strip=True)
+                    # Check if we have team-like names and stats-like names
+                    has_team_indicators = any(word in ' '.join(potential_teams) for word in ['united', 'manchester', 'fulham', 'chelsea', 'arsenal', 'liverpool', 'city', 'ham', 'villa', 'spurs', 'wolves'])
+                    has_stat_indicators = any(word in ' '.join(potential_stats) for word in ['possession', 'shots', 'passing', 'accuracy', 'saves', 'cards', 'fouls'])
+                    
+                    if has_team_indicators and has_stat_indicators:
+                        # Extract the data from this table
+                        tbody = table.find('tbody')
+                        if tbody:
+                            rows = tbody.find_all('tr')
                             
-                            # Extract specific stats using data-stat attributes
-                            for cell in cells:
-                                data_stat = cell.get('data-stat', '')
-                                value = cell.get_text(strip=True)
+                            # Initialize team stats
+                            team1_name = potential_teams[0].title()
+                            team2_name = potential_teams[1].title()
+                            team_stats[team1_name] = {}
+                            team_stats[team2_name] = {}
+                            
+                            current_stat = None
+                            
+                            for row in rows:
+                                cells = row.find_all(['td', 'th'])
+                                cell_texts = [cell.get_text(strip=True) for cell in cells]
                                 
-                                if data_stat and value and team_name:
-                                    if team_name not in team_stats:
-                                        team_stats[team_name] = {}
-                                    team_stats[team_name][data_stat] = value
+                                if len(cell_texts) == 1:
+                                    # This is a stat name row
+                                    current_stat = cell_texts[0].lower().replace(' ', '_')
+                                elif len(cell_texts) == 2 and current_stat:
+                                    # This is a data row with two values
+                                    team1_value = cell_texts[0]
+                                    team2_value = cell_texts[1]
+                                    
+                                    # Clean up values (extract percentages, numbers)
+                                    team1_clean = self.extract_key_value(team1_value, current_stat)
+                                    team2_clean = self.extract_key_value(team2_value, current_stat)
+                                    
+                                    # Store the values
+                                    team_stats[team1_name][current_stat] = team1_clean
+                                    team_stats[team2_name][current_stat] = team2_clean
+                        
+                        break  # Found our table, stop looking
             
         except Exception as e:
             logger.error(f"Error extracting team stats: {e}")
         
         return team_stats
+
+    def extract_key_value(self, value_text: str, stat_name: str) -> str:
+        """Extract the most relevant value from complex stat text"""
+        try:
+            if not value_text:
+                return ""
+            
+            # For possession, extract percentage
+            if 'possession' in stat_name:
+                pct_match = re.search(r'(\d+)%', value_text)
+                if pct_match:
+                    return pct_match.group(1)
+            
+            # For accuracy stats, extract percentage
+            elif 'accuracy' in stat_name:
+                pct_match = re.search(r'(\d+)%', value_text)
+                if pct_match:
+                    return pct_match.group(1)
+            
+            # For shots on target, extract first number (shots on target)
+            elif 'shots' in stat_name:
+                shot_match = re.search(r'(\d+)\s*of\s*\d+', value_text)
+                if shot_match:
+                    return shot_match.group(1)
+            
+            # For saves, extract first number
+            elif 'saves' in stat_name:
+                save_match = re.search(r'(\d+)\s*of\s*\d+', value_text)
+                if save_match:
+                    return save_match.group(1)
+            
+            # For other stats, just extract first number
+            else:
+                num_match = re.search(r'(\d+)', value_text)
+                if num_match:
+                    return num_match.group(1)
+            
+            # Fallback: return original value
+            return value_text
+            
+        except Exception as e:
+            logger.error(f"Error extracting value from '{value_text}': {e}")
+            return value_text
 
     async def extract_top_player_stats(self, soup) -> List[Dict[str, Any]]:
         """Extract top player statistics"""
