@@ -201,3 +201,5 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "DIAGNOSIS COMPLETE: Fixed team stats extraction by identifying correct FBREF table structure. Team comparison tables use team names as headers with alternating stat name/value rows. CSV workflow now working end-to-end. Need to test API endpoints and add frontend interface."
+  - agent: "testing"
+    message: "TESTING COMPLETE: All CSV workflow API endpoints are working correctly. Successfully tested /api/health, /api/csv-extract-urls-only, /api/demo-csv-workflow, and /api/csv-scrape-workflow. The endpoints correctly extract match URLs, create CSV with match data, and scrape team and player stats. Team stats extraction is working properly, finding possession, shots on target, passing accuracy, saves, and cards for both teams. The CSV structure has the correct columns for team stats and player stats. The backend is ready for frontend integration."
