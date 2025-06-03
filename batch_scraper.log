@@ -2269,3 +2269,9 @@
 2025-06-03 01:33:08,849 - INFO - Processing sheet 3/5: Match_003_Newcastle_vs_United
 2025-06-03 01:33:08,850 - INFO - Scraping: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
 2025-06-03 01:33:08,850 - INFO - Extracting data from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-03 01:34:28,217 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-03 01:34:28,407 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-03 01:34:28,416 - INFO - Successfully populated: Match_003_Newcastle_vs_United
+2025-06-03 01:34:31,420 - INFO - Processing sheet 4/5: Match_004_Everton_vs_and
+2025-06-03 01:34:31,420 - INFO - Scraping: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-03 01:34:31,420 - INFO - Extracting data from: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
