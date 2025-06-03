@@ -258,33 +258,70 @@ class DataProcessor:
         return defensive_stats
 
     def extract_player_stats(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Extract individual player statistics"""
+        """Extract individual player statistics - improved to find data anywhere"""
         
         player_stats = []
         all_tables = data.get('all_tables', {})
         
         for table_key, table_data in all_tables.items():
-            table_id = table_data.get('table_metadata', {}).get('id', '')
+            rows = table_data.get('rows', [])
             
-            # Look for player/lineup tables
-            if 'lineup' in table_id.lower() or 'player' in table_id.lower():
-                rows = table_data.get('rows', [])
+            # Look through all rows for player data
+            for row in rows:
+                data_stat_values = row.get('data_stat_values', {})
                 
-                for row in rows:
-                    data_stat_values = row.get('data_stat_values', {})
+                # Check if this row has player data (look for player name field or key player stats)
+                has_player_data = ('player' in data_stat_values or 
+                                 any(field in data_stat_values for field in ['minutes', 'goals', 'assists']))
+                
+                if has_player_data and data_stat_values:
+                    player_row = {}
                     
-                    if 'player' in data_stat_values:
-                        player_row = {
-                            'player_name': data_stat_values.get('player', ''),
-                            'team': 'home' if 'home' in table_id.lower() else 'away',
-                            'table_source': table_id
-                        }
-                        
-                        # Extract all available player stats
-                        for key, value in data_stat_values.items():
-                            if key != 'player':
-                                player_row[key] = value
-                        
+                    # Extract player name
+                    player_name = ""
+                    for possible_name_field in ['player', 'name', 'Player']:
+                        if possible_name_field in data_stat_values:
+                            player_name = data_stat_values[possible_name_field]
+                            break
+                    
+                    # Skip if no player name (might be team totals row)
+                    if not player_name or player_name.lower() in ['total', 'team total', '']:
+                        continue
+                    
+                    player_row['player_name'] = player_name
+                    
+                    # Determine team from table metadata or headers
+                    table_metadata = table_data.get('table_metadata', {})
+                    table_id = table_metadata.get('id', '').lower()
+                    table_class = table_metadata.get('class', '').lower()
+                    
+                    team = ""
+                    if 'home' in table_id or 'home' in table_class:
+                        team = 'home'
+                    elif 'away' in table_id or 'away' in table_class:
+                        team = 'away'
+                    else:
+                        # Try to get team from table headers
+                        headers = table_data.get('headers', [])
+                        if headers:
+                            header_text = headers[0].get('text', '')
+                            if header_text and len(header_text) > 3:
+                                team = header_text
+                    
+                    player_row['team'] = team
+                    player_row['table_source'] = table_key
+                    
+                    # Extract all available player stats using correct data-stat names
+                    for field in self.player_stats_fields:
+                        player_row[field] = data_stat_values.get(field, '')
+                    
+                    # Also extract any other data-stat values that might be useful
+                    for key, value in data_stat_values.items():
+                        if key not in ['player', 'name', 'Player'] and key not in player_row:
+                            player_row[key] = value
+                    
+                    # Only add if we have meaningful data (player name and at least one stat)
+                    if player_name and any(player_row.get(field) for field in self.player_stats_fields):
                         player_stats.append(player_row)
         
         return player_stats
