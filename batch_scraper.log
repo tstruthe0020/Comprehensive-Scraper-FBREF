@@ -2281,3 +2281,7 @@
 2025-06-03 01:35:17,676 - INFO - Processing sheet 5/5: Match_005_Nottingham_vs_Forest
 2025-06-03 01:35:17,676 - INFO - Scraping: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
 2025-06-03 01:35:17,676 - INFO - Extracting data from: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-03 01:36:15,427 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-03 01:36:15,586 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-03 01:36:15,592 - INFO - Successfully populated: Match_005_Nottingham_vs_Forest
+2025-06-03 01:36:15,673 - INFO - Excel file updated and saved: /tmp/tmpo0edjfq3.xlsx
