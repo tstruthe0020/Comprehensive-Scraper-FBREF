@@ -244,17 +244,17 @@ class ExcelIntegrator:
 
     def populate_team_stats_section(self, worksheet, team_stats: Dict[str, Any], mapping: Dict[str, tuple]):
         """
-        Helper function to populate a team stats section
+        Helper function to populate a team stats section using correct FBREF data-stat names
         """
         try:
             for stat_key, (row, col) in mapping.items():
                 value = ""
                 
-                # Map our data fields to Excel fields
+                # Map our Excel fields to correct FBREF data-stat names
                 if stat_key == 'possession':
-                    value = team_stats.get('possession', '')
+                    value = team_stats.get('poss', '')  # FBREF uses 'poss'
                 elif stat_key == 'total_shots':
-                    value = team_stats.get('shots_total', '')
+                    value = team_stats.get('shots', '')  # FBREF uses 'shots'
                 elif stat_key == 'shots_on_target':
                     value = team_stats.get('shots_on_target', '')
                 elif stat_key == 'corners':
