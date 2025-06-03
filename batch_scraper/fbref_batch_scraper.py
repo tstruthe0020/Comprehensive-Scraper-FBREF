@@ -40,19 +40,41 @@ class FBrefBatchScraper:
         self.csv_handler = CSVHandler()
         
     async def setup_browser(self):
-        """Setup Playwright browser"""
+        """Initialize browser with memory-optimized settings"""
         try:
+            logger.info("Setting up browser...")
             self.playwright = await async_playwright().start()
+            
+            # Enhanced browser launch arguments to prevent memory issues
             self.browser = await self.playwright.chromium.launch(
                 headless=self.config.HEADLESS,
-                args=['--no-sandbox', '--disable-dev-shm-usage']
+                args=[
+                    '--no-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--disable-extensions',
+                    '--no-first-run',
+                    '--disable-default-apps',
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-renderer-backgrounding',
+                    '--max-old-space-size=4096'  # Increase memory limit
+                ]
             )
-            self.page = await self.browser.new_page()
             
-            # Set user agent to avoid detection
-            await self.page.set_extra_http_headers({
-                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
-            })
+            # Create context with optimized settings
+            self.context = await self.browser.new_context(
+                viewport={'width': 1920, 'height': 1080},
+                user_agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
+            )
+            
+            self.page = await self.context.new_page()
+            
+            # Set longer timeouts to prevent premature cleanup
+            self.page.set_default_timeout(60000)
+            self.page.set_default_navigation_timeout(60000)
             
             logger.info("Browser setup completed successfully")
             return True
