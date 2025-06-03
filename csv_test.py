@@ -13,7 +13,7 @@ import os
 from typing import Dict, Any
 
 # Get backend URL from environment or use default
-BACKEND_URL = "http://localhost:8001/api"
+BACKEND_URL = "http://0.0.0.0:8001/api"
 
 def test_csv_endpoints():
     """Test all CSV-based match report scraper endpoints"""
