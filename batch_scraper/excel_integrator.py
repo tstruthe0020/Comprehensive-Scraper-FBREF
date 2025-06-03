@@ -293,7 +293,7 @@ class ExcelIntegrator:
             for i, player in enumerate(player_stats):
                 row = 38 + i
                 
-                # Populate each column
+                # Populate each column using correct FBREF data-stat names
                 worksheet.cell(row=row, column=1, value=player.get('player_name', ''))  # Player Name
                 worksheet.cell(row=row, column=2, value=player.get('team', ''))  # Team
                 worksheet.cell(row=row, column=3, value=player.get('position', ''))  # Position
@@ -302,8 +302,8 @@ class ExcelIntegrator:
                 worksheet.cell(row=row, column=6, value=self.clean_numeric_value(player.get('assists', '')))  # Assists
                 worksheet.cell(row=row, column=7, value=self.clean_numeric_value(player.get('shots_total', '')))  # Shots
                 worksheet.cell(row=row, column=8, value=self.clean_numeric_value(player.get('passes_completed', '')))  # Passes
-                worksheet.cell(row=row, column=9, value=self.clean_numeric_value(player.get('tackles_won', '')))  # Tackles
-                worksheet.cell(row=row, column=10, value=self.clean_numeric_value(player.get('cards_yellow', '')))  # Cards
+                worksheet.cell(row=row, column=9, value=self.clean_numeric_value(player.get('tackles', '')))  # Tackles
+                worksheet.cell(row=row, column=10, value=self.clean_numeric_value(player.get('yellow_cards', '')))  # Cards
                 
         except Exception as e:
             logger.error(f"Error populating player statistics: {e}")
