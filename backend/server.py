@@ -38,6 +38,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class CSVScrapingRequest(BaseModel):
+    urls: List[str]
+    max_matches: int = None
+
+class CSVScrapingResponse(BaseModel):
+    success: bool
+    message: str
+    csv_data: str = ""
+    filename: str = ""
+    total_matches: int = 0
+    processed_matches: int = 0
+
 class ScrapingRequest(BaseModel):
     urls: List[str]  # Changed from single url to multiple urls
 
