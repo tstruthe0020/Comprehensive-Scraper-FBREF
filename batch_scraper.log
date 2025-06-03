@@ -1985,3 +1985,60 @@
 2025-06-02 23:38:58,456 - INFO - Processing sheet 2/5: Match_002_Ipswich_vs_Town
 2025-06-02 23:38:58,456 - INFO - Scraping: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
 2025-06-02 23:38:58,456 - INFO - Extracting data from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-02 23:40:19,361 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:40:19,673 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:40:19,689 - INFO - Successfully populated: Match_002_Ipswich_vs_Town
+2025-06-02 23:40:22,694 - INFO - Processing sheet 3/5: Match_003_Newcastle_vs_United
+2025-06-02 23:40:22,694 - INFO - Scraping: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:40:22,694 - INFO - Extracting data from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:41:36,143 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:41:36,255 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:41:36,260 - INFO - Successfully populated: Match_003_Newcastle_vs_United
+2025-06-02 23:41:39,264 - INFO - Processing sheet 4/5: Match_004_Everton_vs_and
+2025-06-02 23:41:39,264 - INFO - Scraping: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:41:39,264 - INFO - Extracting data from: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:42:40,747 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:42:40,856 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:42:40,866 - INFO - Successfully populated: Match_004_Everton_vs_and
+2025-06-02 23:42:43,871 - INFO - Processing sheet 5/5: Match_005_Nottingham_vs_Forest
+2025-06-02 23:42:43,871 - INFO - Scraping: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:42:43,872 - INFO - Extracting data from: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:43:50,880 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:43:51,081 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:43:51,094 - INFO - Successfully populated: Match_005_Nottingham_vs_Forest
+2025-06-02 23:43:51,414 - INFO - Excel file updated and saved: /tmp/tmp_9kpye2v.xlsx
+2025-06-02 23:46:47,488 - INFO - Starting FBref integration for: /tmp/tmphq2w_hys.xlsx
+2025-06-02 23:46:47,489 - INFO - Starting Excel population for: /tmp/tmphq2w_hys.xlsx
+2025-06-02 23:46:47,554 - INFO - Found 5 match sheets to populate
+2025-06-02 23:46:49,680 - INFO - Browser setup completed successfully
+2025-06-02 23:46:49,680 - INFO - Processing sheet 1/5: Match_001_Manchester_vs_United
+2025-06-02 23:46:49,680 - INFO - Scraping: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-02 23:46:49,680 - INFO - Extracting data from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-02 23:48:12,373 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:48:12,759 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:48:12,764 - INFO - Successfully populated: Match_001_Manchester_vs_United
+2025-06-02 23:48:15,768 - INFO - Processing sheet 2/5: Match_002_Ipswich_vs_Town
+2025-06-02 23:48:15,768 - INFO - Scraping: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-02 23:48:15,772 - INFO - Extracting data from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-02 23:49:22,157 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:49:22,346 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:49:22,358 - INFO - Successfully populated: Match_002_Ipswich_vs_Town
+2025-06-02 23:49:25,359 - INFO - Processing sheet 3/5: Match_003_Newcastle_vs_United
+2025-06-02 23:49:25,359 - INFO - Scraping: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:49:25,359 - INFO - Extracting data from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-02 23:50:32,435 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:50:32,685 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:50:32,736 - INFO - Successfully populated: Match_003_Newcastle_vs_United
+2025-06-02 23:50:35,739 - INFO - Processing sheet 4/5: Match_004_Everton_vs_and
+2025-06-02 23:50:35,739 - INFO - Scraping: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:50:35,739 - INFO - Extracting data from: https://fbref.com/en/matches/71618ace/Everton-Brighton-and-Hove-Albion-August-17-2024-Premier-League
+2025-06-02 23:51:37,371 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:51:37,669 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:51:37,678 - INFO - Successfully populated: Match_004_Everton_vs_and
+2025-06-02 23:51:40,682 - INFO - Processing sheet 5/5: Match_005_Nottingham_vs_Forest
+2025-06-02 23:51:40,682 - INFO - Scraping: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:51:40,682 - INFO - Extracting data from: https://fbref.com/en/matches/4efc72e4/Nottingham-Forest-Bournemouth-August-17-2024-Premier-League
+2025-06-02 23:52:47,672 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-02 23:52:47,854 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-02 23:52:47,859 - INFO - Successfully populated: Match_005_Nottingham_vs_Forest
+2025-06-02 23:52:47,972 - INFO - Excel file updated and saved: /tmp/tmphq2w_hys.xlsx
