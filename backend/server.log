@@ -1,0 +1,329 @@
+⚠️ Comprehensive scraper not available: No module named 'integration_wrapper'
+INFO:     Started server process [2200]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:51520 - "GET /api/health HTTP/1.1" 200 OK
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+INFO:csv_scraper:Found 380 match URLs
+INFO:csv_scraper:Created initial CSV with 5 matches
+INFO:     127.0.0.1:51528 - "POST /api/csv-extract-urls-only HTTP/1.1" 200 OK
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+INFO:csv_scraper:Found 380 match URLs
+INFO:csv_scraper:Processing 3 total matches
+INFO:csv_scraper:Created initial CSV with 3 matches
+INFO:csv_scraper:Processing match 1/3: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+/app/backend/csv_scraper.py:487: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1-0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Final_Score'] = match_info['final_score']
+/app/backend/csv_scraper.py:491: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Old Trafford' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Stadium'] = match_info['stadium']
+/app/backend/csv_scraper.py:493: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '73,297' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Attendance'] = match_info['attendance']
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '55' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '45' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '82' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '78' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '4' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:526: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Joshua Zirkzee' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Name'] = top_scorer.get('player', '')
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:534: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Alejandro Garnacho' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Name'] = top_assists.get('player', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:539: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2025-06-03T01:53:52.890096' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Timestamp'] = datetime.now().isoformat()
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 2/3: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '38' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '76' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '84' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 3/3: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '23' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '77' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '86' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:     127.0.0.1:44850 - "POST /api/demo-csv-workflow HTTP/1.1" 200 OK
+INFO:__main__:Starting CSV workflow for 1 fixtures URLs
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+ERROR:csv_scraper:Could not find Score column
+INFO:csv_scraper:Processing 0 total matches
+INFO:csv_scraper:Created initial CSV with 0 matches
+INFO:     127.0.0.1:35186 - "POST /api/csv-scrape-workflow HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60020 - "GET /api/health HTTP/1.1" 200 OK
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+INFO:csv_scraper:Found 380 match URLs
+INFO:csv_scraper:Created initial CSV with 5 matches
+INFO:     127.0.0.1:60030 - "POST /api/csv-extract-urls-only HTTP/1.1" 200 OK
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+INFO:csv_scraper:Found 380 match URLs
+INFO:csv_scraper:Processing 3 total matches
+INFO:csv_scraper:Created initial CSV with 3 matches
+INFO:csv_scraper:Processing match 1/3: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+/app/backend/csv_scraper.py:487: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1-0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Final_Score'] = match_info['final_score']
+/app/backend/csv_scraper.py:491: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Old Trafford' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Stadium'] = match_info['stadium']
+/app/backend/csv_scraper.py:493: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '73,297' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Attendance'] = match_info['attendance']
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '55' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '45' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '82' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '78' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '4' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:526: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Joshua Zirkzee' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Name'] = top_scorer.get('player', '')
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:534: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Alejandro Garnacho' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Name'] = top_assists.get('player', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:539: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2025-06-03T01:55:30.112083' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Timestamp'] = datetime.now().isoformat()
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 2/3: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '38' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '76' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '84' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 3/3: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '23' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '77' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '86' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:     127.0.0.1:57826 - "POST /api/demo-csv-workflow HTTP/1.1" 200 OK
+INFO:__main__:Starting CSV workflow for 1 fixtures URLs
+INFO:csv_scraper:Extracting match URLs from: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
+INFO:csv_scraper:Found 380 match URLs
+INFO:csv_scraper:Processing 3 total matches
+INFO:csv_scraper:Created initial CSV with 3 matches
+INFO:csv_scraper:Processing match 1/3: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+/app/backend/csv_scraper.py:487: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1-0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Final_Score'] = match_info['final_score']
+/app/backend/csv_scraper.py:491: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Old Trafford' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Stadium'] = match_info['stadium']
+/app/backend/csv_scraper.py:493: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '73,297' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Attendance'] = match_info['attendance']
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '55' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '45' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '82' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '78' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '4' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:526: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Joshua Zirkzee' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Name'] = top_scorer.get('player', '')
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:534: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'Alejandro Garnacho' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Name'] = top_assists.get('player', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:539: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2025-06-03T01:56:22.087867' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Timestamp'] = datetime.now().isoformat()
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 2/3: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '38' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '5' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '76' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '84' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '2' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:csv_scraper:Processing match 3/3: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+INFO:csv_scraper:Scraping stats from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '23' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '77' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '62' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '86' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '3' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '0' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:514: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[0]] = home_team_stats[stat_key]
+/app/backend/csv_scraper.py:516: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, col_names[1]] = away_team_stats[stat_key]
+/app/backend/csv_scraper.py:527: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Scorer_Goals'] = top_scorer.get('goals', '')
+/app/backend/csv_scraper.py:535: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '1' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Top_Assists_Count'] = top_assists.get('assists', '')
+/app/backend/csv_scraper.py:540: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  df.at[idx, 'Scrape_Error'] = ''
+INFO:     127.0.0.1:38242 - "POST /api/csv-scrape-workflow HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2200]
