@@ -101,3 +101,100 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Diagnose the issues with the comprehensive match report scraper so that we can make sure the correct table structure, data-stat values (which should be correct), and data scraping is running properly."
+
+backend:
+  - task: "Basic URL Scraper from Fixtures Pages"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Successfully extracts match report URLs from FBREF fixtures pages using Playwright. Tested with Premier League fixtures."
+
+  - task: "CSV-based Match Report Scraper"  
+    implemented: true
+    working: true
+    file: "backend/csv_scraper.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "New CSV-based workflow implemented. Extracts match URLs, creates CSV, scrapes team and player stats, updates CSV. Team stats extraction fixed to handle FBREF table structure correctly."
+
+  - task: "Team Stats Table Structure Recognition"
+    implemented: true
+    working: true
+    file: "backend/csv_scraper.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Initial team stats extraction not working - was looking for wrong table structure and data-stat values"
+      - working: true
+        agent: "main"
+        comment: "FIXED: Updated to correctly identify team comparison tables. FBREF uses structure with team names as headers and alternating stat name/value rows. Now correctly extracts possession, shots on target, passing accuracy, saves, cards."
+
+  - task: "Player Stats Extraction"
+    implemented: true
+    working: true
+    file: "backend/csv_scraper.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Successfully extracts player statistics from player stats tables. Tested with 149 players found from match report."
+
+  - task: "CSV Workflow API Endpoints"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Added new CSV endpoints: /api/csv-scrape-workflow, /api/csv-extract-urls-only, /api/demo-csv-workflow. Need to test API endpoints."
+
+frontend:
+  - task: "CSV Download Interface"
+    implemented: false
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Need to add UI for new CSV-based workflow endpoints"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "CSV Workflow API Endpoints"
+    - "CSV Download Interface"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "DIAGNOSIS COMPLETE: Fixed team stats extraction by identifying correct FBREF table structure. Team comparison tables use team names as headers with alternating stat name/value rows. CSV workflow now working end-to-end. Need to test API endpoints and add frontend interface."
