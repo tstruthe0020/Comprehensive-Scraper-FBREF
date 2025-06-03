@@ -2230,3 +2230,42 @@
 2025-06-03 01:08:23,069 - INFO - Successfully extracted 12 tables with 0 data points
 2025-06-03 01:08:23,079 - INFO - Successfully populated: Match_005_Nottingham_vs_Forest
 2025-06-03 01:08:23,243 - INFO - Excel file updated and saved: /tmp/tmpofyp2bz1.xlsx
+2025-06-03 01:21:59,220 - INFO - Starting FBref integration for: /tmp/tmpp7_8o36m.xlsx
+2025-06-03 01:21:59,220 - INFO - Starting Excel population for: /tmp/tmpp7_8o36m.xlsx
+2025-06-03 01:21:59,235 - INFO - Found 5 match sheets to populate
+2025-06-03 01:21:59,236 - INFO - Setting up browser...
+2025-06-03 01:22:00,844 - INFO - Browser setup completed successfully
+2025-06-03 01:22:00,921 - INFO - Processing sheet 1/5: Match_001_Manchester_vs_United
+2025-06-03 01:22:00,922 - INFO - Scraping: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-03 01:22:00,922 - INFO - Extracting data from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-03 01:22:04,648 - INFO - Successfully extracted 0 tables with 0 data points
+2025-06-03 01:22:04,664 - INFO - Successfully populated: Match_001_Manchester_vs_United
+2025-06-03 01:22:07,705 - INFO - Processing sheet 2/5: Match_002_Ipswich_vs_Town
+2025-06-03 01:22:07,706 - INFO - Scraping: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-03 01:22:07,706 - INFO - Extracting data from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-03 01:22:37,822 - INFO - Setting up browser...
+2025-06-03 01:22:40,615 - INFO - Browser setup completed successfully
+2025-06-03 01:22:40,616 - INFO - Extracting data from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-03 01:25:56,602 - INFO - Setting up browser...
+2025-06-03 01:30:18,328 - INFO - Setting up browser...
+2025-06-03 01:30:18,491 - INFO - Starting FBref integration for: /tmp/tmpo0edjfq3.xlsx
+2025-06-03 01:30:18,491 - INFO - Starting Excel population for: /tmp/tmpo0edjfq3.xlsx
+2025-06-03 01:30:18,510 - INFO - Found 5 match sheets to populate
+2025-06-03 01:30:18,510 - INFO - Setting up browser...
+2025-06-03 01:30:22,472 - INFO - Browser setup completed successfully
+2025-06-03 01:30:22,472 - INFO - Processing sheet 1/5: Match_001_Manchester_vs_United
+2025-06-03 01:30:22,472 - INFO - Browser setup completed successfully
+2025-06-03 01:30:22,473 - INFO - Scraping: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-03 01:30:22,473 - INFO - Extracting data from: https://fbref.com/en/matches/cc5b4244/Manchester-United-Fulham-August-16-2024-Premier-League
+2025-06-03 01:30:22,473 - INFO - Extracting data from: https://fbref.com/en/matches/eac7c00b/West-Ham-United-Aston-Villa-August-17-2024-Premier-League
+2025-06-03 01:30:26,695 - INFO - Successfully extracted 0 tables with 0 data points
+2025-06-03 01:30:26,700 - INFO - Successfully populated: Match_001_Manchester_vs_United
+2025-06-03 01:30:29,705 - INFO - Processing sheet 2/5: Match_002_Ipswich_vs_Town
+2025-06-03 01:30:29,706 - INFO - Scraping: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-03 01:30:29,706 - INFO - Extracting data from: https://fbref.com/en/matches/a1d0d529/Ipswich-Town-Liverpool-August-17-2024-Premier-League
+2025-06-03 01:33:05,620 - ERROR - Error extracting tables: The object has been collected to prevent unbounded heap growth.
+2025-06-03 01:33:05,837 - INFO - Successfully extracted 12 tables with 0 data points
+2025-06-03 01:33:05,844 - INFO - Successfully populated: Match_002_Ipswich_vs_Town
+2025-06-03 01:33:08,849 - INFO - Processing sheet 3/5: Match_003_Newcastle_vs_United
+2025-06-03 01:33:08,850 - INFO - Scraping: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
+2025-06-03 01:33:08,850 - INFO - Extracting data from: https://fbref.com/en/matches/34557647/Newcastle-United-Southampton-August-17-2024-Premier-League
