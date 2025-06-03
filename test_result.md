@@ -158,15 +158,18 @@ backend:
 
   - task: "CSV Workflow API Endpoints"
     implemented: true
-    working: false
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Added new CSV endpoints: /api/csv-scrape-workflow, /api/csv-extract-urls-only, /api/demo-csv-workflow. Need to test API endpoints."
+      - working: true
+        agent: "testing"
+        comment: "All CSV workflow API endpoints tested and working correctly. Successfully tested /api/health, /api/csv-extract-urls-only, /api/demo-csv-workflow, and /api/csv-scrape-workflow. The endpoints correctly extract match URLs, create CSV with match data, and scrape team and player stats. Team stats extraction is working properly, finding possession, shots on target, passing accuracy, saves, and cards for both teams."
 
 frontend:
   - task: "CSV Download Interface"
