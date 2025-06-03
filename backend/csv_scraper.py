@@ -496,7 +496,7 @@ class CSVMatchReportScraper:
             if 'attendance' in match_info:
                 df.at[idx, 'Attendance'] = match_info['attendance']
             
-            # Update with team stats
+            # Update with team stats using improved mapping
             team_stats = stats.get('team_stats', {})
             teams = list(team_stats.keys())
             
@@ -504,15 +504,13 @@ class CSVMatchReportScraper:
                 home_team_stats = team_stats.get(teams[0], {})
                 away_team_stats = team_stats.get(teams[1], {})
                 
-                # Map team stats to CSV columns
+                # Map team stats to CSV columns using the new stat names
                 stat_mapping = {
-                    'poss': ['Home_Possession', 'Away_Possession'],
-                    'shots': ['Home_Shots', 'Away_Shots'],
+                    'possession': ['Home_Possession', 'Away_Possession'],
                     'shots_on_target': ['Home_Shots_On_Target', 'Away_Shots_On_Target'],
-                    'fouls': ['Home_Fouls', 'Away_Fouls'],
-                    'cards_yellow': ['Home_Yellow_Cards', 'Away_Yellow_Cards'],
-                    'cards_red': ['Home_Red_Cards', 'Away_Red_Cards'],
-                    'corners': ['Home_Corners', 'Away_Corners']
+                    'passing_accuracy': ['Home_Pass_Accuracy', 'Away_Pass_Accuracy'],
+                    'saves': ['Home_Saves', 'Away_Saves'],
+                    'cards': ['Home_Cards', 'Away_Cards']
                 }
                 
                 for stat_key, col_names in stat_mapping.items():
