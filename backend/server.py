@@ -246,6 +246,16 @@ async def csv_extract_match_urls_only(request: CSVScrapingRequest):
 @app.post("/api/demo-csv-workflow")
 async def demo_csv_workflow():
     """Demo the CSV workflow with current Premier League season (limited matches)"""
+    if not CSV_SCRAPER_AVAILABLE:
+        return CSVScrapingResponse(
+            success=False,
+            message="CSV scraper not available. Please check system setup.",
+            csv_data="",
+            filename="",
+            total_matches=0,
+            processed_matches=0
+        )
+    
     try:
         # Use current Premier League fixtures
         demo_url = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
