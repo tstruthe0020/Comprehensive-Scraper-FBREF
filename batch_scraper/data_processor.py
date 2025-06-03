@@ -11,22 +11,54 @@ logger = logging.getLogger(__name__)
 
 class DataProcessor:
     def __init__(self):
+        # Updated with correct FBREF data-stat attributes
         self.team_stats_fields = [
-            'possession', 'shots_total', 'shots_on_target', 'expected_goals',
-            'passes_completed', 'passes', 'passes_pct', 'key_passes',
-            'tackles_won', 'tackles', 'blocks', 'interceptions', 'clearances',
-            'fouls', 'cards_yellow', 'cards_red', 'corners', 'offsides'
+            'poss',           # Possession %
+            'shots',          # Total Shots
+            'shots_on_target', # Shots on Target
+            'xg',             # Expected Goals
+            'passes',         # Completed Passes
+            'pass_pct',       # Pass Completion %
+            'crosses',        # Crosses
+            'corners',        # Corner Kicks
+            'offsides',       # Offsides
+            'fouls',          # Fouls
+            'cards_yellow',   # Yellow Cards
+            'cards_red',      # Red Cards
+            'tackles',        # Tackles
+            'clearances',     # Clearances
+            'saves'           # Saves
         ]
         
+        self.player_stats_fields = [
+            'minutes',         # Minutes Played
+            'goals',           # Goals
+            'assists',         # Assists
+            'shots_total',     # Shots
+            'shots_on_target', # Shots on Target
+            'xg',              # Expected Goals
+            'xa',              # Expected Assists
+            'key_passes',      # Key Passes
+            'passes_completed', # Passes Completed
+            'passes',          # Pass Attempts
+            'tackles',         # Tackles
+            'interceptions',   # Interceptions
+            'clearances',      # Clearances
+            'blocks',          # Blocks
+            'fouls',           # Fouls Committed
+            'fouled',          # Times Fouled
+            'yellow_cards',    # Yellow Cards
+            'red_cards'        # Red Cards
+        ]
+        
+        # Keep backward compatibility
         self.passing_stats_fields = [
-            'passes_completed', 'passes', 'passes_pct', 'passes_short_completed',
-            'passes_medium_completed', 'passes_long_completed', 'key_passes',
-            'passes_into_final_third', 'passes_into_penalty_area', 'crosses_completed'
+            'passes_completed', 'passes', 'pass_pct', 'key_passes',
+            'crosses'
         ]
         
         self.defensive_stats_fields = [
-            'tackles_won', 'tackles', 'tackles_won_pct', 'blocks', 'interceptions',
-            'clearances', 'aerial_duels_won', 'aerial_duels'
+            'tackles', 'blocks', 'interceptions', 'clearances'
         ]
 
     def process_comprehensive_data(self, comprehensive_data: Dict[str, Any]) -> Dict[str, Any]:
